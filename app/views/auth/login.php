@@ -26,7 +26,7 @@
                             Staff Management
                         </h1>
 
-                        <form method="POST" action="index.php?action=login">
+                        <form method="POST" >
 
                             <div class="mb-3">
                                 <label for="email" class="form-label">
