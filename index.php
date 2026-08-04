@@ -9,6 +9,15 @@ if ($page === 'dashboard') {
     require_once __DIR__ . '/app/views/dashboard.php';
     exit;
 }
+if ($page === 'staff') {
+    require_once __DIR__ . '/app/models/staff.php';
+
+    $staffModel = new Staff($connection);
+    $staffMembers = $staffModel->getAll();
+
+    require_once __DIR__ . '/app/views/staffIndex.php';
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once __DIR__ . '/app/controllers/authController.php';
