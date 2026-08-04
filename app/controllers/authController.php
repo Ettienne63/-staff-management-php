@@ -1,9 +1,7 @@
 <?php
 
-session_start();
-
 require_once __DIR__ . '/../../config/database.php';
-require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../models/user.php';
 
 class AuthController
 {
@@ -29,10 +27,6 @@ class AuthController
         if (!$user || !password_verify($password, $user['password'])) {
             return 'Invalid email or password.';
         }
-
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['user_name'] = $user['name'];
-        $_SESSION['user_role'] = $user['role'];
 
         header('Location: index.php?page=dashboard');
         exit;
