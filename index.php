@@ -1,4 +1,3 @@
 <?php
 
-echo "<h1>Staff Management System</h1>";
-echo "<p>Project setup successful.</p>";
+require_once __DIR__ . '/app/views/auth/login.php';
