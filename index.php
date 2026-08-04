@@ -1,11 +1,12 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    echo "<pre>";
+$error = '';
 
-    print_r($_POST);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_once __DIR__ . '/app/controllers/AuthController.php';
 
-    echo "</pre>";
-
+    $controller = new AuthController($connection);
+    $error = $controller->login();
 }
+
 require_once __DIR__ . '/app/views/auth/login.php';
