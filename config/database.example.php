@@ -2,8 +2,8 @@
 
 $host = 'localhost';
 $dbname = 'staff_management';
-$username = 'staff_app';
-$password = 'Yourr Own Password';
+$username = 'root';
+$password = '';
 
 try {
     $connection = new PDO(
