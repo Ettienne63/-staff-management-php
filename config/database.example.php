@@ -3,8 +3,7 @@
 $host = 'localhost';
 $dbname = 'staff_management';
 $username = 'root';
-$password = '';
-
+$password = 'YourSecurePasswordHere!'; 
 try {
     $connection = new PDO(
         "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
