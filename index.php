@@ -13,10 +13,20 @@ function url(string $path = ''): string
     return $baseUrl . '/' . ltrim($path, '/');
 }
 
+function requireLogin(): void
+{
+    if (empty($_SESSION['logged_in'])) {
+        header('Location: ' . url());
+        exit;
+    }
+}
+
 $page = $_GET['page'] ?? 'login';
 $error = '';
 
 if ($page === 'dashboard') {
+    requireLogin();
+
     require_once __DIR__ . '/app/views/dashboard.php';
     exit;
 }
@@ -32,6 +42,8 @@ if ($page === 'seed-admin') {
 }
 
 if ($page === 'staff') {
+    requireLogin();
+
     require_once __DIR__ . '/app/models/staff.php';
 
     $staffModel = new Staff($connection);
@@ -42,6 +54,8 @@ if ($page === 'staff') {
 }
 
 if ($page === 'create-staff') {
+    requireLogin();
+
     require_once __DIR__ . '/app/models/staff.php';
 
     $staffModel = new Staff($connection);
@@ -64,6 +78,8 @@ if ($page === 'create-staff') {
 }
 
 if ($page === 'edit-staff') {
+    requireLogin();
+
     require_once __DIR__ . '/app/models/staff.php';
 
     $staffModel = new Staff($connection);
@@ -91,6 +107,8 @@ if ($page === 'edit-staff') {
 }
 
 if ($page === 'delete-staff') {
+    requireLogin();
+
     require_once __DIR__ . '/app/models/staff.php';
 
     $staffModel = new Staff($connection);
