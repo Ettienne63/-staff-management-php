@@ -28,6 +28,13 @@ class AuthController
             return 'Invalid email or password.';
         }
 
+        session_regenerate_id(true);
+
+        $_SESSION['user_id'] = (int) $user['id'];
+        $_SESSION['user_email'] = $user['email'];
+        $_SESSION['role'] = $user['role'] ?? 'admin';
+        $_SESSION['logged_in'] = true;
+
         $baseUrl = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
 
         header('Location: ' . $baseUrl . '/admin/dashboard');

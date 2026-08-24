@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require_once __DIR__ . '/config/database.php';
 
 $baseUrl = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
