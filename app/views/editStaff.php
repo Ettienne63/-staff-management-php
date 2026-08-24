@@ -21,7 +21,7 @@
 
             <h1 class="h3 mb-4">Edit Staff Member</h1>
 
-            <form method="POST" action="index.php?page=edit-staff">
+            <form method="POST" action="<?= url('admin/staff/edit/' . (int) ($staffMember['id'] ?? 0)) ?>">
                 <input type="hidden" name="id" value="<?= (int) ($staffMember['id'] ?? 0) ?>">
 
                 <div class="mb-3">
@@ -89,7 +89,7 @@
                 </button>
 
                 <a
-                    href="index.php?page=staff"
+                    href="<?= url('admin/staff') ?>"
                     class="btn btn-secondary"
                 >
                     Cancel

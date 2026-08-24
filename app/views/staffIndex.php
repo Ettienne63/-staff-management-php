@@ -22,7 +22,7 @@ $staffMembers = $staffMembers ?? [];
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="h3">Staff Members</h1>
 
-            <a href="index.php?page=create-staff" class="btn btn-primary">
+            <a href="<?= url('admin/staff/create') ?>" class="btn btn-primary">
                 Add Staff
             </a>
         </div>
@@ -63,13 +63,13 @@ $staffMembers = $staffMembers ?? [];
                                 </td>
                                 <td>
                                     <a
-                                        href="index.php?page=edit-staff&id=<?= $staff['id'] ?>"
+                                        href="<?= url('admin/staff/edit/' . (int) $staff['id']) ?>"
                                         class="btn btn-sm btn-warning">
                                         Edit
                                     </a>
 
                                     <a
-                                        href="index.php?page=delete-staff&id=<?= $staff['id'] ?>"
+                                        href="<?= url('admin/staff/delete/' . (int) $staff['id']) ?>"
                                         class="btn btn-sm btn-danger"
                                         onclick="return confirm('Delete this staff member?')">
                                         Delete
@@ -83,7 +83,7 @@ $staffMembers = $staffMembers ?? [];
             </div>
         </div>
 
-        <a href="index.php?page=dashboard" class="btn btn-outline-secondary mt-3">
+        <a href="<?= url('admin/dashboard') ?>" class="btn btn-outline-secondary mt-3">
             Back to Dashboard
         </a>
 

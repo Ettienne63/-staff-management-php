@@ -2,6 +2,15 @@
 
 require_once __DIR__ . '/config/database.php';
 
+$baseUrl = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
+
+function url(string $path = ''): string
+{
+    global $baseUrl;
+
+    return $baseUrl . '/' . ltrim($path, '/');
+}
+
 $page = $_GET['page'] ?? 'login';
 $error = '';
 
@@ -44,7 +53,7 @@ if ($page === 'create-staff') {
             $_POST['position'] ?? ''
         );
 
-        header('Location: index.php?page=staff');
+        header('Location: ' . url('admin/staff'));
         exit;
     }
 
@@ -69,7 +78,7 @@ if ($page === 'edit-staff') {
             $_POST['position'] ?? ''
         );
 
-        header('Location: index.php?page=staff');
+        header('Location: ' . url('admin/staff'));
         exit;
     }
 
@@ -85,7 +94,7 @@ if ($page === 'delete-staff') {
     $staffModel = new Staff($connection);
     $staffModel->delete((int) ($_GET['id'] ?? 0));
 
-    header('Location: index.php?page=staff');
+    header('Location: ' . url('admin/staff'));
     exit;
 }
 

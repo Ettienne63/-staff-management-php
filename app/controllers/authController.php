@@ -28,7 +28,9 @@ class AuthController
             return 'Invalid email or password.';
         }
 
-        header('Location: index.php?page=dashboard');
+        $baseUrl = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
+
+        header('Location: ' . $baseUrl . '/admin/dashboard');
         exit;
     }
 }

@@ -24,14 +24,14 @@
             <p>Login successful.</p>
 
             <a
-                href="index.php?page=staff"
+                href="<?= url('admin/staff') ?>"
                 class="btn btn-primary"
             >
                 Manage Staff
             </a>
 
             <a
-                href="index.php"
+                href="<?= url() ?>"
                 class="btn btn-outline-secondary"
             >
                 Back to Login

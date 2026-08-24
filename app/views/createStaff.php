@@ -21,7 +21,7 @@
 
             <h1 class="h3 mb-4">Add Staff Member</h1>
 
-            <form method="POST" action="index.php?page=create-staff">
+            <form method="POST" action="<?= url('admin/staff/create') ?>">
 
                 <div class="mb-3">
                     <label class="form-label">First Name</label>
@@ -83,7 +83,7 @@
                 </button>
 
                 <a
-                    href="index.php?page=staff"
+                    href="<?= url('admin/staff') ?>"
                     class="btn btn-secondary"
                 >
                     Cancel
