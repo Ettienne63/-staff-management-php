@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#0b315f">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body @guest class="login-page" @endguest>
+<body>
     <a class="sr-only focus:not-sr-only focus:block focus:p-4" href="#main-content">Skip to content</a>
     @auth
         @php
