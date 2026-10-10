@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Dashboard | School Sports')
 @section('content')
+<p class="eyebrow">School workspace</p>
 <h1>Your schools</h1>
 <p>Choose a school workspace.</p>
 <div class="school-grid">

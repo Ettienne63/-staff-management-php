@@ -1,5 +1,14 @@
 # Product plan
 
+## Page foundation decisions (2026-10-10)
+
+Use individual accounts and school memberships, never a shared school login. Keep Blade and use the installed Tailwind 4 styling pipeline.
+Internal platform administration creates schools and assigns their first principal; it does not automatically grant school data access. The administrator will initially be designated by the developer through private configuration; the person is not yet selected. School suspension is deferred.
+Principal and vice/deputy manage the school. HR primarily handles account administration and staff; principal alone controls vice appointments and ownership transfer. Invitations, resets, account changes, and audited ownership changes remain future implementation.
+Coaches may edit training and results for the students they are authorized to see; these sports workflows are not implemented in the page foundation.
+Students will view their own training, goals, and progress and may mark exercises complete. Evidence links, such as Google Docs, are a future feature.
+First delivery focuses on protected internal/client page foundations, basic school creation, and honest empty states. No fictional performance data or working invitation controls are presented.
+
 Status: prototype login and school-scoped staff workflows are migrated to Laravel; sports features remain planned.
 
 ## Confirmed

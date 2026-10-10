@@ -3,32 +3,39 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
-:root { font-family: system-ui, sans-serif; color: #172b46; background: #f3f6fa; }
-body { margin: 0; }
-.site-header { background: #172b46; color: white; padding: 1rem 5%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-.site-header a { color: white; font-weight: 700; text-decoration: none; }
-.account, .actions, .page-heading { display: flex; gap: 1rem; align-items: center; }
-.account { flex-wrap: wrap; }
-.container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
-h1 { font-size: 1.8rem; font-weight: 700; margin: 0.7rem 0; }
-h2 { font-size: 1.3rem; font-weight: 600; }
-p { margin: 0.7rem 0 1.2rem; }
-a { color: #164c93; text-decoration: underline; }
-.card { background: white; border: 1px solid #dbe3ed; border-radius: 0.8rem; padding: 1.5rem; }
-.login-card { max-width: 430px; margin: 4rem auto; }
-label { display: block; font-weight: 600; margin: 1rem 0 0.4rem; }
-input { display: block; width: 100%; border: 1px solid #8799b0; padding: 0.7rem; border-radius: 0.35rem; margin-bottom: 1rem; }
-button, .button { cursor: pointer; border: 1px solid #8799b0; padding: 0.6rem 1rem; border-radius: 0.35rem; background: white; color: #172b46; text-decoration: none; display: inline-block; }
-.primary { color: white; background: #164c93; border-color: #164c93; }
-.danger { color: #9b2020; }
-:focus-visible { outline: 3px solid #d48b00; outline-offset: 3px; }
-.page-heading { justify-content: space-between; flex-wrap: wrap; margin-bottom: 1.5rem; }
-.school-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
-.notice { background: #e4f6e9; border: 1px solid #67a579; border-radius: 0.4rem; padding: 1rem; }
-.errors { background: #fff0f0; border: 1px solid #c46060; border-radius: 0.4rem; padding: 1rem; margin-bottom: 1rem; }
-.errors ul { list-style: disc; padding-left: 1.5rem; }
-.table-scroll { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; }
-th, td { padding: 0.8rem; text-align: left; border-bottom: 1px solid #dbe3ed; }
-thead { background: #f3f6fa; }
-@media (max-width: 600px) { .site-header { align-items: flex-start; } .account span { display: none; } .card { padding: 1rem; } }
+@layer base {
+    body { @apply m-0 bg-slate-50 font-sans text-slate-800 antialiased; }
+    h1 { @apply my-3 text-3xl font-bold tracking-tight text-slate-950; }
+    h2 { @apply text-xl font-semibold text-slate-900; }
+    p { @apply my-3 leading-relaxed; }
+    a { @apply text-blue-700 underline underline-offset-4; }
+    label { @apply mt-5 mb-2 block text-sm font-semibold; }
+    input { @apply mb-4 block w-full rounded-lg border border-slate-400 bg-white px-3 py-2.5; }
+    button { @apply cursor-pointer; }
+    :focus-visible { @apply outline-2 outline-offset-4 outline-blue-700; }
+    th, td { @apply border-b border-slate-200 px-4 py-3 text-left; }
+    th { @apply bg-slate-50 text-sm font-semibold; }
+    table { @apply w-full border-collapse; }
+}
+
+@layer components {
+    .site-header { @apply flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 bg-white px-5 py-4 md:px-8; }
+    .site-header > a { @apply text-lg font-bold tracking-tight text-slate-950 no-underline; }
+    .account, .actions { @apply flex flex-wrap items-center gap-3; }
+    .container { @apply mx-auto max-w-6xl px-5 py-8 md:px-8; }
+    .card { @apply rounded-2xl border border-slate-200 bg-white p-5 shadow-sm md:p-7; }
+    .login-card { @apply mx-auto my-10 max-w-md; }
+    .button, button { @apply inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 no-underline hover:bg-slate-100; }
+    .primary { @apply border-blue-700 bg-blue-700 text-white hover:bg-blue-800; }
+    .danger { @apply text-red-700; }
+    .page-heading { @apply mb-7 flex flex-wrap items-center justify-between gap-4; }
+    .school-grid { @apply grid gap-5 sm:grid-cols-2 lg:grid-cols-3; }
+    .notice { @apply mb-5 rounded-lg border border-emerald-300 bg-emerald-50 p-4 text-emerald-900; }
+    .errors { @apply mb-5 rounded-lg border border-red-300 bg-red-50 p-4 text-red-900; }
+    .errors ul { @apply list-disc pl-5; }
+    .table-scroll { @apply overflow-x-auto; }
+    .eyebrow { @apply text-xs font-bold tracking-widest text-blue-700 uppercase; }
+    .workspace-nav { @apply mb-7 flex flex-wrap gap-2; }
+    .workspace-nav a { @apply rounded-lg px-4 py-2 text-sm font-semibold no-underline hover:bg-blue-50; }
+    .workspace-nav a[aria-current='page'] { @apply bg-blue-100 text-blue-900; }
+}

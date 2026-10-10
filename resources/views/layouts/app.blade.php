@@ -7,6 +7,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
+    <a class="sr-only focus:not-sr-only focus:block focus:p-4" href="#main-content">Skip to content</a>
     <header class="site-header">
         <a href="{{ route('dashboard') }}">School Sports</a>
         @auth
@@ -15,7 +16,7 @@
             </div>
         @endauth
     </header>
-    <main class="container">
+    <main id="main-content" class="container" tabindex="-1">
         @if(session('status'))<p class="notice" role="status">{{ session('status') }}</p>@endif
         @if($errors->any())
             <div class="errors" role="alert"><p>Please check the following:</p><ul>
