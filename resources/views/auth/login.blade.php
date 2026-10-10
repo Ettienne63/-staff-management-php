@@ -5,8 +5,8 @@
     <section class="login-story" aria-labelledby="login-intro">
         <div>
             <p class="eyebrow">School sport. Personal progress.</p>
-            <h2 id="login-intro">A place for<br>every athlete.</h2>
-            <p>Bring your school team together. Build good habits, support your students, and make every session count.</p>
+            <h2 id="login-intro">Play with<br>purpose.</h2>
+            <p>Bring your school team together. Build strong habits, celebrate progress, and make every session count.</p>
         </div>
         <div>
             <div class="track-mark" aria-hidden="true"></div>
@@ -14,9 +14,9 @@
         </div>
     </section>
     <section class="login-card">
-        <p class="eyebrow">Welcome to My Sports App</p>
-        <h1>Sign in</h1>
-        <p>Access your school workspace.</p>
+        <p class="eyebrow">Welcome back</p>
+        <h1>Let’s get<br>moving.</h1>
+        <p>Sign in to open your school workspace.</p>
         <form method="POST" action="{{ route('login.store') }}">
             @csrf
             <label for="email">Email</label>
