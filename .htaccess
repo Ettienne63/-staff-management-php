@@ -1,14 +1,2 @@
-RewriteEngine On
-
-# Serve the Laravel foundation only through its own public document root.
-RewriteRule ^laravel(?:/|$) - [F,L]
-
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]
-
-RewriteRule ^admin/dashboard/?$ index.php?page=dashboard [L,QSA]
-RewriteRule ^admin/staff/?$ index.php?page=staff [L,QSA]
-RewriteRule ^admin/staff/create/?$ index.php?page=create-staff [L,QSA]
-RewriteRule ^admin/staff/edit/([0-9]+)/?$ index.php?page=edit-staff&id=$1 [L,QSA]
-RewriteRule ^admin/staff/delete/([0-9]+)/?$ index.php?page=delete-staff&id=$1 [L,QSA]
+# The app must be served from public/ with PHP 8.5.
+Require all denied

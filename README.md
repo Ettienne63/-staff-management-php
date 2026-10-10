@@ -1,35 +1,42 @@
-# School sports development app
+# School sports app
 
-Planning repository for an intended Laravel application helping schools track student sports training and progress.
-The root contains the existing plain PHP prototype. A Laravel 13 foundation is installed in laravel/; sports features are not implemented.
+Laravel 13 application for the planned school sports platform. The prototype's login, dashboard, and staff CRUD now run in Laravel.
+School/student training, scores, invitations, and guardian access are documented requirements; those sports features are not implemented yet.
 
-## Start here
+## Run locally
+Use PHP 8.5 in a new PowerShell terminal:
+```powershell
+cd C:\xampp\htdocs\my-sports-app
+php artisan serve --host=127.0.0.1 --port=8000
+```
+Open http://127.0.0.1:8000/. The existing prototype login password is preserved in the local import.
+Choose your school from the dashboard. Principal/deputy memberships manage staff; coaches can view school staff.
+The former localhost/my-sports-app URL is blocked because Apache must serve only public/ using compatible PHP.
 
+## Structure
+| Location | Purpose |
+|---|---|
+| app/Http/Controllers | Login, school selection, and staff request handling |
+| app/Http/Requests | Staff validation and management authorization |
+| app/Http/Middleware | Active school membership checks |
+| app/Models | Users, schools, and school-owned staff |
+| app/Console/Commands | Local prototype import |
+| resources/views | Shared Blade layout and page templates |
+| resources/css | Application styles compiled by Vite |
+| routes/web.php | Named web routes |
+| database/migrations | Schema changes |
+| tests/Feature | Authentication, CRUD, isolation, import regression tests |
+| public | Web document root and built assets |
+| docs | Product decisions, setup, roadmap, and workflow |
+
+There is one Laravel application at the repository root. vendor and node_modules are installed dependencies, not duplicate application code.
+
+## Documentation
+- [Setup and migration guide](docs/SETUP.md)
 - [Product plan](docs/PRODUCT_PLAN.md)
 - [Roadmap](docs/ROADMAP.md)
-- [Tooling and setup](docs/SETUP.md)
 - [Contribution workflow](CONTRIBUTING.md)
-- [GitHub setup](docs/GITHUB_SETUP.md)
+- [GitHub status](docs/GITHUB_SETUP.md)
 - [Agent instructions](AGENTS.md)
 
-## Run the existing prototype
-
-1. Start Apache and MySQL in XAMPP.
-2. Keep this repository at C:/xampp/htdocs/my-sports-app.
-3. For a fresh local database only, import database/setup.sql using phpMyAdmin.
-4. Copy config/database.example.php to config/database.php and set your local credentials.
-5. Open http://localhost/my-sports-app/.
-
-Do not reimport the SQL file into a configured database without reviewing it: it updates seed records, including the example administrator's password.
-The example administrator is local prototype data, not a production account. Passwords are not documented here.
-The .htaccess routes require Apache rewrite support; PHP's basic development server alone does not reproduce these routes.
-Laravel dependencies and commands live in laravel/. Follow docs/SETUP.md using PHP 8.5.
-
-## Development workflow
-
-One task per branch → PR into staging → validate → release PR into main.
-See CONTRIBUTING.md for naming, commit format, and review checks.
-
-## Run the new foundation
-From laravel/, run php artisan serve --host=127.0.0.1 --port=8000 using PHP 8.5.
-Open http://127.0.0.1:8000/. See docs/SETUP.md for complete instructions.
+Task branch → PR to staging → validation → release PR to main.

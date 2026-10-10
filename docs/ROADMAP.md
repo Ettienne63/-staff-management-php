@@ -33,7 +33,7 @@ Depends on Phase 0.
 
 ## Phase 2 — tenancy and access
 
-Implement principal/deputy-managed memberships and invitations, school selection, authorization, and internal/client separation. Confirm guardian/student identity policy first.
+Implement principal/deputy-managed memberships and invitations, school selection, authorization, and internal/client separation. Guardian-linked accounts are confirmed; define verification and invitation/recovery flows first.
 Test cross-school direct URLs, search, exports, files, and jobs, plus permission revocation.
 Done when authorized multi-school viewing works and unauthorized access consistently fails.
 Depends on Phase 1; must precede student data features.
@@ -82,3 +82,6 @@ An item reaches Done after staging validation; releases are separately promoted 
 ## Foundation progress (2026-10-10)
 PHP 8.5 and Laravel 13 installed alongside the prototype. SQLite setup is isolated from MariaDB.
 Lockfiles, starter tests, asset tooling, and CI are introduced. Phase 1 remains incomplete until architecture decisions and staging validation are complete.
+
+## Prototype incorporation (2026-10-10)
+Laravel is consolidated into the repository root. Login, logout, dashboard school selection, and staff CRUD are migrated with validated CSRF-protected forms and school authorization. The local importer preserves password hashes and leaves MariaDB unchanged. Guardian accounts are confirmed requirements, but their linking/invitation flows, students, and training/scoring remain future phases. The local school membership baseline is not a final production tenancy storage decision.

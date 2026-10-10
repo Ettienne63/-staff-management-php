@@ -1,6 +1,6 @@
 # Product plan
 
-Status: framework installed; product features remain planning-only. Confirmed requirements are distinguished from proposals.
+Status: prototype login and school-scoped staff workflows are migrated to Laravel; sports features remain planned.
 
 ## Confirmed
 
@@ -83,7 +83,7 @@ Proposed score components:
 
 ## Decisions needed next
 
-1. Confirm guardian-linked and assisted access for students without email.
+1. Define guardian verification and assisted access for families without email.
 2. Define school onboarding and owner/deputy handover; principal/deputy manage school access.
 3. Confirm editing permissions beyond school-wide viewing.
 4. Does upload mean CSV, spreadsheet, manual entry, or integration with a school system?
@@ -98,10 +98,10 @@ Proposed score components:
 Principal is school owner; principal or vice/deputy principal grants access.
 Students receive signup invitations and password reset support.
 Coaches view authorized school students and have activities, goals, and scheduled training features.
-Bob has South access only. Sidney has independent South and East memberships.
+The single-school and multi-school coach names in discussion were fictional examples only; no such accounts or schools are seeded.
 School ownership never grants rights over another school.
 
-## Recommended guardian/invitation design (proposal)
+## Confirmed guardian-linked account design
 Separate student records from account identities. An email's owner does not define who the student is.
 With personal email: invite the student to claim a school-selected student record using an expiring single-use link.
 Without personal email: school verifies a guardian relationship and invites the guardian's own account to access that child's permitted records.
@@ -111,4 +111,8 @@ Do not invent emails or distribute shared passwords. Invitations and password re
 Use hashed tokens, expiry, rate limits, generic reset responses, and audited access changes when implemented.
 Guardian login clearly identifies the selected child and does not impersonate the student.
 Define guardian revocation, relationship verification, and later transition to independent student access.
-No invitation emails or authentication features are implemented in this framework setup.
+Existing prototype authentication is migrated. Guardian linking, invitations, and password reset delivery remain unimplemented.
+
+## Migrated prototype scope
+Login/logout, a school-selection dashboard, and school-scoped staff CRUD are implemented. Principal/deputy memberships can manage staff; coaches can view staff. This is a migration baseline, not a completed student, guardian, or sports workflow. Staff memberships are not granted by creating a staff record; login access is separate.
+School-assisted activation for families without email remains a proposal. The school verifies guardian links before granting access.

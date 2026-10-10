@@ -10,7 +10,7 @@ Repository: https://github.com/Ettienne63/-staff-management-php
 - Independent approval count is zero for the current solo workflow; PRs and checks still apply.
 - Repository permits squash and merge commits, and disables rebase merging.
 - Git identity is set locally from the verified GitHub profile, using the GitHub noreply address.
-- Foundation branch: chore/laravel-13-foundation; PR #2 targets staging and remains open for review.
+- Foundation PR #2 has been squash-merged into staging. Current migration branch: feat/prototype-laravel-migration; its PR targets staging.
 
 ## CI and promotion
 .github/workflows/laravel.yml defines Branch policy and Laravel checks.
@@ -29,7 +29,7 @@ gh auth refresh -s project
 Proposed columns and milestones remain in docs/ROADMAP.md. No board has been created.
 
 ## Local edits
-The pre-existing .gitignore edit is preserved and excluded from these commits.
-Laravel's own .gitignore excludes its local .env, SQLite data, dependencies, and compiled assets.
+The pre-existing .gitignore rules are preserved and merged with Laravel exclusions during root consolidation.
+The root .gitignore excludes local .env, SQLite data, dependencies, and built assets; Laravel database configuration is committed.
 
 Reference: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches
