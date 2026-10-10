@@ -9,7 +9,9 @@
 <body>
     <a class="sr-only focus:not-sr-only focus:block focus:p-4" href="#main-content">Skip to content</a>
     <header class="site-header">
-        <a href="{{ route('dashboard') }}">School Sports</a>
+        <a href="{{ auth()->check() ? route('dashboard') : route('login') }}">
+            <img class="h-auto w-48" src="{{ asset('images/my-sports-app-logo-Photoroom.png') }}" alt="My Sports App" width="1408" height="768">
+        </a>
         @auth
             <div class="account"><span>{{ auth()->user()->name }}</span>
                 @if(auth()->user()->isPlatformAdmin())
