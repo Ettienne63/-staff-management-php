@@ -9,6 +9,7 @@ School sports development for grades 1-12, tracking training, performance, and i
 - Students with their own email can have their own account; records do not require a login or email.
 - School-assisted recovery for families without email remains a proposal.
 - Client-facing experiences and internal platform administration must be separate.
+- Platform administrators may register and list schools but cannot access private school or family data, even through existing memberships. HR is restricted to one registered school and has no Family space.
 - Scores combine participation, performance, and improvement; details remain undecided.
 - Names used during brainstorming were fictional examples, not real users, records, or fixtures.
 - Explicitly approved local showcase fixtures are provided by `ShowcaseSeeder`, using Showcase names and `.invalid` emails. Default seeding remains empty; preserve existing data, passwords, and memberships on reruns. No student records, guardian links, or sports results are seeded.

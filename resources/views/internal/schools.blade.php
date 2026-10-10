@@ -7,7 +7,6 @@
 </div>
 <nav class="workspace-nav" aria-label="Platform navigation">
     <a href="{{ route('internal.schools.index') }}" aria-current="page">Schools</a>
-    <a href="{{ route('dashboard') }}">My school workspaces</a>
 </nav>
 <section class="card">
     <h2>School directory</h2>

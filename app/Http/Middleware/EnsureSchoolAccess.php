@@ -12,6 +12,8 @@ class EnsureSchoolAccess
 {
     public function handle(Request $request, Closure $next): Response
     {
+        abort_if($request->user()->isPlatformAdmin(), 404);
+
         $school = $request->route('school');
         if (! $school instanceof School) {
             $school = School::findOrFail($school);

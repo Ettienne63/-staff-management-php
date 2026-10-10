@@ -19,9 +19,9 @@ class User extends Authenticatable
 
     public const LeadershipRoles = ['principal', 'deputy'];
 
-    public const SingleSchoolRoles = ['principal', 'deputy', 'student'];
+    public const SingleSchoolRoles = ['principal', 'deputy', 'hr', 'student'];
 
-    public const FamilySpaceRestrictedRoles = ['principal', 'deputy', 'coach'];
+    public const FamilySpaceRestrictedRoles = ['principal', 'deputy', 'hr', 'coach'];
 
     public const StaffRoles = ['principal', 'deputy', 'hr'];
 

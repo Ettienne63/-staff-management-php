@@ -13,6 +13,8 @@ Status: prototype login and school-scoped staff workflows are migrated to Larave
 
 ## Confirmed dashboard design (2026-10-10)
 
+Platform administrators cannot access school staff, students, guardians, invitations, or sports records, even if an old membership or guardian link exists. They register and list schools through separate internal navigation. HR may access one registered school and cannot enter Family space. Existing conflicting single-school memberships use the lowest school ID as the canonical school until the memberships are corrected; records and memberships are preserved.
+
 Authenticated school pages use a responsive, role-aware sidebar and a school workspace with quick links and a daily schedule panel. The visual direction follows the logo's navy, teal, and green colors on a pale blue background. Empty schedule and activity states do not imply that training or student workflows are implemented.
 
 Audience separation is implemented for leadership (principal/deputy), HR, coaches, students, and the family interface. HR manages staff and parent invitations; coaches and students cannot access staff records. Family space is hidden from principals, deputies, and coaches. Students have dedicated personal training and progress views. Every family child path verifies an active school-approved guardian relationship. HR cannot inspect child requests or student records. Shared UI components keep the visual design consistent across these separate areas.

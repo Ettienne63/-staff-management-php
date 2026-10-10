@@ -12,6 +12,10 @@ class SchoolController extends Controller
 {
     public function index(Request $request): View|RedirectResponse
     {
+        if ($request->user()->isPlatformAdmin()) {
+            return redirect()->route('internal.schools.index');
+        }
+
         if ($request->user()->usesFamilyPortal()) {
             return redirect()->route('family.dashboard');
         }
@@ -34,8 +38,9 @@ class SchoolController extends Controller
 
     public function legacyStaff(Request $request): RedirectResponse
     {
+        abort_if($request->user()->isPlatformAdmin(), 404);
         $schools = $request->user()->schools()->wherePivotIn('role', User::StaffRoles);
-        $leadershipSchool = (clone $schools)->wherePivotIn('role', User::LeadershipRoles)->orderBy('schools.id')->first();
+        $leadershipSchool = (clone $schools)->wherePivotIn('role', User::SingleSchoolRoles)->orderBy('schools.id')->first();
         if ($leadershipSchool) {
             return redirect()->route('staff.index', $leadershipSchool);
         }

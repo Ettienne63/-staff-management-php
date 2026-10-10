@@ -33,11 +33,14 @@ class InternalSchoolController extends Controller
         if (! $principal) {
             throw ValidationException::withMessages(['principal_email' => 'Use the email of an existing account. Invitation signup is not available yet.']);
         }
+        if ($principal->isPlatformAdmin()) {
+            throw ValidationException::withMessages(['principal_email' => 'Platform administrators cannot hold a school role. Choose a separate principal account.']);
+        }
         try {
             DB::transaction(function () use ($validated, $principal): void {
                 $principal = User::query()->whereKey($principal->getKey())->lockForUpdate()->firstOrFail();
-                if ($principal->schools()->wherePivotIn('role', User::LeadershipRoles)->exists()) {
-                    throw ValidationException::withMessages(['principal_email' => 'This account already has a leadership role at a school. Each principal and deputy can access one school.']);
+                if ($principal->schools()->wherePivotIn('role', User::SingleSchoolRoles)->exists()) {
+                    throw ValidationException::withMessages(['principal_email' => 'This account already has a role restricted to one school. Choose a separate principal account.']);
                 }
 
                 $school = School::create(['name' => $validated['name']]);

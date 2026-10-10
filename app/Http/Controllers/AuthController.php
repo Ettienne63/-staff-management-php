@@ -23,6 +23,12 @@ class AuthController extends Controller
         }
         $request->session()->regenerate();
 
+        if ($request->user()->isPlatformAdmin()) {
+            $request->session()->forget('url.intended');
+
+            return redirect()->route('internal.schools.index');
+        }
+
         $dashboard = $request->user()->usesFamilyPortal() ? 'family.dashboard' : 'dashboard';
         $student = $request->user()->student()->first();
         if ($student && $request->user()->schools()->whereKey($student->school_id)->wherePivot('role', 'student')->exists()) {

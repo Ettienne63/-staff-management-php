@@ -2,6 +2,8 @@
 
 ## Page foundation delivery (implemented locally, 2026-10-10)
 
+Platform administration is isolated from all private school and family paths, including accounts with historical memberships. HR is limited to one registered school with no Family space. Both restrictions are enforced server-side and covered by feature tests.
+
 1. Tailwind/Blade shared layout and accessibility foundation.
 2. Restricted internal school directory and creation with initial principal assignment.
 3. School leadership/HR, coach, and student page foundations with school and role checks.
