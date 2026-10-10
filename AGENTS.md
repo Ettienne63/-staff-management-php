@@ -30,6 +30,12 @@ Update docs/PRODUCT_PLAN.md and docs/ROADMAP.md when decisions change. Mark prop
 README.md explains the canonical structure; CONTRIBUTING.md defines collaboration rules.
 No example names or schools are actual customer records.
 
+## Code comments
+Do not add routine comments when implementing features; prefer clear names and straightforward code.
+Add a brief comment only when sensitive behavior, a non-obvious constraint, or a maintenance caveat needs explanation.
+Explain why the detail matters or what must be preserved when changing it; do not narrate what the code already says.
+Keep necessary PHPDoc type annotations concise and avoid redundant documentation blocks.
+
 ## Data and validation
 Keep credentials, real student data, .env, SQLite files, dependencies, and built assets out of Git.
 config/database.php is Laravel configuration and is committed; secrets live in .env.
@@ -102,7 +108,7 @@ Before relying on a package's API, confirm its installed version:
 - Use PHP 8 constructor property promotion: `public function __construct(public GitHub $github) { }`. Do not leave empty zero-parameter `__construct()` methods unless the constructor is private.
 - Use explicit return type declarations and type hints for all method parameters: `function isAccessible(User $user, ?string $path = null): bool`
 - Use TitleCase for Enum keys: `FavoritePerson`, `BestLake`, `Monthly`.
-- Prefer PHPDoc blocks over inline comments. Only add inline comments for exceptionally complex logic.
+- Follow the project Code comments convention above. Use concise PHPDoc only when needed for types or non-obvious maintenance details.
 - Use array shape type definitions in PHPDoc blocks.
 
 === deployments rules ===
