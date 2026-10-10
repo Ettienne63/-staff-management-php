@@ -22,6 +22,14 @@ class User extends Authenticatable
         return $this->belongsToMany(School::class)->withPivot('role')->withTimestamps();
     }
 
+    public function isPlatformAdmin(): bool
+    {
+        $email = config('app.platform_admin_email');
+
+        return is_string($email) && trim($email) !== ''
+            && strcasecmp($this->email, trim($email)) === 0;
+    }
+
     protected function casts(): array
     {
         return ['email_verified_at' => 'datetime', 'password' => 'hashed'];

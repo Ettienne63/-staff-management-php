@@ -12,6 +12,9 @@
         <a href="{{ route('dashboard') }}">School Sports</a>
         @auth
             <div class="account"><span>{{ auth()->user()->name }}</span>
+                @if(auth()->user()->isPlatformAdmin())
+                    <a href="{{ route('internal.schools.index') }}">Internal administration</a>
+                @endif
                 <form action="{{ route('logout') }}" method="POST">@csrf<button type="submit">Sign out</button></form>
             </div>
         @endauth

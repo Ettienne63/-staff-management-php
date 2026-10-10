@@ -41,6 +41,11 @@ Passwords remain hashed. Existing destination accounts, staff edits, and members
 The current local import transferred one account and two staff records.
 Future production migrations need a separate plan.
 
+## Internal administration foundation
+
+To enable internal school administration for your existing login, set `PLATFORM_ADMIN_EMAIL` to that account's email in your local `.env`. Leave it blank to disable internal access. Run `php artisan config:clear` after changing it (or rebuild the configuration cache in deployments).
+Visit `/internal/schools` after signing in. School creation assigns an existing account as the initial principal; it does not create accounts or send invitations. Platform access grants no automatic school membership. Do not reuse a designated admin email for a different account. Managed platform roles and audited handover are future work.
+
 ## Verify
 ```powershell
 composer validate --strict
