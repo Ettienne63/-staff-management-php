@@ -29,6 +29,8 @@ See docs/SETUP.md for paths, actual commands, and the local-only prototype impor
 One task branch from staging; task PRs target staging and releases promote staging to main.
 No direct pushes to protected branches. Use type(scope): imperative summary.
 Preserve user changes; stage explicit files. Commit focused, useful increments.
+Codex is authorized to choose commit types/scopes, commit timing, and task branches without a separate request for each action. Create a task branch from staging for a distinct independent task; continue the existing branch for changes within the same task. Preserve any unmerged dependencies and user changes when switching branches.
+Commit completed, reviewable increments after the applicable checks pass. Use fix for correcting existing behavior, feat for new capabilities, docs for documentation, refactor for behavior-preserving restructuring, test for coverage, and chore/build/ci for the corresponding maintenance or tooling work.
 Update docs/PRODUCT_PLAN.md and docs/ROADMAP.md when decisions change. Mark proposals clearly.
 README.md explains the canonical structure; CONTRIBUTING.md defines collaboration rules.
 No example names or schools are actual customer records.

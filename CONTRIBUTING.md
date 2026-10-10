@@ -9,6 +9,7 @@
 - PRs from task branches target staging. Release PRs target main from staging.
 - Never push directly to main or staging. Do not force-push shared branches.
 - A staging branch is not a deployed staging environment; hosting and deployments are a later decision.
+- Codex may choose and create task branches autonomously. Start a new branch from staging for a distinct independent task; continue the current task branch for related implementation and fixes. Preserve unmerged dependencies and user changes when switching branches.
 
 Branch names: type/short-kebab-case-description.
 Examples: feat/student-import, fix/school-access-check, docs/sports-app-plan, chore/laravel-bootstrap.
@@ -34,6 +35,7 @@ Examples:
 - fix(tenancy): reject access without school membership
 
 Keep each commit focused. Explain material tradeoffs in the body. Use BREAKING CHANGE in the body when applicable.
+Codex may choose the commit type and timing and commit completed, reviewable increments after applicable checks pass, without waiting for a separate commit request. Use `fix` for correcting existing behavior, `feat` for new capabilities, `docs` for documentation, `refactor` for restructuring without changing behavior, `test` for coverage, and `chore`, `build`, or `ci` for the corresponding maintenance or tooling changes.
 Before committing, inspect git status and git diff. Stage explicit files; do not include local credentials or unrelated edits.
 Commit identity must be configured by the contributor; do not invent an author's name or email.
 
