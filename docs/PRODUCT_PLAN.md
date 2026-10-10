@@ -21,6 +21,7 @@ Audience separation is implemented for leadership (principal/deputy), HR, coache
 
 Coaches and students are the initial users. Coaches work with many students in grades 1–12.
 Schools are isolated tenants. A coach may receive explicit access to more than one school.
+Each principal and deputy is assigned to and may access exactly one school. A coach may be separately hired by multiple schools and receives access to each through an explicit school membership; a coach's access at one school grants no rights at another. Leadership access cannot be used to reach another school, even if an additional membership exists.
 Client and internal platform areas must be separated.
 Scores will combine training participation, measured performance, and improvement; details will be refined later.
 
@@ -54,7 +55,7 @@ Propose no routine internal access to student results; exceptional support acces
 
 ## Authorization proposal
 
-Coach identity is shared across schools, but school memberships and role permissions are separate.
+Coach identity is shared across schools, but school memberships and role permissions are separate. Each school independently hires or assigns the coach; a coach may serve teams at multiple schools. Principals and deputies have one school membership and cannot switch to another school's workspace.
 Selecting a school narrows the workspace; the server verifies membership and permission on every request.
 A membership at School A gives no rights at School B. Revoking B access takes effect for B data.
 Each school independently grants the coach role and its capabilities. Read-only access can be a separate permission where needed.
@@ -112,6 +113,7 @@ Proposed score components:
 ## Confirmed access decisions (2026-10-10)
 
 Principal is school owner; principal or vice/deputy principal grants access.
+Each principal and deputy belongs to one school only. Coaches may belong to multiple schools when each school separately grants access.
 Updated page decisions extend day-to-day account administration to HR; vice appointments and ownership transfer are reserved for the principal.
 Students receive signup invitations and password reset support.
 Coaches view authorized school students and have activities, goals, and scheduled training features.

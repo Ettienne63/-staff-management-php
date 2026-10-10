@@ -62,14 +62,14 @@ This command is allowed only in `local` and `testing` environments, even with `-
 
 | Email | Preview |
 | --- | --- |
-| principal@showcase.example.invalid | Leadership dashboard and staff CRUD in both schools |
-| deputy@showcase.example.invalid | Deputy leadership dashboard and staff CRUD in both schools |
-| hr@showcase.example.invalid | HR dashboard, staff CRUD, and account placeholder |
-| coach@showcase.example.invalid | Coach dashboard, read-only staff, and sports placeholders |
+| principal@showcase.example.invalid | Leadership dashboard and staff CRUD in one school |
+| deputy@showcase.example.invalid | Deputy leadership dashboard and staff CRUD in one school |
+| hr@showcase.example.invalid | HR dashboard, staff CRUD, and account placeholder in one school |
+| coach@showcase.example.invalid | Coach dashboard, read-only staff, and sports placeholders in both schools |
 | student@showcase.example.invalid | Personal dashboard, training, and progress placeholders |
 | guardian@showcase.example.invalid | `/family` empty foundation, with no school memberships |
 
-The command prints a random shared password for accounts created in that run. Save it privately; there is no committed default password. Rerunning creates missing fixtures without resetting existing passwords, changing existing account memberships, or deleting records. If a matching email already exists, its account is preserved and no memberships are added to it. Reserved `.invalid` addresses cannot receive invitations or password-reset emails.
+The command prints a random shared password for accounts created in that run. Save it privately; there is no committed default password. Rerunning creates missing fixtures without resetting existing passwords, changing existing account memberships, or deleting records. New principal, deputy, and HR preview memberships cover one school; the coach has a separate membership at both schools. If a matching email already exists, its account is preserved and no memberships are added to it. Reserved `.invalid` addresses cannot receive invitations or password-reset emails.
 
 The existing `PLATFORM_ADMIN_EMAIL` setting is preserved. Sign in with the configured administrator to inspect the internal school directory and creation form, now including the showcase schools. Platform access is not granted to preview accounts automatically.
 

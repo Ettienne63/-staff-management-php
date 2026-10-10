@@ -45,7 +45,7 @@ Depends on Phase 0.
 
 ## Phase 2 — tenancy and access
 
-School selection, internal/client separation, and per-request membership checks are implemented for current school and staff paths. Decide production tenant storage, then add invitations and defined guardian/student access flows before storing student data.
+School selection, internal/client separation, and per-request membership checks are implemented for current school and staff paths. Principals and deputies are restricted to one school; coaches may access multiple schools through separate memberships. Decide production tenant storage, then add invitations and defined guardian/student access flows before storing student data.
 Extend cross-school authorization coverage to each new search, export, file, job, and student/sports path; preserve permission revocation behavior.
 Done when the production tenant model and required invitation/access flows are implemented and unauthorized access consistently fails.
 Depends on Phase 1; must precede student data features.

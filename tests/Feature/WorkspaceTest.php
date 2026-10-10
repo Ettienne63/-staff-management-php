@@ -121,5 +121,12 @@ class WorkspaceTest extends TestCase
         $this->actingAs($user)->get(route('family.dashboard'))->assertOk()
             ->assertViewIs('guardian.dashboard')->assertSee('Guardian linking is not available yet.')
             ->assertDontSee($school->name);
+
+        foreach (['principal', 'deputy'] as $role) {
+            $leader = User::factory()->create();
+            $leader->schools()->attach($school, ['role' => $role]);
+            $this->actingAs($leader)->get(route('dashboard'))->assertDontSee('Family space');
+            $this->get(route('family.dashboard'))->assertNotFound();
+        }
     }
 }

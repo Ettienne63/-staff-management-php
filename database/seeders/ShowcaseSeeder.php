@@ -35,7 +35,7 @@ class ShowcaseSeeder extends Seeder
                     $createdEmails[] = $email;
 
                     if ($role !== 'guardian') {
-                        foreach ($schools as $school) {
+                        foreach ($role === 'coach' ? $schools : $schools->take(1) as $school) {
                             $user->schools()->attach($school, ['role' => $role]);
                         }
                     }

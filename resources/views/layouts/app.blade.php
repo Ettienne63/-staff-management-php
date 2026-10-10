@@ -22,7 +22,9 @@
                 </a>
                 <p class="sidebar-label">WORKSPACE</p>
                 <nav class="sidebar-nav" aria-label="Main navigation">
-                    <a href="{{ route('family.dashboard') }}" @if(request()->routeIs('family.*')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&hearts;</span><span>Family space</span></a>
+                    @unless(auth()->user()->schools()->wherePivotIn('role', \App\Models\User::LeadershipRoles)->exists())
+                        <a href="{{ route('family.dashboard') }}" @if(request()->routeIs('family.*')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&hearts;</span><span>Family space</span></a>
+                    @endunless
                     <a href="{{ route('dashboard') }}" @if(request()->routeIs('dashboard')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">⌂</span><span>My schools</span></a>
                     @if(auth()->user()->isPlatformAdmin())
                         <a href="{{ route('internal.schools.index') }}" @if(request()->routeIs('internal.*')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">▦</span><span>Platform admin</span></a>

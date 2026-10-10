@@ -19,6 +19,8 @@ class EnsureSchoolAccess
         $membership = $request->user()->schools()->whereKey($school->id)
             ->wherePivotIn('role', User::SchoolRoles)->first();
         abort_unless($membership, 404);
+        $leadershipSchool = $request->user()->schools()->wherePivotIn('role', User::LeadershipRoles)->orderBy('schools.id')->first();
+        abort_if($leadershipSchool && $leadershipSchool->getKey() !== $school->getKey(), 404);
         $request->attributes->set('school_role', $membership->pivot->role);
 
         return $next($request);

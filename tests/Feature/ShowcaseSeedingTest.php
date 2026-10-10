@@ -26,7 +26,7 @@ class ShowcaseSeedingTest extends TestCase
 
         $this->assertDatabaseCount('users', 7);
         $this->assertDatabaseCount('schools', 3);
-        $this->assertDatabaseCount('school_user', 11);
+        $this->assertDatabaseCount('school_user', 7);
         $this->assertDatabaseCount('staff_members', 12);
         $this->assertSame($passwordHash, User::where('email', 'coach@showcase.example.invalid')->firstOrFail()->password);
         $this->assertFalse(Hash::check('password', $passwordHash));
@@ -34,11 +34,24 @@ class ShowcaseSeedingTest extends TestCase
 
         foreach (User::SchoolRoles as $role) {
             $user = User::where('email', $role.'@showcase.example.invalid')->firstOrFail();
-            $this->assertSame([$role, $role], $user->schools->pluck('pivot.role')->all());
+            $expectedMembershipCount = $role === 'coach' ? 2 : 1;
+            $this->assertCount($expectedMembershipCount, $user->schools);
+            $this->assertSame(array_fill(0, $expectedMembershipCount, $role), $user->schools->pluck('pivot.role')->all());
             foreach ($user->schools as $school) {
                 $this->actingAs($user)->get(route('schools.workspace', $school))->assertOk();
             }
         }
+
+        $principal = User::where('email', 'principal@showcase.example.invalid')->firstOrFail();
+        $schools = School::whereIn('name', ['Showcase Oakfield School', 'Showcase Riverbend School'])->get();
+        $this->actingAs($principal)->get(route('dashboard'))
+            ->assertSee('Showcase Oakfield School')->assertDontSee('Showcase Riverbend School');
+        $this->get(route('schools.workspace', $schools->firstWhere('name', 'Showcase Riverbend School')))
+            ->assertNotFound();
+
+        $coach = User::where('email', 'coach@showcase.example.invalid')->firstOrFail();
+        $this->actingAs($coach)->get(route('dashboard'))
+            ->assertSee('Showcase Oakfield School')->assertSee('Showcase Riverbend School');
 
         $guardian = User::where('email', 'guardian@showcase.example.invalid')->firstOrFail();
         $this->assertCount(0, $guardian->schools);
