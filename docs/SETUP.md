@@ -46,7 +46,34 @@ Future production migrations need a separate plan.
 To enable internal school administration for your existing login, set `PLATFORM_ADMIN_EMAIL` to that account's exact email, including letter case, in your local `.env`. Leave it blank to disable internal access. Run `php artisan config:clear` after changing it (or rebuild the configuration cache in deployments).
 Visit `/internal/schools` after signing in. School creation assigns an existing account as the initial principal; it does not create accounts or send invitations. Platform access grants no automatic school membership. Do not reuse a designated admin email for a different account. Managed platform roles and audited handover are future work.
 
-Client entry is `/dashboard`; `/admin/dashboard` redirects there for compatibility. Selecting a school opens `/schools/{school}` with the view for that membership's principal, deputy, HR, coach, or student role. Student pages are empty foundations and expose no staff directory or student records. HR can manage staff records; account invitation and role-assignment tools are still unavailable. No new demo accounts or memberships are seeded.
+Client entry is `/dashboard`; `/admin/dashboard` redirects there for compatibility. Selecting a school opens `/schools/{school}` with the view for that membership's principal, deputy, HR, coach, or student role. Student pages are empty foundations and expose no staff directory or student records. HR can manage staff records; account invitation and role-assignment tools are still unavailable. Default seeding remains empty; the optional showcase below requires an explicit command.
+
+## Local showcase data
+
+Seed data initializes a database with known records for setup or manual exploration. Automated tests instead create temporary fixtures in their isolated test database.
+
+With PHP 8.5 active, run:
+
+```powershell
+php artisan db:seed --class=ShowcaseSeeder
+```
+
+This command is allowed only in `local` and `testing` environments, even with `--force`. It adds fictional Showcase Oakfield and Showcase Riverbend schools, six staff records per school, and these login accounts:
+
+| Email | Preview |
+| --- | --- |
+| principal@showcase.example.invalid | Leadership dashboard and staff CRUD in both schools |
+| deputy@showcase.example.invalid | Deputy leadership dashboard and staff CRUD in both schools |
+| hr@showcase.example.invalid | HR dashboard, staff CRUD, and account placeholder |
+| coach@showcase.example.invalid | Coach dashboard, read-only staff, and sports placeholders |
+| student@showcase.example.invalid | Personal dashboard, training, and progress placeholders |
+| guardian@showcase.example.invalid | `/family` empty foundation, with no school memberships |
+
+The command prints a random shared password for accounts created in that run. Save it privately; there is no committed default password. Rerunning creates missing fixtures without resetting existing passwords, changing existing account memberships, or deleting records. If a matching email already exists, its account is preserved and no memberships are added to it. Reserved `.invalid` addresses cannot receive invitations or password-reset emails.
+
+The existing `PLATFORM_ADMIN_EMAIL` setting is preserved. Sign in with the configured administrator to inspect the internal school directory and creation form, now including the showcase schools. Platform access is not granted to preview accounts automatically.
+
+Students, guardian links, training sessions, assessments, scores, invitations, and account management remain unimplemented; these pages retain their labelled empty states. The showcase student is a login account, not a student roster record. The guardian login has no verified child links. Staff records and login accounts are separate entities.
 
 ## Verify
 ```powershell

@@ -41,6 +41,7 @@ Internal administration lists schools and creates a school with an existing acco
 
 There is one Laravel application at the repository root. vendor and node_modules are installed dependencies, not duplicate application code.
 Keep `.env`, local SQLite data, dependencies, and generated assets out of Git. The default database seeder creates no accounts or school records; tests create synthetic data through factories.
+For a local design walkthrough, run `php artisan db:seed --class=ShowcaseSeeder`. This explicit local-only seeder adds two fictional schools, six preview accounts, and twelve staff records. It prints a generated password for newly created accounts; save it privately. See [showcase setup](docs/SETUP.md#local-showcase-data) for login emails and coverage.
 The current logo is `public/images/my-sports-app-logo-Photoroom.png`. If you replace it, update the asset path in the Blade layout. This folder does not need `php artisan storage:link`; that command exposes files stored on the public storage disk.
 
 ## Documentation

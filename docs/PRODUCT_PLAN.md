@@ -115,7 +115,7 @@ Principal is school owner; principal or vice/deputy principal grants access.
 Updated page decisions extend day-to-day account administration to HR; vice appointments and ownership transfer are reserved for the principal.
 Students receive signup invitations and password reset support.
 Coaches view authorized school students and have activities, goals, and scheduled training features.
-The single-school and multi-school coach names in discussion were fictional examples only; no such accounts or schools are seeded.
+The single-school and multi-school coach names in discussion were fictional examples only. Separately approved local showcase fixtures use explicit Showcase names and reserved `.invalid` emails: two schools, staff directories, and principal, deputy, HR, coach, student, and guardian preview accounts. They contain no student roster records, guardian links, or performance data. Default seeding remains empty.
 School ownership never grants rights over another school.
 
 ## Confirmed guardian-linked account design

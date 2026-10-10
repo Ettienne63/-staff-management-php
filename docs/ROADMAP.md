@@ -12,7 +12,7 @@ Local implementation is complete for these three page phases: Tailwind styling, 
 
 The dashboard design iteration adds a responsive, role-aware sidebar, school and workspace tiles, and an empty schedule panel using the logo's navy, teal, and green palette. The production asset build passed locally. Browser visual review and staging validation remain outstanding.
 
-Audience views are separated into leadership, HR, coach, student, and guardian dashboards. School staff/section pages are grouped by purpose, while students have their own navigation and personal section templates. HR cannot access student or sports sections through direct URLs. The family foundation is authenticated and contains no child records. Next: agree on synthetic preview seed data to inspect each role, then implement student records and verified guardian links.
+Audience views are separated into leadership, HR, coach, student, and guardian dashboards. School staff/section pages are grouped by purpose, while students have their own navigation and personal section templates. HR cannot access student or sports sections through direct URLs. The family foundation is authenticated and contains no child records. An explicitly requested local showcase seeder provides two fictional schools, staff directories, and accounts for each current audience. Sports and guardian-linking sections still show empty foundations. Next: review these dashboards, then implement student records and verified guardian links.
 
 The Laravel and school-access foundations are implemented. Invitations, student/sports features, and production tenant storage decisions remain planned.
 Effort estimates are relative (S/M/L), not delivery promises.
