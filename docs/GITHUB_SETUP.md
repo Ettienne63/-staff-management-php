@@ -10,13 +10,13 @@ Repository: https://github.com/Ettienne63/-staff-management-php
 - Independent approval count is zero for the current solo workflow; PRs and checks still apply.
 - Repository permits squash and merge commits, and disables rebase merging.
 - Git identity is set locally from the verified GitHub profile, using the GitHub noreply address.
-- Foundation branch: chore/laravel-13-foundation; its PR targets staging.
+- Foundation branch: chore/laravel-13-foundation; PR #2 targets staging and remains open for review.
 
 ## CI and promotion
 .github/workflows/laravel.yml defines Branch policy and Laravel checks.
 The branch policy requires main PRs to originate from this repository's staging branch.
 Laravel checks install locked dependencies, validate Composer/platform requirements, run Pint/tests, and build assets.
-Required status checks are configured only after their first successful GitHub run.
+Branch policy and Laravel checks passed their first GitHub run and are now required for both main and staging, with up-to-date branches required.
 Task branches are created from staging; main promotion uses a separate release PR.
 A Git branch is not a deployed staging environment. Hosting remains undecided.
 

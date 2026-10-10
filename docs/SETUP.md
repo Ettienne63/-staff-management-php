@@ -8,6 +8,7 @@ Checked 2026-10-10.
 - Node.js 24.20.0 / npm 11.19.0.
 - Laravel framework 13.35.0 in laravel/, with Composer lockfile.
 - Vite/Tailwind foundation with npm lockfile, PHPUnit starter tests, and Laravel Pint.
+- Laravel Boost 2.10.3 with generated Codex/Claude guidelines.
 - GitHub CLI authenticated as Ettienne63. Repository Git identity uses the verified profile name and GitHub noreply address.
 
 Restart VS Code/terminals after the user PATH update.
