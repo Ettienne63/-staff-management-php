@@ -6,15 +6,15 @@
 2. Restricted internal school directory and creation with initial principal assignment.
 3. School leadership/HR, coach, and student page foundations with school and role checks.
 
-Account invitations, HR account controls, principal-only vice/ownership changes, guardian linking, student records, sports editing, completion, and evidence links are future workflows. Student pages in this delivery contain no student records or results.
+Parent/student invitations, school-reviewed child requests, guardian links, student records, and guardian revocation are implemented. General HR account controls, principal-only vice/ownership changes, sports editing, completion, and evidence links remain future workflows.
 
 Local implementation is complete for these three page phases: Tailwind styling, restricted platform school creation, and role-specific client workspaces. School access is checked on each request, including after membership revocation or role changes. HR can manage the existing staff CRUD; students cannot access it.
 
 The dashboard design iteration adds a responsive, role-aware sidebar, school and workspace tiles, and an empty schedule panel using the logo's navy, teal, and green palette. The production asset build passed locally. Browser visual review and staging validation remain outstanding.
 
-Audience views are separated into leadership, HR, coach, student, and guardian dashboards. School staff/section pages are grouped by purpose, while students have their own navigation and personal section templates. Coaches cannot access the staff directory; HR cannot access student or sports sections through direct URLs. The family foundation focuses on child progress and family events, with no child records or events connected yet. An explicitly requested local showcase seeder provides two fictional schools, staff directories, and accounts for each current audience. Sports and guardian-linking sections still show empty foundations. Next: review these dashboards, then implement student records and verified guardian links.
+Audience views are separated into leadership, HR, coach, student, and guardian dashboards. Coaches cannot access the staff directory; HR cannot access student or sports sections through direct URLs. The family portal displays only actively verified children and lets invited parents submit requests. Student activation enters a separate personal portal. An explicitly requested local showcase seeder still provides only schools, staff directories, and preview accounts; it seeds no student records or guardian links. Sports and events retain empty states.
 
-The Laravel and school-access foundations are implemented. Invitations, student/sports features, and production tenant storage decisions remain planned.
+The Laravel and school-access foundations and parent-first onboarding are implemented. Sports features, password recovery, activation without personal email, and production tenant storage decisions remain planned.
 Effort estimates are relative (S/M/L), not delivery promises.
 Priority rubric: value 1–5, access/data risk reduced 1–5, dependency enablement 1–5.
 Priority score = sum of those three dimensions. Foundational dependencies override numerical ranking.
@@ -47,7 +47,7 @@ Depends on Phase 0.
 
 School selection, internal/client separation, and per-request membership checks are implemented for current school and staff paths. Principals, deputies, and students are restricted to one school; coaches may access multiple schools through separate memberships. Cross-school student stats sharing requires an explicit permission flow that remains to be defined. Decide production tenant storage before implementing these student data flows.
 Extend cross-school authorization coverage to each new search, export, file, job, and student/sports path; preserve permission revocation behavior.
-Implement parent-first onboarding: initial parent login, a child registration or link request, school verification, and then separate student activation. A proposed personal-email invitation links the student's own account to the verified child record; activation without a personal email remains undecided. Family landing-page routing is implemented, while registration, verification, and student invitation workflows remain planned.
+Parent-first onboarding is implemented: initial parent invitation/login, a child registration or link request, principal/deputy verification, and separate student activation with personal email. Tokens are hashed, single-use, expiring, and revocable. Acceptance preserves existing parent passwords and cannot merge parent/student identities. Guardian access is checked on every child path and can be revoked immediately. Invitation and review actions are audited; cross-school and permission tests cover the flow. Activation without personal email and production mail delivery remain outstanding.
 Done when the production tenant model and required invitation/access flows are implemented and unauthorized access consistently fails.
 Depends on Phase 1; must precede student data features.
 
@@ -99,4 +99,4 @@ Lockfiles, starter tests, asset tooling, and CI are introduced. Phase 1 remains 
 
 ## Prototype incorporation (2026-10-10)
 
-Laravel is consolidated into the repository root. Login, logout, dashboard school selection, and staff CRUD are migrated with validated CSRF-protected forms and school authorization. The local importer preserves password hashes and leaves MariaDB unchanged. Guardian accounts are confirmed requirements, but their linking/invitation flows, students, and training/scoring remain future phases. The local school membership baseline is not a final production tenancy storage decision.
+Laravel is consolidated into the repository root. Login, logout, dashboard school selection, and staff CRUD are migrated with validated CSRF-protected forms and school authorization. The local importer preserves password hashes and leaves MariaDB unchanged. Parent-first onboarding, verified guardian links, and student activation are implemented; training/scoring remains planned. The local school membership baseline is not a final production tenancy storage decision.

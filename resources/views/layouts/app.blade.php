@@ -13,7 +13,7 @@
         @php
             $currentSchool = request()->route('school');
             $schoolRole = request()->attributes->get('school_role');
-            $isFamilyPortal = request()->routeIs('family.*');
+            $isFamilyPortal = request()->routeIs('family.*') || (request()->routeIs('invitations.*') && auth()->user()->usesFamilyPortal());
         @endphp
         <div class="app-shell">
             <aside class="sidebar" aria-label="Application navigation">

@@ -1,7 +1,7 @@
 # School sports app
 
 Laravel 13 application for the planned school sports platform. The prototype's login, dashboard, and staff CRUD now run in Laravel.
-School/student training, scores, invitations, and guardian access are documented requirements; those sports features are not implemented yet.
+School/student training and scoring remain planned. Parent-first onboarding, school-verified guardian links, and separate student invitations are implemented.
 
 ## Run locally
 Use PHP 8.5 in a new PowerShell terminal:
@@ -11,11 +11,12 @@ php artisan serve --host=127.0.0.1 --port=8000
 ```
 Open http://127.0.0.1:8000/. The existing prototype login password is preserved in the local import.
 Choose your school from `/dashboard`. The signed-in workspace uses a responsive, role-aware sidebar and school dashboard. Principal, vice/deputy, and HR memberships can manage staff; coaches and students cannot access staff records.
-Training, progress, student rosters, and account administration currently show clearly labelled placeholders for future workflows.
-Leadership (principal/deputy), HR, coaches, and students have separate dashboard templates. School pages are grouped under `resources/views/schools`; personal student pages and navigation are separate. Students belong to one school at a time; access by another school to their stats will require permission. HR is limited to staff and account administration. `/family` provides the separate guardian interface as an authenticated empty foundation; principals, deputies, and coaches cannot access it, and it contains no linked child records yet.
+Leadership (principal/deputy), HR, coaches, and students have separate dashboard templates. School pages are grouped under `resources/views/schools`; personal student pages and navigation are separate. Students belong to one school at a time; access by another school to their stats will require permission. HR manages staff and sends initial parent invitations but cannot view child requests or student records. Principals, deputies, and coaches cannot access `/family`.
 The former localhost/my-sports-app URL is blocked because Apache must serve only public/ using compatible PHP.
 
-The guardian portal is organized around children's progress and family events, with no school workspace section. Those areas remain empty foundations until guardian links and event workflows are implemented.
+School leadership or HR sends a parent invitation from Accounts. The parent sets their own password and submits a child registration/link request in `/family`. A principal or deputy verifies the relationship in Students, choosing an existing student record or creating a new one. An optional student email sends a separate activation invitation; records need no login. Invitations expire after seven days, are single-use, and can be replaced or revoked. Existing parent passwords are preserved. A guardian may view several verified children at different schools; revoking a child link immediately removes access.
+
+Activated students enter their own portal. Training, assessments, scores, family events, password recovery, and student activation without personal email remain planned. The local mailer logs invitation messages; configure delivery before using invitations outside local development. See [setup](docs/SETUP.md).
 
 ## Internal administration
 

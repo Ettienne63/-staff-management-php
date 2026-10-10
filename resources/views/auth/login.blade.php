@@ -16,7 +16,7 @@
     <section class="login-card">
         <p class="eyebrow">Welcome back</p>
         <h1>Let’s get<br>moving.</h1>
-        <p>Sign in to open your school workspace.</p>
+        <p>Sign in to open your school, student, or family portal.</p>
         <form method="POST" action="{{ route('login.store') }}">
             @csrf
             <label for="email">Email</label>
@@ -25,7 +25,7 @@
             <input id="password" name="password" type="password" autocomplete="current-password" required>
             <button class="primary" type="submit">Sign in <span aria-hidden="true">&rarr;</span></button>
         </form>
-        <p class="mt-6 text-sm">Need school access? Contact your school's principal or HR team.</p>
+        <p class="mt-6 text-sm">Need an account? Ask your school for a parent invitation. Student invitations follow school verification.</p>
     </section>
 </div>
 @endsection

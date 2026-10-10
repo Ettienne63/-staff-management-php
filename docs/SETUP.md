@@ -46,7 +46,15 @@ Future production migrations need a separate plan.
 To enable internal school administration for your existing login, set `PLATFORM_ADMIN_EMAIL` to that account's exact email, including letter case, in your local `.env`. Leave it blank to disable internal access. Run `php artisan config:clear` after changing it (or rebuild the configuration cache in deployments).
 Visit `/internal/schools` after signing in. School creation assigns an existing account as the initial principal; it does not create accounts or send invitations. Platform access grants no automatic school membership. Do not reuse a designated admin email for a different account. Managed platform roles and audited handover are future work.
 
-Client entry is `/dashboard`; `/admin/dashboard` redirects there for compatibility. Selecting a school opens `/schools/{school}` with the view for that membership's principal, deputy, HR, coach, or student role. Student pages are empty foundations and expose no staff directory or student records. HR and school leadership can manage staff records; coaches cannot access the staff directory. Account invitation and role-assignment tools are still unavailable. Default seeding remains empty; the optional showcase below requires an explicit command.
+Client entry is `/dashboard`; family accounts are redirected to `/family`, and activated students enter their own school portal. `/admin/dashboard` redirects for compatibility. HR and school leadership can manage staff records and invite parents from Accounts. Principal/deputy verifies child requests in Students and grants separate student activation. Coaches can view their school roster but cannot access verification controls or the staff directory. General role assignment and password recovery remain unavailable. Default seeding remains empty.
+
+## Parent-first onboarding
+
+Run `php artisan migrate --no-interaction` for the onboarding tables. From a school's Accounts page, leadership or HR sends a parent invitation to the parent's own email. The local `log` mailer writes the invitation URL to `storage/logs/laravel.log`; no email is delivered externally. Open the link as the invited parent (sign out of the school account first), set a password, then submit a child request in Family space. Existing parent accounts sign in before accepting; their passwords are preserved.
+
+In Students, principal/deputy verifies the relationship and selects an existing student record or creates a new one. Matching name/date-of-birth records require explicit selection to avoid accidental duplication. An optional verified student email sends a separate activation link. The student signs out of the parent account and chooses their own password, then enters their own portal. Leave student email empty when the child has none; the verified child record and parent access still work.
+
+Invitations expire after seven days, are single-use, and store only token hashes. Sending another unused invitation replaces the previous link. Accounts lists invitation status and revocation controls. Leadership can remove guardian access per child in Students; direct family URLs stop working immediately. No child registrations, guardian links, or results are added by any seeder. Configure a real mail transport and verified sender before external delivery; no shared passwords or invented student emails are used.
 
 ## Local showcase data
 
@@ -73,7 +81,7 @@ The command prints a random shared password for accounts created in that run. Sa
 
 The existing `PLATFORM_ADMIN_EMAIL` setting is preserved. Sign in with the configured administrator to inspect the internal school directory and creation form, now including the showcase schools. Platform access is not granted to preview accounts automatically.
 
-Students, guardian links, training sessions, assessments, scores, invitations, and account management remain unimplemented; these pages retain their labelled empty states. The showcase student is a login account, not a student roster record. The guardian login has no verified child links. Staff records and login accounts are separate entities.
+Training sessions, assessments, scores, and family events remain unimplemented. The showcase student is a preview login account, not a student roster record. The showcase guardian has no verified child links or school enrollment until explicitly invited through the onboarding flow. Staff records, child records, and login accounts remain separate entities.
 
 ## Verify
 ```powershell
@@ -90,7 +98,7 @@ Tests use synthetic data and an isolated in-memory SQLite database.
 Serve only public/ under PHP 8.5. Root .htaccess denies legacy Apache access to source/configuration.
 public/index.php is Laravel's front controller. There is no root prototype index.php.
 Local database credentials belong in .env. config/database.php is now Laravel's safe committed database configuration.
-The mailer logs locally; signup invitations/reset delivery and guardian access remain future work.
+The mailer logs locally. Parent/student invitation messages are implemented; external email delivery and password reset delivery still require separate work.
 
 References:
 - https://laravel.com/framework/docs/13.x/installation

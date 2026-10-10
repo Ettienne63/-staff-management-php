@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -32,6 +33,25 @@ class User extends Authenticatable
     public function schools(): BelongsToMany
     {
         return $this->belongsToMany(School::class)->withPivot('role')->withTimestamps();
+    }
+
+    public function children(): BelongsToMany
+    {
+        return $this->belongsToMany(Student::class, 'guardian_student')
+            ->withPivot(['verified_by', 'verified_at', 'revoked_at'])->withTimestamps()->wherePivotNull('revoked_at');
+    }
+
+    public function student(): HasOne
+    {
+        return $this->hasOne(Student::class);
+    }
+
+    public function hasMatchingChildAtAnotherSchool(int $schoolId, string $firstName, string $lastName, string $dateOfBirth): bool
+    {
+        return $this->children()->where('students.school_id', '!=', $schoolId)
+            ->whereRaw('LOWER(first_name) = ?', [strtolower($firstName)])
+            ->whereRaw('LOWER(last_name) = ?', [strtolower($lastName)])
+            ->whereDate('date_of_birth', $dateOfBirth)->exists();
     }
 
     public function isPlatformAdmin(): bool

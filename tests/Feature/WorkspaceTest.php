@@ -121,11 +121,11 @@ class WorkspaceTest extends TestCase
         $user = User::factory()->create();
         $school = School::factory()->create();
         $this->actingAs($user)->get(route('family.dashboard'))->assertOk()
-            ->assertViewIs('guardian.dashboard')->assertSee('Guardian linking is not available yet.')
+            ->assertViewIs('guardian.dashboard')->assertSee('No verified children yet.')
             ->assertDontSee('Keep family sports events in one place.')->assertDontSee($school->name);
         $this->get($eventsUrl)->assertOk()->assertViewIs('guardian.dashboard')
             ->assertSee('Keep family sports events in one place.')
-            ->assertDontSee('Your child profiles will appear here.')->assertDontSee($school->name);
+            ->assertDontSee('No verified children yet.')->assertDontSee($school->name);
         $this->get('/family/unknown')->assertNotFound();
 
         foreach (['principal', 'deputy', 'coach'] as $role) {

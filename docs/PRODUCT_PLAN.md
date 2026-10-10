@@ -4,10 +4,10 @@
 
 Use individual accounts and school memberships, never a shared school login. Keep Blade and use the installed Tailwind 4 styling pipeline.
 Internal platform administration creates schools and assigns their first principal; it does not automatically grant school data access. The administrator will initially be designated by the developer through private configuration; the person is not yet selected. School suspension is deferred.
-Principal and vice/deputy manage the school. HR primarily handles account administration and staff; principal alone controls vice appointments and ownership transfer. Invitations, resets, account changes, and audited ownership changes remain future implementation.
+Principal and vice/deputy manage the school. HR primarily handles account administration and staff; principal alone controls vice appointments and ownership transfer. Parent and student invitations are implemented. Password resets, general account changes, and audited ownership changes remain future implementation.
 Coaches may edit training and results for the students they are authorized to see; these sports workflows are not implemented in the page foundation.
 Students will view their own training, goals, and progress and may mark exercises complete. Evidence links, such as Google Docs, are a future feature.
-First delivery focuses on protected internal/client page foundations, basic school creation, and honest empty states. No fictional performance data or working invitation controls are presented.
+The page foundations now include parent-first onboarding and verified child profiles. Sports workflows retain honest empty states and no fictional performance data is presented.
 
 Status: prototype login and school-scoped staff workflows are migrated to Laravel; sports features remain planned.
 
@@ -15,7 +15,7 @@ Status: prototype login and school-scoped staff workflows are migrated to Larave
 
 Authenticated school pages use a responsive, role-aware sidebar and a school workspace with quick links and a daily schedule panel. The visual direction follows the logo's navy, teal, and green colors on a pale blue background. Empty schedule and activity states do not imply that training or student workflows are implemented.
 
-Audience separation is implemented for leadership (principal/deputy), HR, coaches, students, and the family interface. HR manages staff and account administration; coaches and students cannot access staff records. Family space is hidden from principals, deputies, and coaches. Student and sports access needs a separately authorized role. Students have dedicated personal training and progress views. The family landing page is authenticated but currently contains no child data; every future child data path must verify the school-approved guardian relationship. Shared UI components keep the visual design consistent across these separate areas.
+Audience separation is implemented for leadership (principal/deputy), HR, coaches, students, and the family interface. HR manages staff and parent invitations; coaches and students cannot access staff records. Family space is hidden from principals, deputies, and coaches. Students have dedicated personal training and progress views. Every family child path verifies an active school-approved guardian relationship. HR cannot inspect child requests or student records. Shared UI components keep the visual design consistent across these separate areas.
 
 ## Confirmed
 
@@ -127,7 +127,7 @@ School ownership never grants rights over another school.
 
 Separate student records from account identities. An email's owner does not define who the student is.
 Parent-first onboarding is the confirmed direction: the parent receives the initial login and submits a request to register or link a child. The school must verify the child and guardian relationship before granting access to child records. An existing school student record must be linked rather than duplicated; submitting a request alone grants no access.
-Proposed student activation: after school verification, invite a student with their own email to create a separate account linked to that same child record. The parent and student keep separate logins, permissions, and recovery flows. Student login without a personal email remains to be decided; the child record does not require a login.
+Student activation is implemented: after school verification, leadership invites a student with their own unused email to create a separate account linked to that same child record. The parent and student keep separate logins and permissions. Student login without a personal email and recovery flows remain to be decided; the child record does not require a login.
 With personal email: invite the student to claim a school-selected student record using an expiring single-use link.
 Without personal email: school verifies a guardian relationship and invites the guardian's own account to access that child's permitted records.
 One guardian may have several children; siblings never share a student identity.
@@ -135,13 +135,13 @@ No email at all: keep the student record; propose school-assisted activation/rec
 Do not invent emails or distribute shared passwords. Invitations and password resets are distinct flows.
 Use hashed tokens, expiry, rate limits, generic reset responses, and audited access changes when implemented.
 Guardian login clearly identifies the selected child and does not impersonate the student.
-Define guardian revocation, relationship verification, and later transition to independent student access.
-Existing prototype authentication is migrated. Guardian linking, invitations, and password reset delivery remain unimplemented.
-Accounts without a school workspace membership enter the empty family portal after login; designated platform administrators keep their platform entry. This routing does not verify a guardian relationship or grant access to any child records.
+School leadership manually verifies the relationship, can reject requests with a reason, and can revoke guardian access to each child immediately. School reviewers explicitly select an existing record; names or shared emails never automatically link identities. Review decisions, invitations, acceptance, and guardian revocation are audited.
+Parent and student invitations use hashed tokens, seven-day expiry, single-use acceptance, rate limiting, and revocation. Resending replaces previous unused links. Existing parent accounts must sign in to accept and keep their passwords. Student accounts require separate emails and are linked to exactly one student and school. Password reset delivery remains unimplemented.
+Accounts without a school workspace membership enter the family portal after login; designated platform administrators keep their platform entry. Only an accepted parent invitation grants permission to submit requests to that school. This enrollment itself grants no child access; the verified child relationship is separate.
 
 ## Proposed guardian portal direction
 
-Keep the guardian portal focused on children's progress and family events or updates rather than school workspaces. Guardian links, progress views, and event information remain empty foundations until their workflows are implemented.
+The guardian portal focuses on children's progress and family events or updates. Verified profiles and onboarding requests are implemented. Assessments, scores, and event information remain empty foundations.
 
 ## Migrated prototype scope
 
