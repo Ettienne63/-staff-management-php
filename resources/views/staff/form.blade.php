@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.school')
 @section('title', ($staffMember ? 'Edit staff' : 'Add staff').' | School Sports')
-@section('content')
+@section('school-content')
 <section class="card">
     <a href="{{ route('staff.index', $school) }}">Back to staff</a>
     <h1>{{ $staffMember ? 'Edit staff member' : 'Add staff member' }}</h1>

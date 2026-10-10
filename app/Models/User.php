@@ -14,6 +14,12 @@ use Illuminate\Notifications\Notifiable;
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
+    public const SchoolRoles = ['principal', 'deputy', 'hr', 'coach', 'student'];
+
+    public const StaffRoles = ['principal', 'deputy', 'hr', 'coach'];
+
+    public const ManagementRoles = ['principal', 'deputy', 'hr'];
+
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 

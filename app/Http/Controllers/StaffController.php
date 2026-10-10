@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StaffRequest;
 use App\Models\School;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -12,10 +13,12 @@ class StaffController extends Controller
 {
     public function index(Request $request, School $school): View
     {
+        abort_unless(in_array($request->attributes->get('school_role'), User::StaffRoles, true), 403);
+
         return view('staff.index', [
             'school' => $school,
             'staffMembers' => $school->staffMembers()->latest('id')->paginate(20),
-            'canManage' => in_array($request->attributes->get('school_role'), ['principal', 'deputy'], true),
+            'canManage' => in_array($request->attributes->get('school_role'), User::ManagementRoles, true),
         ]);
     }
 
@@ -57,6 +60,6 @@ class StaffController extends Controller
 
     private function authorizeManagement(Request $request): void
     {
-        abort_unless(in_array($request->attributes->get('school_role'), ['principal', 'deputy'], true), 403);
+        abort_unless(in_array($request->attributes->get('school_role'), User::ManagementRoles, true), 403);
     }
 }

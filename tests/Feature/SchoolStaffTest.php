@@ -47,7 +47,7 @@ class SchoolStaffTest extends TestCase
         $user = $this->member($first, 'coach');
         $user->schools()->attach($second, ['role' => 'coach']);
         $this->actingAs($user)->get(route('dashboard'))->assertSee($first->name)->assertSee($second->name);
-        $this->post(route('schools.select', $second))->assertRedirect(route('staff.index', $second))
+        $this->post(route('schools.select', $second))->assertRedirect(route('schools.workspace', $second))
             ->assertSessionHas('school_id', $second->id);
         $this->get(route('staff.index', $second))->assertOk();
         $user->schools()->detach($second);
@@ -88,7 +88,7 @@ class SchoolStaffTest extends TestCase
         $this->actingAs($coach)->post(route('staff.store', $school), $this->fields())->assertForbidden();
         $this->delete(route('staff.destroy', [$school, $staff->id]))->assertForbidden();
         $student = $this->member($school, 'student');
-        $this->actingAs($student)->get(route('staff.index', $school))->assertNotFound();
+        $this->actingAs($student)->get(route('staff.index', $school))->assertForbidden();
     }
 
     public function test_staff_validation_and_email_uniqueness_are_school_scoped(): void

@@ -8,6 +8,8 @@
 
 Account invitations, HR account controls, principal-only vice/ownership changes, guardian linking, student records, sports editing, completion, and evidence links are future workflows. Student pages in this delivery contain no student records or results.
 
+Local implementation is complete for these three page phases: Tailwind styling, restricted platform school creation, and role-specific client workspaces. School access is checked on each request, including after membership revocation or role changes. HR can manage the existing staff CRUD; students cannot access it. Staging review and browser visual checks remain separate from this local implementation.
+
 Laravel 13 foundation is installed on a task branch. Sports features, invitations, and tenant access remain planned.
 Effort estimates are relative (S/M/L), not delivery promises.
 Priority rubric: value 1–5, access/data risk reduced 1–5, dependency enablement 1–5.
