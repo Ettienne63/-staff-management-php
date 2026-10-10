@@ -1,5 +1,8 @@
 RewriteEngine On
 
+# Serve the Laravel foundation only through its own public document root.
+RewriteRule ^laravel(?:/|$) - [F,L]
+
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]

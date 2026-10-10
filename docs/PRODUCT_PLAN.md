@@ -1,6 +1,6 @@
 # Product plan
 
-Status: planning only. Confirmed requirements are distinguished from proposed design.
+Status: framework installed; product features remain planning-only. Confirmed requirements are distinguished from proposals.
 
 ## Confirmed
 
@@ -33,7 +33,7 @@ Client school workspace:
 - Reports: student progress, with exports restricted by authorization.
 - School switcher: visible only for multiple active school memberships.
 
-Student area: own progress and assigned training. Ability to enter results is undecided.
+Student area: invitation signup/password setup, own progress, and assigned training. Ability to enter results is undecided.
 Internal area: school/account administration and support, separated from client routes and permissions.
 Propose no routine internal access to student results; exceptional support access should be explicit, limited, and auditable.
 
@@ -42,8 +42,8 @@ Propose no routine internal access to student results; exceptional support acces
 Coach identity is shared across schools, but school memberships and role permissions are separate.
 Selecting a school narrows the workspace; the server verifies membership and permission on every request.
 A membership at School A gives no rights at School B. Revoking B access takes effect for B data.
-Read-only membership is the default proposal for exceptional viewing; coaching edit rights require a distinct grant.
-Clarify whether coaches see all students at a school or only assigned students/groups.
+Each school independently grants the coach role and its capabilities. Read-only access can be a separate permission where needed.
+Confirmed: coaches can view the students at each school they are authorized to access.
 An aggregate across schools, if later needed, must independently authorize every contributing record.
 
 Acceptance examples:
@@ -83,9 +83,9 @@ Proposed score components:
 
 ## Decisions needed next
 
-1. Do students log in in the first release, or are coaches the only initial operators?
-2. Who creates schools, invites coaches, and grants/revokes access?
-3. Does a coach see all school students or only assigned groups?
+1. Confirm guardian-linked and assisted access for students without email.
+2. Define school onboarding and owner/deputy handover; principal/deputy manage school access.
+3. Confirm editing permissions beyond school-wide viewing.
 4. Does upload mean CSV, spreadsheet, manual entry, or integration with a school system?
 5. First pilot sport, age/grade group, and measurement protocol?
 6. Academic year convention, roster scale, connectivity, and expected number of schools?
@@ -93,3 +93,22 @@ Proposed score components:
 8. Hosting, retention, school/guardian permissions, and export rules?
 9. Internal versus client roles and navigation?
 10. Final database engine and tenant storage model?
+
+## Confirmed access decisions (2026-10-10)
+Principal is school owner; principal or vice/deputy principal grants access.
+Students receive signup invitations and password reset support.
+Coaches view authorized school students and have activities, goals, and scheduled training features.
+Bob has South access only. Sidney has independent South and East memberships.
+School ownership never grants rights over another school.
+
+## Recommended guardian/invitation design (proposal)
+Separate student records from account identities. An email's owner does not define who the student is.
+With personal email: invite the student to claim a school-selected student record using an expiring single-use link.
+Without personal email: school verifies a guardian relationship and invites the guardian's own account to access that child's permitted records.
+One guardian may have several children; siblings never share a student identity.
+No email at all: keep the student record; propose school-assisted activation/recovery through a verified contact.
+Do not invent emails or distribute shared passwords. Invitations and password resets are distinct flows.
+Use hashed tokens, expiry, rate limits, generic reset responses, and audited access changes when implemented.
+Guardian login clearly identifies the selected child and does not impersonate the student.
+Define guardian revocation, relationship verification, and later transition to independent student access.
+No invitation emails or authentication features are implemented in this framework setup.

@@ -1,42 +1,63 @@
-# Tooling and framework introduction
+# Development setup
 
-Inventory checked 2026-10-10.
+Checked 2026-10-10.
 
-| Item                         | Current status                                                                   | Next action                                             |
-| ---------------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| Git                          | Installed                                                                        | Use task branches from staging                          |
-| PHP                          | XAMPP 8.2.12 with PDO MySQL, mbstring, OpenSSL, cURL and other common extensions | Plan a supported newer runtime before Laravel 13        |
-| Apache/MariaDB               | Existing XAMPP prototype runtime                                                 | Keep current prototype working                          |
-| Node.js/npm                  | Installed: Node 24.20.0, npm 11.19.0                                             | Added existing Node folder to user PATH                 |
-| Composer                     | Installed: 2.10.3                                                                | User tools directory; no project dependencies installed |
-| GitHub CLI                   | Installed: 2.102.0; not authenticated                                            | Needed for remote settings and PR operations            |
-| Laravel                      | Absent                                                                           | Introduce after architecture approval                   |
-| Frontend and test frameworks | Not configured                                                                   | Select during foundation phase                          |
-| Production database          | Undecided                                                                        | Compare tenant requirements before selecting            |
+## Installed
+- PHP 8.5.11: C:/Users/ettie/AppData/Local/sports-dev-tools/php85/php.exe.
+- Composer 2.10.3: C:/Users/ettie/AppData/Local/sports-dev-tools/composer.cmd (uses PHP 8.5).
+- Node.js 24.20.0 / npm 11.19.0.
+- Laravel framework 13.35.0 in laravel/, with Composer lockfile.
+- Vite/Tailwind foundation with npm lockfile, PHPUnit starter tests, and Laravel Pint.
+- GitHub CLI authenticated as Ettienne63. Repository Git identity uses the verified profile name and GitHub noreply address.
 
-Composer location: C:/Users/ettie/AppData/Local/sports-dev-tools/composer.phar.
-A composer.cmd wrapper uses the existing XAMPP PHP executable.
-Restart the terminal/VS Code after PATH changes.
-Verify with php --version, composer --version, node --version, npm.cmd --version.
+Restart VS Code/terminals after the user PATH update.
+XAMPP Apache still uses PHP 8.2.12 for the old prototype. The new Laravel app uses PHP 8.5 via its development server.
+The downloaded NTS runtime must not be substituted directly for XAMPP's Apache PHP module.
 
-Laravel 13 requires PHP 8.3 or later. Current PHP 8.2.12 is incompatible with it.
-Do not silently select an older Laravel release just to fit the prototype runtime.
-Proposed next step: choose a current supported PHP runtime alongside XAMPP; confirm web and CLI versions agree.
-No runtime upgrade or Laravel scaffolding occurs in the planning phase.
+## Run Laravel
+In a new PowerShell terminal:
+```powershell
+cd C:\xampp\htdocs\my-sports-app\laravel
+php --version
+php artisan serve --host=127.0.0.1 --port=8000
+```
+Open http://127.0.0.1:8000/. Keep that terminal running; Ctrl+C stops it.
+Assets are compiled. For live frontend work, run npm.cmd run dev in a second terminal inside laravel/.
+The app shows Laravel's default welcome page; sports pages and invitations are not implemented.
 
-Future framework introduction checklist:
+## Fresh checkout
+Run from laravel/ after the foundation PR is merged:
+```powershell
+composer install
+Copy-Item .env.example .env
+php artisan key:generate
+New-Item -ItemType File database/database.sqlite
+php artisan migrate
+npm.cmd ci
+npm.cmd run build
+php artisan serve --host=127.0.0.1 --port=8000
+```
+These assume a fresh checkout. Do not overwrite an existing .env or recreate an existing database.
+SQLite is isolated local foundation data, not the final production/tenant database.
+The default local mailer logs output; no invitations or external emails are sent.
 
-1. Select PHP/Laravel, database, tenant storage strategy, and frontend approach.
-2. Prepare an isolated development database using synthetic fixtures.
-3. Create the framework on a task branch; review the prototype migration approach.
-4. Introduce composer.json/composer.lock and package.json/package lockfile.
-5. Configure local .env without committing secrets; commit a safe .env.example.
-6. Configure the web server to serve Laravel's public directory, not its repository root.
-7. Document actual install/run/test/build commands and CI checks.
-8. Plan staging deployment and data isolation separately from the staging Git branch.
+## Verify changes
+From laravel/:
+```powershell
+composer validate --strict
+composer check-platform-reqs
+php artisan test
+php vendor/bin/pint --test
+npm.cmd run build
+```
 
-Sources:
+## Legacy prototype and remaining choices
+Start Apache/MySQL in XAMPP; open http://localhost/my-sports-app/.
+Root config/database.php remains ignored. The parent .htaccess blocks the laravel/ subtree from legacy Apache access.
+A future Apache/production server must point to laravel/public and run supported PHP.
+Frontend starter kit, production database, tenant storage, mail delivery, and hosting remain undecided.
 
+References:
 - https://laravel.com/framework/docs/13.x/installation
-- https://laravel.com/framework/docs/13.x/releases
-- https://getcomposer.org/download/
+- https://laravel.com/framework/docs/13.x/deployment
+- https://www.php.net/downloads.php?os=windows

@@ -1,6 +1,6 @@
 # Proposed roadmap
 
-No product features are being implemented in this planning phase.
+Laravel 13 foundation is installed on a task branch. Sports features, invitations, and tenant access remain planned.
 Effort estimates are relative (S/M/L), not delivery promises.
 Priority rubric: value 1–5, access/data risk reduced 1–5, dependency enablement 1–5.
 Priority score = sum of those three dimensions. Foundational dependencies override numerical ranking.
@@ -23,7 +23,7 @@ Done when documentation records decisions versus proposals and repository setup 
 
 ## Phase 1 — framework and data decisions
 
-Choose supported PHP/Laravel versions; database engine; frontend approach; tenant isolation strategy.
+Installed: Laravel 13 and PHP 8.5. Still choose database engine, frontend starter approach, and tenant isolation strategy.
 Proposed direction: Laravel monolith with server-rendered pages to limit initial complexity. This remains undecided.
 Compare shared tables with strict school scoping against separate databases: operational cost, migrations, backups, and isolation.
 Create Laravel only after architecture approval; preserve the prototype and use a separate synthetic development database.
@@ -33,7 +33,7 @@ Depends on Phase 0.
 
 ## Phase 2 — tenancy and access
 
-Implement school memberships, school selection, authorization, and separation of internal/client areas.
+Implement principal/deputy-managed memberships and invitations, school selection, authorization, and internal/client separation. Confirm guardian/student identity policy first.
 Test cross-school direct URLs, search, exports, files, and jobs, plus permission revocation.
 Done when authorized multi-school viewing works and unauthorized access consistently fails.
 Depends on Phase 1; must precede student data features.
@@ -78,3 +78,7 @@ First suggested implementation ticket after approval: framework foundation, not 
 Backlog → Needs decision → Ready → In progress → In review → Staging validation → Done.
 Track phase, priority, type, size, and acceptance criteria per item.
 An item reaches Done after staging validation; releases are separately promoted to main.
+
+## Foundation progress (2026-10-10)
+PHP 8.5 and Laravel 13 installed alongside the prototype. SQLite setup is isolated from MariaDB.
+Lockfiles, starter tests, asset tooling, and CI are introduced. Phase 1 remains incomplete until architecture decisions and staging validation are complete.
