@@ -33,7 +33,7 @@ class User extends Authenticatable
         $email = config('app.platform_admin_email');
 
         return is_string($email) && trim($email) !== ''
-            && strcasecmp($this->email, trim($email)) === 0;
+            && $this->email === trim($email);
     }
 
     protected function casts(): array

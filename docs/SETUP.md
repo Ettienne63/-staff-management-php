@@ -43,7 +43,7 @@ Future production migrations need a separate plan.
 
 ## Internal administration foundation
 
-To enable internal school administration for your existing login, set `PLATFORM_ADMIN_EMAIL` to that account's email in your local `.env`. Leave it blank to disable internal access. Run `php artisan config:clear` after changing it (or rebuild the configuration cache in deployments).
+To enable internal school administration for your existing login, set `PLATFORM_ADMIN_EMAIL` to that account's exact email, including letter case, in your local `.env`. Leave it blank to disable internal access. Run `php artisan config:clear` after changing it (or rebuild the configuration cache in deployments).
 Visit `/internal/schools` after signing in. School creation assigns an existing account as the initial principal; it does not create accounts or send invitations. Platform access grants no automatic school membership. Do not reuse a designated admin email for a different account. Managed platform roles and audited handover are future work.
 
 Client entry is `/dashboard`; `/admin/dashboard` redirects there for compatibility. Selecting a school opens `/schools/{school}` with the view for that membership's principal, deputy, HR, coach, or student role. Student pages are empty foundations and expose no staff directory or student records. HR can manage staff records; account invitation and role-assignment tools are still unavailable. No new demo accounts or memberships are seeded.

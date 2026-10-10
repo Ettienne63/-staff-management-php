@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\School;
 use App\Models\User;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -33,10 +34,18 @@ class InternalSchoolController extends Controller
             throw ValidationException::withMessages(['principal_email' => 'Use the email of an existing account. Invitation signup is not available yet.']);
         }
 
-        DB::transaction(function () use ($validated, $principal): void {
-            $school = School::create(['name' => $validated['name']]);
-            $school->users()->attach($principal, ['role' => 'principal']);
-        });
+        try {
+            DB::transaction(function () use ($validated, $principal): void {
+                $school = School::create(['name' => $validated['name']]);
+                $school->users()->attach($principal, ['role' => 'principal']);
+            });
+        } catch (UniqueConstraintViolationException $exception) {
+            if (! School::where('name', $validated['name'])->exists()) {
+                throw $exception;
+            }
+
+            throw ValidationException::withMessages(['name' => 'A school with this name already exists.']);
+        }
 
         return redirect()->route('internal.schools.index')->with('status', 'School created and principal assigned.');
     }

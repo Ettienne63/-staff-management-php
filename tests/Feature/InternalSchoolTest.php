@@ -4,7 +4,10 @@ namespace Tests\Feature;
 
 use App\Models\School;
 use App\Models\User;
+use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class InternalSchoolTest extends TestCase
@@ -66,5 +69,41 @@ class InternalSchoolTest extends TestCase
         School::factory()->create(['name' => '<script>alert(1)</script>']);
         $this->actingAs($admin)->get(route('internal.schools.index'))
             ->assertSee('&lt;script&gt;', false)->assertDontSee('<script>alert(1)</script>', false);
+    }
+
+    public function test_admin_email_does_not_grant_access_to_a_different_case_account(): void
+    {
+        $admin = User::factory()->create(['email' => 'Admin@example.test']);
+        $other = User::factory()->create(['email' => 'admin@example.test']);
+        config(['app.platform_admin_email' => $admin->email]);
+        $this->actingAs($admin)->get(route('internal.schools.index'))->assertOk();
+        $this->actingAs($other)->get(route('internal.schools.index'))->assertForbidden();
+        $this->post(route('internal.schools.store'), ['name' => 'Unauthorized'])->assertForbidden();
+        $this->assertDatabaseCount('schools', 0);
+    }
+
+    public function test_database_prevents_duplicate_school_names(): void
+    {
+        $school = School::factory()->create();
+        $this->expectException(UniqueConstraintViolationException::class);
+        School::factory()->create(['name' => $school->name]);
+    }
+
+    public function test_competing_school_insert_returns_validation_error_without_assigning_principal(): void
+    {
+        $admin = User::factory()->create();
+        config(['app.platform_admin_email' => $admin->email]);
+        $inserted = false;
+        DB::listen(function (QueryExecuted $query) use (&$inserted): void {
+            if (! $inserted && str_contains($query->sql, 'count(*)') && str_contains($query->sql, 'schools')) {
+                $inserted = true;
+                DB::table('schools')->insert(['name' => 'Competing school', 'created_at' => now(), 'updated_at' => now()]);
+            }
+        });
+        $this->actingAs($admin)->post(route('internal.schools.store'), [
+            'name' => 'Competing school', 'principal_email' => $admin->email,
+        ])->assertSessionHasErrors('name');
+        $this->assertDatabaseCount('schools', 1);
+        $this->assertDatabaseCount('school_user', 0);
     }
 }
