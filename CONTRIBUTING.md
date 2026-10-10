@@ -54,8 +54,8 @@ Keep necessary PHPDoc type annotations concise and avoid redundant documentation
 
 ## Checks
 
-Planning changes: verify links and consistency; ensure proposals are clearly labeled.
-Code changes: run meaningful tests and relevant syntax/build checks for the actual stack.
-Future Laravel changes: add formatting, automated tests, asset builds, and database migration review once tooling exists.
+Planning or documentation changes: verify links, consistency, and decision/proposal labels.
+Laravel changes: use PHP 8.5 and run the narrowest relevant PHPUnit tests, `vendor/bin/pint --dirty --format agent`, `composer validate --strict`, and `composer check-platform-reqs` as applicable. Run `npm.cmd run build` when frontend assets change.
+Review frontend changes at desktop and mobile widths, and confirm reduced-motion behavior when animations change.
 No fabricated passing checks. CI cannot prove access control without appropriate tests.
 Enforcement requires GitHub rules; this file is a contributor policy, not remote branch protection.

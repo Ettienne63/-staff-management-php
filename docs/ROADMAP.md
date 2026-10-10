@@ -1,16 +1,18 @@
 # Proposed roadmap
 
-## Current page foundation delivery (2026-10-10)
+## Page foundation delivery (implemented locally, 2026-10-10)
 
-1. Tailwind/Blade shared layout and accessibility foundation; validate existing tests and build, then commit.
-2. Restricted internal school directory and creation with initial principal assignment; validate authorization and creation, then commit.
-3. School leadership/HR, coach, and student page foundations with school and role checks; validate isolation, revocation, staff permissions, and build, then commit.
+1. Tailwind/Blade shared layout and accessibility foundation.
+2. Restricted internal school directory and creation with initial principal assignment.
+3. School leadership/HR, coach, and student page foundations with school and role checks.
 
 Account invitations, HR account controls, principal-only vice/ownership changes, guardian linking, student records, sports editing, completion, and evidence links are future workflows. Student pages in this delivery contain no student records or results.
 
-Local implementation is complete for these three page phases: Tailwind styling, restricted platform school creation, and role-specific client workspaces. School access is checked on each request, including after membership revocation or role changes. HR can manage the existing staff CRUD; students cannot access it. Staging review and browser visual checks remain separate from this local implementation.
+Local implementation is complete for these three page phases: Tailwind styling, restricted platform school creation, and role-specific client workspaces. School access is checked on each request, including after membership revocation or role changes. HR can manage the existing staff CRUD; students cannot access it.
 
-Laravel 13 foundation is installed on a task branch. Sports features, invitations, and tenant access remain planned.
+The dashboard design iteration adds a responsive, role-aware sidebar, school and workspace tiles, and an empty schedule panel using the logo's navy, teal, and green palette. The production asset build passed locally. Browser visual review and staging validation remain outstanding.
+
+The Laravel and school-access foundations are implemented. Invitations, student/sports features, and production tenant storage decisions remain planned.
 Effort estimates are relative (S/M/L), not delivery promises.
 Priority rubric: value 1–5, access/data risk reduced 1–5, dependency enablement 1–5.
 Priority score = sum of those three dimensions. Foundational dependencies override numerical ranking.
@@ -18,7 +20,7 @@ Priority score = sum of those three dimensions. Foundational dependencies overri
 | Phase | Outcome                                       | Value | Risk reduced | Enables | Total | Effort |
 | ----- | --------------------------------------------- | ----: | -----------: | ------: | ----: | ------ |
 | 0     | Confirm product and repository conventions    |     4 |            4 |       5 |    13 | S      |
-| 1     | Choose stack and establish Laravel foundation |     4 |            4 |       5 |    13 | M      |
+| 1     | Establish Laravel foundation and production data strategy |     4 |            4 |       5 |    13 | M      |
 | 2     | School identity and authorization             |     5 |            5 |       5 |    15 | L      |
 | 3     | Coach/student roster and grades               |     5 |            3 |       5 |    13 | M      |
 | 4     | Programs and assessment recording             |     5 |            4 |       5 |    14 | L      |
@@ -33,19 +35,17 @@ Done when documentation records decisions versus proposals and repository setup 
 
 ## Phase 1 — framework and data decisions
 
-Installed: Laravel 13 and PHP 8.5. Still choose database engine, frontend starter approach, and tenant isolation strategy.
-Proposed direction: Laravel monolith with server-rendered pages to limit initial complexity. This remains undecided.
+Laravel 13, PHP 8.5, Blade, and Tailwind 4 are in use. The database engine and production tenant isolation strategy remain undecided.
 Compare shared tables with strict school scoping against separate databases: operational cost, migrations, backups, and isolation.
-Create Laravel only after architecture approval; preserve the prototype and use a separate synthetic development database.
-Introduce Composer/npm manifests and lockfiles, environment examples, test framework, formatting, and CI.
+The Laravel application, Composer/npm manifests and lockfiles, test framework, formatting, and CI are established. Continue preserving the prototype and keep local development data isolated.
 Done when a fresh checkout can install, run, test, and build using documented commands.
 Depends on Phase 0.
 
 ## Phase 2 — tenancy and access
 
-Implement principal/deputy-managed memberships and invitations, school selection, authorization, and internal/client separation. Guardian-linked accounts are confirmed; define verification and invitation/recovery flows first.
-Test cross-school direct URLs, search, exports, files, and jobs, plus permission revocation.
-Done when authorized multi-school viewing works and unauthorized access consistently fails.
+School selection, internal/client separation, and per-request membership checks are implemented for current school and staff paths. Decide production tenant storage, then add invitations and defined guardian/student access flows before storing student data.
+Extend cross-school authorization coverage to each new search, export, file, job, and student/sports path; preserve permission revocation behavior.
+Done when the production tenant model and required invitation/access flows are implemented and unauthorized access consistently fails.
 Depends on Phase 1; must precede student data features.
 
 ## Phase 3 — roster
@@ -90,8 +90,10 @@ Track phase, priority, type, size, and acceptance criteria per item.
 An item reaches Done after staging validation; releases are separately promoted to main.
 
 ## Foundation progress (2026-10-10)
+
 PHP 8.5 and Laravel 13 installed alongside the prototype. SQLite setup is isolated from MariaDB.
 Lockfiles, starter tests, asset tooling, and CI are introduced. Phase 1 remains incomplete until architecture decisions and staging validation are complete.
 
 ## Prototype incorporation (2026-10-10)
+
 Laravel is consolidated into the repository root. Login, logout, dashboard school selection, and staff CRUD are migrated with validated CSRF-protected forms and school authorization. The local importer preserves password hashes and leaves MariaDB unchanged. Guardian accounts are confirmed requirements, but their linking/invitation flows, students, and training/scoring remain future phases. The local school membership baseline is not a final production tenancy storage decision.

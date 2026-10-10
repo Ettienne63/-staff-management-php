@@ -10,7 +10,7 @@ cd C:\xampp\htdocs\my-sports-app
 php artisan serve --host=127.0.0.1 --port=8000
 ```
 Open http://127.0.0.1:8000/. The existing prototype login password is preserved in the local import.
-Choose your school from `/dashboard`. Principal, vice/deputy, and HR memberships manage staff; coaches can view school staff. Students have separate training and progress page foundations and cannot access staff records.
+Choose your school from `/dashboard`. The signed-in workspace uses a responsive, role-aware sidebar and school dashboard. Principal, vice/deputy, and HR memberships manage staff; coaches can view school staff. Students have separate training and progress page foundations and cannot access staff records.
 Training, progress, student rosters, and account administration currently show clearly labelled placeholders for future workflows.
 The former localhost/my-sports-app URL is blocked because Apache must serve only public/ using compatible PHP.
 
@@ -40,7 +40,7 @@ Internal administration lists schools and creates a school with an existing acco
 
 There is one Laravel application at the repository root. vendor and node_modules are installed dependencies, not duplicate application code.
 Keep `.env`, local SQLite data, dependencies, and generated assets out of Git. The default database seeder creates no accounts or school records; tests create synthetic data through factories.
-Save your logo as `public/images/logo.svg` or `public/images/logo.png`. This folder does not need `php artisan storage:link`; that command exposes files stored on the public storage disk.
+The current logo is `public/images/my-sports-app-logo-Photoroom.png`. If you replace it, update the asset path in the Blade layout. This folder does not need `php artisan storage:link`; that command exposes files stored on the public storage disk.
 
 ## Documentation
 

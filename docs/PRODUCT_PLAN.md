@@ -11,6 +11,10 @@ First delivery focuses on protected internal/client page foundations, basic scho
 
 Status: prototype login and school-scoped staff workflows are migrated to Laravel; sports features remain planned.
 
+## Confirmed dashboard design (2026-10-10)
+
+Authenticated school pages use a responsive, role-aware sidebar and a school workspace with quick links and a daily schedule panel. The visual direction follows the logo's navy, teal, and green colors on a pale blue background. Empty schedule and activity states do not imply that training or student workflows are implemented.
+
 ## Confirmed
 
 Coaches and students are the initial users. Coaches work with many students in grades 1–12.
@@ -104,6 +108,7 @@ Proposed score components:
 10. Final database engine and tenant storage model?
 
 ## Confirmed access decisions (2026-10-10)
+
 Principal is school owner; principal or vice/deputy principal grants access.
 Updated page decisions extend day-to-day account administration to HR; vice appointments and ownership transfer are reserved for the principal.
 Students receive signup invitations and password reset support.
@@ -112,6 +117,7 @@ The single-school and multi-school coach names in discussion were fictional exam
 School ownership never grants rights over another school.
 
 ## Confirmed guardian-linked account design
+
 Separate student records from account identities. An email's owner does not define who the student is.
 With personal email: invite the student to claim a school-selected student record using an expiring single-use link.
 Without personal email: school verifies a guardian relationship and invites the guardian's own account to access that child's permitted records.
@@ -124,5 +130,6 @@ Define guardian revocation, relationship verification, and later transition to i
 Existing prototype authentication is migrated. Guardian linking, invitations, and password reset delivery remain unimplemented.
 
 ## Migrated prototype scope
+
 Login/logout, a school-selection dashboard, and school-scoped staff CRUD are implemented. Principal/deputy and now HR memberships can manage staff; coaches can view staff. This is a migration baseline, not a completed student, guardian, or sports workflow. Staff memberships are not granted by creating a staff record; login access is separate.
 School-assisted activation for families without email remains a proposal. The school verifies guardian links before granting access.
