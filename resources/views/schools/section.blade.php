@@ -1,9 +1,10 @@
 @extends('layouts.school')
 @section('title', $title.' | School Sports')
 @section('school-content')
-<h1>{{ $title }}</h1>
+<div class="page-heading"><div><p class="eyebrow">{{ $role === 'student' ? 'Your sports journey' : 'School sport' }}</p><h1>{{ $title }}</h1>
 <p>{{ $description }}</p>
-<section class="card max-w-3xl">
+</div></div>
+<section class="card empty-state max-w-3xl">
     <p class="eyebrow">Coming in a later phase</p>
     <h2>{{ $section === 'accounts' ? 'Access workflows are planned' : 'Ready for the next step' }}</h2>
     <p>{{ $emptyMessage }}</p>

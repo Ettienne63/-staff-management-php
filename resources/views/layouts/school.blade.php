@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
 @php($schoolRole = request()->attributes->get('school_role'))
-<div class="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-5">
-    <div><p class="eyebrow">School workspace</p><p class="m-0 text-lg font-semibold">{{ $school->name }}</p></div>
+<div class="workspace-banner">
+    <div><p class="eyebrow">School workspace</p><p class="school-name">{{ $school->name }}</p></div>
     <a href="{{ route('dashboard') }}">All schools</a>
 </div>
 <nav class="workspace-nav" aria-label="School navigation">

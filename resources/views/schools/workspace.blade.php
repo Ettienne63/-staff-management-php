@@ -1,10 +1,11 @@
 @extends('layouts.school')
 @section('title', $roleLabel.' workspace | School Sports')
 @section('school-content')
-<div class="page-heading">
+<div class="feature-banner">
     <div><p class="eyebrow">{{ $roleLabel }} view</p><h1>{{ $role === 'student' ? 'Your sports journey' : ($role === 'coach' ? 'Coach workspace' : 'School administration') }}</h1>
     <p>{{ $role === 'student' ? 'Your training, goals, and progress will live here.' : ($role === 'coach' ? 'Plan training and follow the students at your school.' : 'Manage your school team and coordinate access.') }}</p></div>
 </div>
+<div class="section-heading"><h2>Your workspace</h2><span>School sport and development</span></div>
 <div class="school-grid">
     @if($staffCount !== null)
         <section class="card"><p class="eyebrow">School team</p><h2>{{ $staffCount }} staff records</h2><p>Maintain contact details, departments, and positions.</p><a class="button primary" href="{{ route('staff.index', $school) }}">Manage staff</a></section>
