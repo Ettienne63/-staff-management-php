@@ -1,50 +1,42 @@
 # Project instructions
 
-## Purpose and confirmed requirements
+## Confirmed product requirements
+School sports development for grades 1-12, tracking training, performance, and improvement.
+- Each school is an isolated tenant administered by its principal/owner and vice/deputy principal.
+- School leadership grants access. Students receive invitation links for account/password setup and can reset passwords.
+- Coaches see students in each authorized school and can plan activities, goals, and training sessions.
+- Bob is authorized only at Highschool South. Sidney has separate permissions at South and School East.
+- Client school/student experiences and internal platform administration must be separated.
+- Scores combine participation, performance, and improvement; scoring details remain undecided.
+- Guardian accounts and assisted access for children without email are proposals.
+- Laravel installation is authorized. Sports features, invitations, and tenancy remain planned until implementation is requested.
 
-Build a school sports development app tracking training, measured performance, and improvement over time.
+## Repository and runtime
+Root: C:/xampp/htdocs/my-sports-app. Verify actual files before edits.
+Root index.php/app/config contain the plain-PHP prototype, served by XAMPP PHP 8.2.
+Laravel 13 foundation: laravel/. PHP 8.5.11 is installed separately and is the default CLI runtime; Composer uses it.
+Serve Laravel only from laravel/public using PHP 8.5. Apache access through the legacy site is blocked.
+Laravel's SQLite database is disposable foundation data; production database and tenant storage design remain undecided.
+Do not import prototype data or migrate the prototype without an approved plan.
+No sports features or custom authentication are implemented yet.
 
-- Initial roles: coaches and students. Coach data entry and student access permissions still need confirmation.
-- A coach can work with many students, grouped by grades 1–12.
-- Each school is an isolated tenant.
-- A coach may access multiple schools only through explicit permissions for each school. Cross-school viewing never means unrestricted access.
-- Client-facing school/student experiences and internal platform operations must be separated. Exact internal roles are undecided.
-- Scores will combine training participation, performance, and improvement; formula and weights are undecided.
-- Current scope is planning, documentation, tooling, and repository workflow. Do not implement application features or migrate to Laravel until requested.
+## Documents
+docs/PRODUCT_PLAN.md: requirements, page map, scoring example, guardian proposal.
+docs/ROADMAP.md: priorities, phases, dependencies, acceptance criteria.
+docs/SETUP.md: actual runtime paths and commands.
+CONTRIBUTING.md: branch and commit conventions.
+docs/GITHUB_SETUP.md: verified remote setup status.
 
-## Current code and intended stack
+## Workflow and verification
+Update plans when decisions are confirmed; clearly label proposals.
+One task per branch from staging. Task PRs target staging; releases promote staging to main.
+No direct pushes to main or staging. Commit format: type(scope): imperative summary.
+Preserve unrelated changes; stage explicit files.
+Run Laravel tests, Pint, Composer validation, and asset builds for foundation changes.
+Starter tests establish framework operation, not sports behavior or tenant isolation.
 
-Current code is a plain PHP staff-management prototype, not Laravel. Laravel/PHP is the intended application stack, using Composer and Node.js/npm.
-Current runtime: XAMPP PHP 8.2.12 and MariaDB; local URL http://localhost/my-sports-app/.
-Working directory: C:/xampp/htdocs/my-sports-app. Verify this location before changing files.
-No composer.json, package.json, artisan, or configured automated tests exist yet.
-Database engine, Laravel version, tenancy implementation, and frontend stack remain proposals until confirmed.
-See docs/SETUP.md for installed tools and compatibility gaps.
-
-## Planning documents
-
-- docs/PRODUCT_PLAN.md: requirements, page map, permissions, assessment example, and open questions.
-- docs/ROADMAP.md: proposed phases, priority rationale, dependencies, and acceptance criteria.
-- docs/SETUP.md: tool inventory and future framework setup.
-- CONTRIBUTING.md: mandatory branch, commit, and review conventions.
-- docs/GITHUB_SETUP.md: repository settings, board proposal, and remote setup status.
-
-## Working conventions
-
-Update these documents as the user confirms decisions. Clearly separate confirmed requirements from proposals.
-Inspect actual files, preserve unrelated changes, and use the installed planning skills where useful.
-Use a separate branch per feature/task, created from staging. No direct work or pushes to main or staging.
-Commit format: type(scope): imperative summary. PRs target staging; release PRs promote staging to main.
-Do not claim GitHub protections or deployments are configured until verified remotely.
-Do not introduce arbitrary scoring weights or age-based benchmarks as validated standards.
-Keep detailed plans in docs rather than growing this file indefinitely.
-
-## Data and verification
-
-Keep credentials, student data, .env, and local database configuration out of Git. Use synthetic fixtures.
-Enforce school authorization on every data path, including exports, jobs, files, and direct student URLs.
-A browser-provided school ID is not authorization. Use explicit, revocable school memberships with permissions.
-Student access should be limited to their own records unless a different policy is approved.
-Use parameterized queries, password hashing, server-side validation, and audited result corrections.
-For the prototype, PHP syntax checks and local HTTP/database checks are available. Add meaningful automated tests during the framework phase.
-Do not run production migrations or import prototype users into the future application without an approved migration plan.
+## Data conventions
+Keep credentials, real student data, .env, SQLite files, vendor, node_modules, and generated assets out of Git.
+Verify active school memberships and permissions on every query, export, file, and job; a selected school ID is not authorization.
+Students access their own records. Guardian links require school verification; matching emails alone must not link children.
+Use hashed passwords, expiring single-use invitations, validation, and audited corrections when implemented.

@@ -1,7 +1,7 @@
 # School sports development app
 
 Planning repository for an intended Laravel application helping schools track student sports training and progress.
-The current code is a plain PHP staff-management prototype; it does not yet implement the planned sports product.
+The root contains the existing plain PHP prototype. A Laravel 13 foundation is installed in laravel/; sports features are not implemented.
 
 ## Start here
 
@@ -23,9 +23,13 @@ The current code is a plain PHP staff-management prototype; it does not yet impl
 Do not reimport the SQL file into a configured database without reviewing it: it updates seed records, including the example administrator's password.
 The example administrator is local prototype data, not a production account. Passwords are not documented here.
 The .htaccess routes require Apache rewrite support; PHP's basic development server alone does not reproduce these routes.
-Do not run composer install or npm install in this repository yet: dependency manifests have not been introduced.
+Laravel dependencies and commands live in laravel/. Follow docs/SETUP.md using PHP 8.5.
 
 ## Development workflow
 
 One task per branch → PR into staging → validate → release PR into main.
 See CONTRIBUTING.md for naming, commit format, and review checks.
+
+## Run the new foundation
+From laravel/, run php artisan serve --host=127.0.0.1 --port=8000 using PHP 8.5.
+Open http://127.0.0.1:8000/. See docs/SETUP.md for complete instructions.

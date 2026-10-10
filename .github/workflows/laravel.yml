@@ -1,0 +1,56 @@
+name: Laravel foundation
+on:
+  pull_request:
+    branches: [staging, main]
+  push:
+    branches: [staging, main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  branch-policy:
+    name: Branch policy
+    runs-on: ubuntu-latest
+    env:
+      EVENT_NAME: ${{ github.event_name }}
+      BASE_BRANCH: ${{ github.base_ref }}
+      HEAD_BRANCH: ${{ github.head_ref }}
+      HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+      REPOSITORY: ${{ github.repository }}
+    steps:
+      - name: Require staging for releases
+        run: |
+          if [ "$EVENT_NAME" = "pull_request" ] && [ "$BASE_BRANCH" = "main" ]; then
+            if [ "$HEAD_BRANCH" != "staging" ] || [ "$HEAD_REPO" != "$REPOSITORY" ]; then
+              echo "Release PRs must come from this repository's staging branch."
+              exit 1
+            fi
+          fi
+  framework:
+    name: Laravel checks
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: laravel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mbstring, dom, curl, fileinfo, pdo_sqlite, sqlite3, pdo_mysql, zip
+          coverage: none
+          tools: composer:v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: laravel/package-lock.json
+      - run: composer install --no-interaction --prefer-dist --no-progress
+      - run: composer validate --strict
+      - run: composer check-platform-reqs
+      - run: cp .env.example .env
+      - run: php artisan key:generate
+      - run: php vendor/bin/pint --test
+      - run: npm ci
+      - run: npm run build
+      - run: php artisan test
