@@ -23,7 +23,9 @@ class AuthController extends Controller
         }
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard'));
+        $dashboard = $request->user()->usesFamilyPortal() ? 'family.dashboard' : 'dashboard';
+
+        return redirect()->intended(route($dashboard));
     }
 
     public function destroy(Request $request): RedirectResponse

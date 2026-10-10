@@ -18,7 +18,11 @@ class User extends Authenticatable
 
     public const LeadershipRoles = ['principal', 'deputy'];
 
-    public const StaffRoles = ['principal', 'deputy', 'hr', 'coach'];
+    public const SingleSchoolRoles = ['principal', 'deputy', 'student'];
+
+    public const FamilySpaceRestrictedRoles = ['principal', 'deputy', 'coach'];
+
+    public const StaffRoles = ['principal', 'deputy', 'hr'];
 
     public const ManagementRoles = ['principal', 'deputy', 'hr'];
 
@@ -36,6 +40,12 @@ class User extends Authenticatable
 
         return is_string($email) && trim($email) !== ''
             && $this->email === trim($email);
+    }
+
+    public function usesFamilyPortal(): bool
+    {
+        return ! $this->isPlatformAdmin()
+            && ! $this->schools()->wherePivotIn('role', self::SchoolRoles)->exists();
     }
 
     protected function casts(): array

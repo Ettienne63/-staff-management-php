@@ -15,13 +15,14 @@ Status: prototype login and school-scoped staff workflows are migrated to Larave
 
 Authenticated school pages use a responsive, role-aware sidebar and a school workspace with quick links and a daily schedule panel. The visual direction follows the logo's navy, teal, and green colors on a pale blue background. Empty schedule and activity states do not imply that training or student workflows are implemented.
 
-Audience separation is implemented for leadership (principal/deputy), HR, coaches, students, and the family interface. HR manages staff and account administration; student and sports access needs a separately authorized role. Students have dedicated personal training and progress views. The family landing page is authenticated but currently contains no child data; every future child data path must verify the school-approved guardian relationship. Shared UI components keep the visual design consistent across these separate areas.
+Audience separation is implemented for leadership (principal/deputy), HR, coaches, students, and the family interface. HR manages staff and account administration; coaches and students cannot access staff records. Family space is hidden from principals, deputies, and coaches. Student and sports access needs a separately authorized role. Students have dedicated personal training and progress views. The family landing page is authenticated but currently contains no child data; every future child data path must verify the school-approved guardian relationship. Shared UI components keep the visual design consistent across these separate areas.
 
 ## Confirmed
 
 Coaches and students are the initial users. Coaches work with many students in grades 1–12.
 Schools are isolated tenants. A coach may receive explicit access to more than one school.
 Each principal and deputy is assigned to and may access exactly one school. A coach may be separately hired by multiple schools and receives access to each through an explicit school membership; a coach's access at one school grants no rights at another. Leadership access cannot be used to reach another school, even if an additional membership exists.
+Each student belongs to one school at a time. Another school must receive explicit permission before accessing that student's stats; who grants permission, its scope, and revocation rules remain to be defined.
 Client and internal platform areas must be separated.
 Scores will combine training participation, measured performance, and improvement; details will be refined later.
 
@@ -56,6 +57,7 @@ Propose no routine internal access to student results; exceptional support acces
 ## Authorization proposal
 
 Coach identity is shared across schools, but school memberships and role permissions are separate. Each school independently hires or assigns the coach; a coach may serve teams at multiple schools. Principals and deputies have one school membership and cannot switch to another school's workspace.
+Students have one school membership at a time. Cross-school statistics sharing requires permission and must be authorized separately from a current school membership.
 Selecting a school narrows the workspace; the server verifies membership and permission on every request.
 A membership at School A gives no rights at School B. Revoking B access takes effect for B data.
 Each school independently grants the coach role and its capabilities. Read-only access can be a separate permission where needed.
@@ -76,7 +78,7 @@ Sport; TrainingProgram; ProgramAssignment; TrainingSession; Completion;
 AssessmentDefinition; AssessmentResult; ScoringRuleVersion; AuditEvent.
 These are conceptual entities, not approved schema or migrations.
 Keep academic year and historical grade separate from a student's current grade so promotion does not rewrite history.
-Student transfers and identity linking across schools need an explicit policy.
+Student transfers and identity linking across schools need an explicit policy. Define who can approve another school's access to past stats, which stats may be shared, how long access lasts, and how it can be revoked.
 
 ## Illustrative assessment: sprint progress
 
@@ -114,15 +116,18 @@ Proposed score components:
 
 Principal is school owner; principal or vice/deputy principal grants access.
 Each principal and deputy belongs to one school only. Coaches may belong to multiple schools when each school separately grants access.
+Students belong to one school at a time; another school must obtain permission before accessing their stats.
 Updated page decisions extend day-to-day account administration to HR; vice appointments and ownership transfer are reserved for the principal.
 Students receive signup invitations and password reset support.
-Coaches view authorized school students and have activities, goals, and scheduled training features.
+Coaches view authorized school students and have activities, goals, and scheduled training features. Coaches do not have access to staff records, the staff directory, or Family space.
 The single-school and multi-school coach names in discussion were fictional examples only. Separately approved local showcase fixtures use explicit Showcase names and reserved `.invalid` emails: two schools, staff directories, and principal, deputy, HR, coach, student, and guardian preview accounts. They contain no student roster records, guardian links, or performance data. Default seeding remains empty.
 School ownership never grants rights over another school.
 
 ## Confirmed guardian-linked account design
 
 Separate student records from account identities. An email's owner does not define who the student is.
+Parent-first onboarding is the confirmed direction: the parent receives the initial login and submits a request to register or link a child. The school must verify the child and guardian relationship before granting access to child records. An existing school student record must be linked rather than duplicated; submitting a request alone grants no access.
+Proposed student activation: after school verification, invite a student with their own email to create a separate account linked to that same child record. The parent and student keep separate logins, permissions, and recovery flows. Student login without a personal email remains to be decided; the child record does not require a login.
 With personal email: invite the student to claim a school-selected student record using an expiring single-use link.
 Without personal email: school verifies a guardian relationship and invites the guardian's own account to access that child's permitted records.
 One guardian may have several children; siblings never share a student identity.
@@ -132,8 +137,13 @@ Use hashed tokens, expiry, rate limits, generic reset responses, and audited acc
 Guardian login clearly identifies the selected child and does not impersonate the student.
 Define guardian revocation, relationship verification, and later transition to independent student access.
 Existing prototype authentication is migrated. Guardian linking, invitations, and password reset delivery remain unimplemented.
+Accounts without a school workspace membership enter the empty family portal after login; designated platform administrators keep their platform entry. This routing does not verify a guardian relationship or grant access to any child records.
+
+## Proposed guardian portal direction
+
+Keep the guardian portal focused on children's progress and family events or updates rather than school workspaces. Guardian links, progress views, and event information remain empty foundations until their workflows are implemented.
 
 ## Migrated prototype scope
 
-Login/logout, a school-selection dashboard, and school-scoped staff CRUD are implemented. Principal/deputy and now HR memberships can manage staff; coaches can view staff. This is a migration baseline, not a completed student, guardian, or sports workflow. Staff memberships are not granted by creating a staff record; login access is separate.
+Login/logout, a school-selection dashboard, and school-scoped staff CRUD are implemented. Principal/deputy and HR memberships can manage staff; coaches and students cannot view staff records. This is a migration baseline, not a completed student, guardian, or sports workflow. Staff memberships are not granted by creating a staff record; login access is separate.
 School-assisted activation for families without email remains a proposal. The school verifies guardian links before granting access.

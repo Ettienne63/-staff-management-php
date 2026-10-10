@@ -10,12 +10,16 @@ use Illuminate\View\View;
 
 class SchoolController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): View|RedirectResponse
     {
+        if ($request->user()->usesFamilyPortal()) {
+            return redirect()->route('family.dashboard');
+        }
+
         $memberships = $request->user()->schools()->wherePivotIn('role', User::SchoolRoles);
-        $leadershipSchool = (clone $memberships)->wherePivotIn('role', User::LeadershipRoles)->orderBy('schools.id')->first();
-        $schools = $leadershipSchool
-            ? collect([$leadershipSchool])
+        $singleSchool = (clone $memberships)->wherePivotIn('role', User::SingleSchoolRoles)->orderBy('schools.id')->first();
+        $schools = $singleSchool
+            ? collect([$singleSchool])
             : $memberships->orderBy('name')->get();
 
         return view('dashboard', compact('schools'));

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\School;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -19,10 +20,40 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
         $this->post(route('login.store'), ['email' => $user->email, 'password' => 'password'])
-            ->assertRedirect(route('dashboard'));
+            ->assertRedirect(route('family.dashboard'));
         $this->assertAuthenticatedAs($user);
         $this->post(route('logout'))->assertRedirect(route('login'));
         $this->assertGuest();
+    }
+
+    public function test_family_account_cannot_land_on_the_school_dashboard_after_login(): void
+    {
+        $user = User::factory()->create();
+        $this->get(route('dashboard'))->assertRedirect(route('login'));
+        $this->post(route('login.store'), ['email' => $user->email, 'password' => 'password'])
+            ->assertRedirect(route('dashboard'));
+        $this->get(route('dashboard'))->assertRedirect(route('family.dashboard'));
+        $this->get(route('family.dashboard'))->assertOk()->assertDontSee('My schools');
+    }
+
+    public function test_school_member_login_keeps_the_school_dashboard(): void
+    {
+        $user = User::factory()->create();
+        $user->schools()->attach(School::factory()->create(), ['role' => 'student']);
+
+        $this->post(route('login.store'), ['email' => $user->email, 'password' => 'password'])
+            ->assertRedirect(route('dashboard'));
+        $this->get(route('dashboard'))->assertOk()->assertSee('My schools');
+    }
+
+    public function test_platform_admin_without_school_memberships_keeps_the_admin_entry(): void
+    {
+        $user = User::factory()->create();
+        config(['app.platform_admin_email' => $user->email]);
+
+        $this->post(route('login.store'), ['email' => $user->email, 'password' => 'password'])
+            ->assertRedirect(route('dashboard'));
+        $this->get(route('dashboard'))->assertOk()->assertSee('Platform admin');
     }
 
     public function test_invalid_login_does_not_authenticate(): void

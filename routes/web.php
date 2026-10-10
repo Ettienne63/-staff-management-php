@@ -25,11 +25,11 @@ Route::middleware('auth')->group(function (): void {
     });
     Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
     Route::get('/dashboard', [SchoolController::class, 'index'])->name('dashboard');
-    Route::get('/family', function (Request $request): View {
-        abort_if($request->user()->schools()->wherePivotIn('role', User::LeadershipRoles)->exists(), 404);
+    Route::get('/family/{section?}', function (Request $request, string $section = 'progress'): View {
+        abort_if($request->user()->schools()->wherePivotIn('role', User::FamilySpaceRestrictedRoles)->exists(), 404);
 
-        return view('guardian.dashboard');
-    })->name('family.dashboard');
+        return view('guardian.dashboard', ['section' => $section]);
+    })->whereIn('section', ['progress', 'events'])->name('family.dashboard');
     Route::redirect('/admin/dashboard', '/dashboard');
     Route::get('/admin/staff', [SchoolController::class, 'legacyStaff']);
     Route::prefix('schools/{school}')->middleware(EnsureSchoolAccess::class)->group(function (): void {

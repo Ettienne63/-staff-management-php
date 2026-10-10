@@ -5,6 +5,5 @@
     <x-workspace-tile :href="route('schools.section', [$school, 'students'])" title="My student roster" caption="Authorized school students" action="View students" tone="indigo" icon="♙" />
     <x-workspace-tile :href="route('schools.section', [$school, 'training'])" title="Training planner" caption="Activities, goals, and sessions" action="Explore training" tone="sky" icon="◷" />
     <x-workspace-tile :href="route('schools.section', [$school, 'progress'])" title="Student progress" caption="Participation, performance, and growth" action="Explore progress" tone="rose" icon="↗" />
-    <x-workspace-tile :href="route('staff.index', $school)" title="Staff directory" caption="The people supporting your school" action="View staff" tone="lilac" icon="♧" />
 </x-workspace-dashboard>
 @endsection

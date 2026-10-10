@@ -13,21 +13,27 @@
         @php
             $currentSchool = request()->route('school');
             $schoolRole = request()->attributes->get('school_role');
+            $isFamilyPortal = request()->routeIs('family.*');
         @endphp
         <div class="app-shell">
             <aside class="sidebar" aria-label="Application navigation">
-                <a class="sidebar-brand" href="{{ route('dashboard') }}">
+                <a class="sidebar-brand" href="{{ $isFamilyPortal ? route('family.dashboard') : route('dashboard') }}">
                     <span class="sidebar-brand-mark" aria-hidden="true">S</span>
                     <span>SPORT<span class="sidebar-brand-light">SPACE</span><small>SCHOOL ATHLETICS</small></span>
                 </a>
-                <p class="sidebar-label">WORKSPACE</p>
+                <p class="sidebar-label">{{ $isFamilyPortal ? 'FAMILY SPACE' : 'WORKSPACE' }}</p>
                 <nav class="sidebar-nav" aria-label="Main navigation">
-                    @unless(auth()->user()->schools()->wherePivotIn('role', \App\Models\User::LeadershipRoles)->exists())
-                        <a href="{{ route('family.dashboard') }}" @if(request()->routeIs('family.*')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&hearts;</span><span>Family space</span></a>
-                    @endunless
-                    <a href="{{ route('dashboard') }}" @if(request()->routeIs('dashboard')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">⌂</span><span>My schools</span></a>
+                    @if($isFamilyPortal)
+                        <a href="{{ route('family.dashboard') }}" @if(request()->route('section') !== 'events') aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&#8599;</span><span>Children&#8217;s progress</span></a>
+                        <a href="{{ route('family.dashboard', ['section' => 'events']) }}" @if(request()->route('section') === 'events') aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&#9719;</span><span>Family events</span></a>
+                    @else
+                        @unless(auth()->user()->schools()->wherePivotIn('role', \App\Models\User::FamilySpaceRestrictedRoles)->exists())
+                            <a href="{{ route('family.dashboard') }}"><span class="sidebar-icon" aria-hidden="true">&hearts;</span><span>Family space</span></a>
+                        @endunless
+                        <a href="{{ route('dashboard') }}" @if(request()->routeIs('dashboard')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&#8962;</span><span>My schools</span></a>
+                    @endif
                     @if(auth()->user()->isPlatformAdmin())
-                        <a href="{{ route('internal.schools.index') }}" @if(request()->routeIs('internal.*')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">▦</span><span>Platform admin</span></a>
+                        <a href="{{ route('internal.schools.index') }}" @if(request()->routeIs('internal.*')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&#9638;</span><span>Platform admin</span></a>
                     @endif
                 </nav>
                 @if($currentSchool)
@@ -38,7 +44,7 @@
             </aside>
             <div class="app-main">
                 <header class="topbar">
-                    <div class="breadcrumb"><span>My Sports App</span>@if($currentSchool)<span aria-hidden="true">/</span><strong>{{ $currentSchool->name }}</strong>@endif</div>
+                    <div class="breadcrumb"><span>My Sports App</span>@if($isFamilyPortal)<span aria-hidden="true">/</span><strong>Family space</strong>@elseif($currentSchool)<span aria-hidden="true">/</span><strong>{{ $currentSchool->name }}</strong>@endif</div>
                     <div class="topbar-actions"><span class="today-date">{{ now()->timezone(config('app.timezone'))->format('D, j M Y') }}</span><form action="{{ route('logout') }}" method="POST">@csrf<button class="header-signout" type="submit">Sign out <span aria-hidden="true">↗</span></button></form></div>
                 </header>
                 <main id="main-content" class="container" tabindex="-1">

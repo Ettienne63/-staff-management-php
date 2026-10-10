@@ -12,7 +12,7 @@ Local implementation is complete for these three page phases: Tailwind styling, 
 
 The dashboard design iteration adds a responsive, role-aware sidebar, school and workspace tiles, and an empty schedule panel using the logo's navy, teal, and green palette. The production asset build passed locally. Browser visual review and staging validation remain outstanding.
 
-Audience views are separated into leadership, HR, coach, student, and guardian dashboards. School staff/section pages are grouped by purpose, while students have their own navigation and personal section templates. HR cannot access student or sports sections through direct URLs. The family foundation is authenticated and contains no child records. An explicitly requested local showcase seeder provides two fictional schools, staff directories, and accounts for each current audience. Sports and guardian-linking sections still show empty foundations. Next: review these dashboards, then implement student records and verified guardian links.
+Audience views are separated into leadership, HR, coach, student, and guardian dashboards. School staff/section pages are grouped by purpose, while students have their own navigation and personal section templates. Coaches cannot access the staff directory; HR cannot access student or sports sections through direct URLs. The family foundation focuses on child progress and family events, with no child records or events connected yet. An explicitly requested local showcase seeder provides two fictional schools, staff directories, and accounts for each current audience. Sports and guardian-linking sections still show empty foundations. Next: review these dashboards, then implement student records and verified guardian links.
 
 The Laravel and school-access foundations are implemented. Invitations, student/sports features, and production tenant storage decisions remain planned.
 Effort estimates are relative (S/M/L), not delivery promises.
@@ -45,8 +45,9 @@ Depends on Phase 0.
 
 ## Phase 2 — tenancy and access
 
-School selection, internal/client separation, and per-request membership checks are implemented for current school and staff paths. Principals and deputies are restricted to one school; coaches may access multiple schools through separate memberships. Decide production tenant storage, then add invitations and defined guardian/student access flows before storing student data.
+School selection, internal/client separation, and per-request membership checks are implemented for current school and staff paths. Principals, deputies, and students are restricted to one school; coaches may access multiple schools through separate memberships. Cross-school student stats sharing requires an explicit permission flow that remains to be defined. Decide production tenant storage before implementing these student data flows.
 Extend cross-school authorization coverage to each new search, export, file, job, and student/sports path; preserve permission revocation behavior.
+Implement parent-first onboarding: initial parent login, a child registration or link request, school verification, and then separate student activation. A proposed personal-email invitation links the student's own account to the verified child record; activation without a personal email remains undecided. Family landing-page routing is implemented, while registration, verification, and student invitation workflows remain planned.
 Done when the production tenant model and required invitation/access flows are implemented and unauthorized access consistently fails.
 Depends on Phase 1; must precede student data features.
 

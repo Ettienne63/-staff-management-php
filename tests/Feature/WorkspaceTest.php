@@ -116,17 +116,38 @@ class WorkspaceTest extends TestCase
     public function test_family_foundation_requires_login_and_exposes_no_child_records(): void
     {
         $this->get(route('family.dashboard'))->assertRedirect(route('login'));
+        $eventsUrl = route('family.dashboard', ['section' => 'events']);
+        $this->get($eventsUrl)->assertRedirect(route('login'));
         $user = User::factory()->create();
         $school = School::factory()->create();
         $this->actingAs($user)->get(route('family.dashboard'))->assertOk()
             ->assertViewIs('guardian.dashboard')->assertSee('Guardian linking is not available yet.')
-            ->assertDontSee($school->name);
+            ->assertDontSee('Keep family sports events in one place.')->assertDontSee($school->name);
+        $this->get($eventsUrl)->assertOk()->assertViewIs('guardian.dashboard')
+            ->assertSee('Keep family sports events in one place.')
+            ->assertDontSee('Your child profiles will appear here.')->assertDontSee($school->name);
+        $this->get('/family/unknown')->assertNotFound();
 
-        foreach (['principal', 'deputy'] as $role) {
+        foreach (['principal', 'deputy', 'coach'] as $role) {
             $leader = User::factory()->create();
             $leader->schools()->attach($school, ['role' => $role]);
             $this->actingAs($leader)->get(route('dashboard'))->assertDontSee('Family space');
             $this->get(route('family.dashboard'))->assertNotFound();
+            $this->get($eventsUrl)->assertNotFound();
         }
+    }
+
+    public function test_student_is_limited_to_one_school_even_with_multiple_memberships(): void
+    {
+        $first = School::factory()->create();
+        $second = School::factory()->create();
+        $student = User::factory()->create();
+        $student->schools()->attach($first, ['role' => 'student']);
+        $student->schools()->attach($second, ['role' => 'student']);
+
+        $this->actingAs($student)->get(route('dashboard'))
+            ->assertSee($first->name)->assertDontSee($second->name);
+        $this->get(route('schools.workspace', $first))->assertOk();
+        $this->get(route('schools.workspace', $second))->assertNotFound();
     }
 }
