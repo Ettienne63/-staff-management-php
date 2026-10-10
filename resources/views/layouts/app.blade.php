@@ -22,11 +22,14 @@
                     <span class="sidebar-brand-mark" aria-hidden="true">S</span>
                     <span>SPORT<span class="sidebar-brand-light">SPACE</span><small>SCHOOL ATHLETICS</small></span>
                 </a>
-                <p class="sidebar-label">{{ $isFamilyPortal ? 'FAMILY SPACE' : 'WORKSPACE' }}</p>
+                <p class="sidebar-label">{{ $isPlatformAdmin ? 'PLATFORM' : ($isFamilyPortal ? 'FAMILY SPACE' : 'WORKSPACE') }}</p>
                 <nav class="sidebar-nav" aria-label="Main navigation">
                     @if($isPlatformAdmin)
                         <a href="{{ route('internal.schools.index') }}" @if(request()->routeIs('internal.schools.index')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&#9638;</span><span>Platform admin</span></a>
-                        <a href="{{ route('internal.schools.create') }}">Add school</a>
+                        <a href="{{ route('internal.schools.create') }}" @if(request()->routeIs('internal.schools.create')) aria-current="page" @endif>Add school</a>
+                        <a href="{{ route('internal.health') }}" @if(request()->routeIs('internal.health')) aria-current="page" @endif>Platform health</a>
+                        <a href="{{ route('internal.activity') }}" @if(request()->routeIs('internal.activity')) aria-current="page" @endif>Admin activity</a>
+                        <a href="{{ route('internal.announcements.index') }}" @if(request()->routeIs('internal.announcements.*')) aria-current="page" @endif>Announcements</a>
                     @elseif($isFamilyPortal)
                         <a href="{{ route('family.dashboard') }}" @if(request()->route('section') !== 'events') aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&#8599;</span><span>Children&#8217;s progress</span></a>
                         <a href="{{ route('family.dashboard', ['section' => 'events']) }}" @if(request()->route('section') === 'events') aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&#9719;</span><span>Family events</span></a>

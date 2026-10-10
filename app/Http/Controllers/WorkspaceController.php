@@ -8,6 +8,7 @@ use App\Models\School;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class WorkspaceController extends Controller
@@ -35,6 +36,10 @@ class WorkspaceController extends Controller
             },
             'staffCount' => in_array($role, User::ManagementRoles, true) ? $school->staffMembers()->count() : null,
             'student' => $role === 'student' ? $request->user()->student()->where('school_id', $school->id)->first() : null,
+            'announcements' => in_array($role, User::LeadershipRoles, true)
+                ? DB::table('platform_announcements')->whereNull('withdrawn_at')->where('published_at', '<=', now())
+                    ->where('expires_at', '>', now())->orderByDesc('id')->get(['title', 'body', 'published_at'])
+                : collect(),
         ]);
     }
 

@@ -84,6 +84,14 @@ The existing `PLATFORM_ADMIN_EMAIL` setting is preserved. Sign in with the confi
 Training sessions, assessments, scores, and family events remain unimplemented. The showcase student is a preview login account, not a student roster record. The showcase guardian has no verified child links or school enrollment until explicitly invited through the onboarding flow. Staff records, child records, and login accounts remain separate entities.
 
 ## Verify
+
+### Platform tools
+
+Run `php artisan migrate --no-interaction` before using the expanded platform tools. The admin directory shows only public school fields and setup indicators. Activity history records new school registrations, public corrections, and announcement publication/withdrawal without principal emails or private school activity. Notices appear only on principal/deputy dashboards until their expiry date (midnight in the application timezone) or withdrawal.
+
+Platform health checks run on each page load. Backup integration must call `php artisan platform:record-backup success --no-interaction` only after an actual backup succeeds, or `php artisan platform:record-backup failure --no-interaction` after failure. The command stores only result and report time; it does not perform backups or prove restore readiness. The page displays the last report time, so an old success is not a statement that backups are current. Production uptime monitoring and automated backup execution remain to be connected.
+
+### Application checks
 ```powershell
 composer validate --strict
 composer check-platform-reqs

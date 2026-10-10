@@ -3,7 +3,7 @@
 ## Page foundation decisions (2026-10-10)
 
 Use individual accounts and school memberships, never a shared school login. Keep Blade and use the installed Tailwind 4 styling pipeline.
-Internal platform administration creates schools and assigns their first principal; it does not automatically grant school data access. The administrator will initially be designated by the developer through private configuration; the person is not yet selected. School suspension is deferred.
+Internal platform administration creates schools and assigns their first principal using a separate existing account. It cannot access private school data, regardless of stored memberships. The administrator will initially be designated by the developer through private configuration; the person is not yet selected. School suspension is deferred.
 Principal and vice/deputy manage the school. HR primarily handles account administration and staff; principal alone controls vice appointments and ownership transfer. Parent and student invitations are implemented. Password resets, general account changes, and audited ownership changes remain future implementation.
 Coaches may edit training and results for the students they are authorized to see; these sports workflows are not implemented in the page foundation.
 Students will view their own training, goals, and progress and may mark exercises complete. Evidence links, such as Google Docs, are a future feature.
@@ -15,9 +15,13 @@ Status: prototype login and school-scoped staff workflows are migrated to Larave
 
 Platform administrators cannot access school staff, students, guardians, invitations, or sports records, even if an old membership or guardian link exists. They register and list schools through separate internal navigation. HR may access one registered school and cannot enter Family space. Existing conflicting single-school memberships use the lowest school ID as the canonical school until the memberships are corrected; records and memberships are preserved.
 
+Confirmed platform tools are implemented: public school name/email/phone/website corrections, setup indicators for principal assignment and public contact availability, on-demand application/database/storage health, platform activity history, and expiring announcements on principal/deputy dashboards. Setup indicators expose no personal identities, counts of students, or sports activity. Activity history contains only platform operations and public detail corrections; principal assignment email is not logged. Notices are plain text with explicit expiry and withdrawal; no email is sent.
+
+Backup status shows the latest success/failure reported by an external backup process through `platform:record-backup`. Until a process is connected it remains unreported. Backup creation, restore verification, historical uptime monitoring, and alert delivery remain future operational integration work.
+
 Authenticated school pages use a responsive, role-aware sidebar and a school workspace with quick links and a daily schedule panel. The visual direction follows the logo's navy, teal, and green colors on a pale blue background. Empty schedule and activity states do not imply that training or student workflows are implemented.
 
-Audience separation is implemented for leadership (principal/deputy), HR, coaches, students, and the family interface. HR manages staff and parent invitations; coaches and students cannot access staff records. Family space is hidden from principals, deputies, and coaches. Students have dedicated personal training and progress views. Every family child path verifies an active school-approved guardian relationship. HR cannot inspect child requests or student records. Shared UI components keep the visual design consistent across these separate areas.
+Audience separation is implemented for leadership (principal/deputy), HR, coaches, students, and the family interface. HR manages staff and parent invitations; coaches and students cannot access staff records. Family space is hidden from principals, deputies, HR, and coaches. Students have dedicated personal training and progress views. Every family child path verifies an active school-approved guardian relationship. HR cannot inspect child requests or student records. Shared UI components keep the visual design consistent across these separate areas.
 
 ## Confirmed
 
