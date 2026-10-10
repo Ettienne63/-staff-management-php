@@ -14,7 +14,8 @@
                     <span class="tile-topline"><span class="tile-mark" aria-hidden="true">{{ mb_substr($school->name, 0, 1) }}</span><span class="tile-arrow" aria-hidden="true">↗</span></span>
                     <span class="tile-name">{{ $school->name }}</span>
                     <span class="role-badge">{{ $school->pivot->role === 'deputy' ? 'Vice principal' : ($school->pivot->role === 'hr' ? 'HR' : ucfirst($school->pivot->role)) }}</span>
-                    <button class="tile-open" type="submit">Open workspace <span aria-hidden="true">→</span></button>
+                    <span class="tile-open" aria-hidden="true">Open workspace <span aria-hidden="true">→</span></span>
+                    <button class="tile-submit" type="submit" aria-label="Open {{ $school->name }} workspace"></button>
                 </form>
             @empty
                 <section class="card empty-school"><p class="eyebrow">No workspace yet</p><h2>Access starts with your school.</h2><p>No school access has been granted to this account. Contact your school principal or HR team to get started.</p></section>

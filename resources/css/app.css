@@ -177,6 +177,7 @@
     .section-heading h2 { color: #203b59; font-size: 1.15rem; }
     .section-heading span { color: #7b8e9d; font-size: 0.682rem; letter-spacing: .07em; }
     .class-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .75rem; }
+    .school-tile { position: relative; }
     .school-tile, .workspace-tile { display: flex; min-width: 0; min-height: 168px; flex-direction: column; align-items: stretch; padding: .95rem; border: 1px solid #deebee; border-radius: 15px; background: #fff; color: #203b59; text-align: left; text-decoration: none; box-shadow: 0 5px 16px #123e520a; animation: card-rise .5s both; transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease; }
     .school-tile:hover, .workspace-tile:hover { transform: translateY(-4px); border-color: #9bd4d4; box-shadow: 0 12px 24px #123e5218; color: #203b59; }
     .school-tile:nth-child(2), .workspace-tile:nth-child(2) { animation-delay: .05s; }
@@ -190,6 +191,8 @@
     .tile-open { display: flex; justify-content: space-between; align-items: center; gap: .5rem; width: 100%; margin-top: auto; padding: .65rem 0 0; border: 0; border-radius: 0; background: transparent; color: #087f91; text-align: left; font-size: 0.693rem; font-weight: 800; }
     .tile-open:hover { transform: none; background: transparent; color: #056d82; }
     .school-tile:hover .tile-open, .workspace-tile:hover .tile-open { color: #056d82; }
+    .tile-submit { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; border-radius: inherit; background: transparent; }
+    .tile-submit:hover { transform: none; background: transparent; }
     .workspace-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .workspace-tile { min-height: 160px; padding: 1rem; }
     .workspace-tile .tile-caption { margin-top: .35rem; color: #708292; font-size: 0.715rem; }
