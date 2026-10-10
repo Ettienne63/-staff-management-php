@@ -15,6 +15,8 @@ Status: prototype login and school-scoped staff workflows are migrated to Larave
 
 Authenticated school pages use a responsive, role-aware sidebar and a school workspace with quick links and a daily schedule panel. The visual direction follows the logo's navy, teal, and green colors on a pale blue background. Empty schedule and activity states do not imply that training or student workflows are implemented.
 
+Audience separation is implemented for leadership (principal/deputy), HR, coaches, students, and the family interface. HR manages staff and account administration; student and sports access needs a separately authorized role. Students have dedicated personal training and progress views. The family landing page is authenticated but currently contains no child data; every future child data path must verify the school-approved guardian relationship. Shared UI components keep the visual design consistent across these separate areas.
+
 ## Confirmed
 
 Coaches and students are the initial users. Coaches work with many students in grades 1–12.

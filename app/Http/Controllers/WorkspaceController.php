@@ -13,7 +13,14 @@ class WorkspaceController extends Controller
     {
         $role = $request->attributes->get('school_role');
 
-        return view('schools.workspace', [
+        $view = match ($role) {
+            'principal', 'deputy' => 'schools.leadership.dashboard',
+            'hr' => 'schools.hr.dashboard',
+            'coach' => 'schools.coach.dashboard',
+            'student' => 'student.dashboard',
+        };
+
+        return view($view, [
             'school' => $school,
             'role' => $role,
             'roleLabel' => match ($role) {
@@ -32,6 +39,7 @@ class WorkspaceController extends Controller
         $role = $request->attributes->get('school_role');
         abort_if($section === 'accounts' && ! in_array($role, User::ManagementRoles, true), 403);
         abort_if($section === 'students' && $role === 'student', 403);
+        abort_if($role === 'hr' && $section !== 'accounts', 403);
 
         [$title, $description, $emptyMessage] = match ($section) {
             'accounts' => ['Account administration', 'HR handles day-to-day access alongside school leadership.', 'Invitations, password recovery, and access changes are not available yet. Staff records do not create login accounts.'],
@@ -40,6 +48,8 @@ class WorkspaceController extends Controller
             'progress' => [$role === 'student' ? 'My progress' : 'Progress', 'Follow participation, measured performance, and personal improvement.', 'No assessments are connected yet. Progress will appear once comparable results are recorded.'],
         };
 
-        return view('schools.section', compact('school', 'role', 'section', 'title', 'description', 'emptyMessage'));
+        $view = $role === 'student' ? 'student.'.$section.'.index' : 'schools.'.$section.'.index';
+
+        return view($view, compact('school', 'role', 'section', 'title', 'description', 'emptyMessage'));
     }
 }

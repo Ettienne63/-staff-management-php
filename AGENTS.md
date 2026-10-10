@@ -18,6 +18,7 @@ Use PHP 8.5.11 and Composer; Node/npm compile assets. Serve public/ only.
 Login/logout, school selection, and school-scoped staff CRUD are migrated from the prototype.
 Principal, deputy, and HR roles manage staff; coaches can view staff. These staff permissions do not define future training permissions.
 Authenticated workspaces use role-aware navigation and a responsive school dashboard styled with the logo's navy, teal, and green palette. Training and schedule areas remain honest empty states until those workflows are implemented.
+Leadership, HR, coaches, students, and guardians have distinct dashboard templates with shared UI components. HR has staff/account access; student and sports sections require another authorized role. The authenticated family page is an empty foundation and exposes no child records; guardian links remain unimplemented.
 Guardian/student invitation features and sports workflows remain unimplemented.
 SQLite is isolated local development storage; production database and tenant storage architecture remain undecided.
 The prototype archive is outside the repository/web root. Its MariaDB data is preserved.

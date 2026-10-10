@@ -11,7 +11,7 @@
     <a class="sr-only focus:not-sr-only focus:block focus:p-4" href="#main-content">Skip to content</a>
     @auth
         @php
-            $currentSchool = isset($school) ? $school : request()->route('school');
+            $currentSchool = request()->route('school');
             $schoolRole = request()->attributes->get('school_role');
         @endphp
         <div class="app-shell">
@@ -22,6 +22,7 @@
                 </a>
                 <p class="sidebar-label">WORKSPACE</p>
                 <nav class="sidebar-nav" aria-label="Main navigation">
+                    <a href="{{ route('family.dashboard') }}" @if(request()->routeIs('family.*')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&hearts;</span><span>Family space</span></a>
                     <a href="{{ route('dashboard') }}" @if(request()->routeIs('dashboard')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">⌂</span><span>My schools</span></a>
                     @if(auth()->user()->isPlatformAdmin())
                         <a href="{{ route('internal.schools.index') }}" @if(request()->routeIs('internal.*')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">▦</span><span>Platform admin</span></a>
@@ -29,18 +30,7 @@
                 </nav>
                 @if($currentSchool)
                     <p class="sidebar-label sidebar-section-label">{{ $currentSchool->name }}</p>
-                    <nav class="sidebar-nav" aria-label="School navigation">
-                        <a href="{{ route('schools.workspace', $currentSchool) }}" @if(request()->routeIs('schools.workspace')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">◫</span><span>Overview</span></a>
-                        @if(in_array($schoolRole, \App\Models\User::StaffRoles, true))
-                            <a href="{{ route('staff.index', $currentSchool) }}" @if(request()->routeIs('staff.*')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">♧</span><span>Staff</span></a>
-                            <a href="{{ route('schools.section', [$currentSchool, 'students']) }}" @if(request()->route('section') === 'students') aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">♙</span><span>Students</span></a>
-                        @endif
-                        @if(in_array($schoolRole, \App\Models\User::ManagementRoles, true))
-                            <a href="{{ route('schools.section', [$currentSchool, 'accounts']) }}" @if(request()->route('section') === 'accounts') aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">＋</span><span>Accounts</span></a>
-                        @endif
-                        <a href="{{ route('schools.section', [$currentSchool, 'training']) }}" @if(request()->route('section') === 'training') aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">◷</span><span>{{ $schoolRole === 'student' ? 'My training' : 'Training' }}</span></a>
-                        <a href="{{ route('schools.section', [$currentSchool, 'progress']) }}" @if(request()->route('section') === 'progress') aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">↗</span><span>{{ $schoolRole === 'student' ? 'My progress' : 'Progress' }}</span></a>
-                    </nav>
+                    @include($schoolRole === 'student' ? 'navigation.student' : 'navigation.school')
                 @endif
                 <div class="sidebar-bottom"><span class="sidebar-avatar">{{ mb_substr(auth()->user()->name, 0, 1) }}</span><span class="sidebar-user">{{ auth()->user()->name }}<small>{{ $schoolRole ? ucfirst($schoolRole) : 'Account' }}</small></span></div>
             </aside>

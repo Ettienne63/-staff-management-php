@@ -12,6 +12,7 @@ php artisan serve --host=127.0.0.1 --port=8000
 Open http://127.0.0.1:8000/. The existing prototype login password is preserved in the local import.
 Choose your school from `/dashboard`. The signed-in workspace uses a responsive, role-aware sidebar and school dashboard. Principal, vice/deputy, and HR memberships manage staff; coaches can view school staff. Students have separate training and progress page foundations and cannot access staff records.
 Training, progress, student rosters, and account administration currently show clearly labelled placeholders for future workflows.
+Leadership (principal/deputy), HR, coaches, and students have separate dashboard templates. School pages are grouped under `resources/views/schools`; personal student pages and navigation are separate. HR is limited to staff and account administration. `/family` provides the separate guardian interface as an authenticated empty foundation; it contains no linked child records yet.
 The former localhost/my-sports-app URL is blocked because Apache must serve only public/ using compatible PHP.
 
 ## Internal administration

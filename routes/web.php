@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function (): void {
     });
     Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
     Route::get('/dashboard', [SchoolController::class, 'index'])->name('dashboard');
+    Route::view('/family', 'guardian.dashboard')->name('family.dashboard');
     Route::redirect('/admin/dashboard', '/dashboard');
     Route::get('/admin/staff', [SchoolController::class, 'legacyStaff']);
     Route::prefix('schools/{school}')->middleware(EnsureSchoolAccess::class)->group(function (): void {

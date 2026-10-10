@@ -16,26 +16,31 @@ class WorkspaceTest extends TestCase
     public static function workspaceRoles(): array
     {
         return [
-            'principal' => ['principal', 'Principal view'],
-            'vice' => ['deputy', 'Vice principal view'],
-            'hr' => ['hr', 'HR view'],
-            'coach' => ['coach', 'Coach view'],
-            'student' => ['student', 'Student view'],
+            'principal' => ['principal', 'Principal view', 'schools.leadership.dashboard'],
+            'vice' => ['deputy', 'Vice principal view', 'schools.leadership.dashboard'],
+            'hr' => ['hr', 'HR view', 'schools.hr.dashboard'],
+            'coach' => ['coach', 'Coach view', 'schools.coach.dashboard'],
+            'student' => ['student', 'Student view', 'student.dashboard'],
         ];
     }
 
     #[DataProvider('workspaceRoles')]
-    public function test_workspace_uses_current_school_role_and_enforces_isolation(string $role, string $label): void
+    public function test_workspace_uses_current_school_role_and_enforces_isolation(string $role, string $label, string $view): void
     {
         $school = School::factory()->create();
         $other = School::factory()->create();
         $user = User::factory()->create();
         $user->schools()->attach($school, ['role' => $role]);
         $this->actingAs($user)->get(route('dashboard'))->assertSee($school->name)->assertDontSee($other->name);
-        $this->get(route('schools.workspace', $school))->assertOk()->assertSee($label);
+        $this->get(route('schools.workspace', $school))->assertOk()->assertViewIs($view)->assertSee($label);
         $this->post(route('schools.select', $school))->assertRedirect(route('schools.workspace', $school));
         foreach (['training', 'progress'] as $section) {
-            $this->get(route('schools.section', [$school, $section]))->assertOk();
+            $response = $this->get(route('schools.section', [$school, $section]));
+            if ($role === 'hr') {
+                $response->assertForbidden();
+            } else {
+                $response->assertOk()->assertViewIs(($role === 'student' ? 'student.' : 'schools.').$section.'.index');
+            }
         }
         $this->withSession(['school_id' => $other->id])->get(route('schools.workspace', $other))->assertNotFound();
         $this->get(route('schools.section', [$other, 'training']))->assertNotFound();
@@ -69,6 +74,9 @@ class WorkspaceTest extends TestCase
         $user = User::factory()->create();
         $user->schools()->attach($school, ['role' => 'hr']);
         $this->actingAs($user)->get(route('schools.section', [$school, 'accounts']))->assertOk();
+        $this->get(route('schools.workspace', $school))->assertViewIs('schools.hr.dashboard')
+            ->assertDontSee('Student roster')->assertDontSee('Training planner');
+        $this->get(route('schools.section', [$school, 'students']))->assertForbidden();
         $this->get(route('staff.create', $school))->assertOk();
         $fields = StaffMember::factory()->make()->only(['first_name', 'last_name', 'email', 'department', 'position']);
         $this->post(route('staff.store', $school), $fields)->assertRedirect(route('staff.index', $school));
@@ -103,5 +111,15 @@ class WorkspaceTest extends TestCase
             ->assertSee('&lt;script&gt;', false)->assertDontSee('<script>alert(1)</script>', false);
         $this->get('/admin/dashboard')->assertRedirect(route('dashboard'));
         $this->get(route('schools.section', [$school, 'unknown']))->assertNotFound();
+    }
+
+    public function test_family_foundation_requires_login_and_exposes_no_child_records(): void
+    {
+        $this->get(route('family.dashboard'))->assertRedirect(route('login'));
+        $user = User::factory()->create();
+        $school = School::factory()->create();
+        $this->actingAs($user)->get(route('family.dashboard'))->assertOk()
+            ->assertViewIs('guardian.dashboard')->assertSee('Guardian linking is not available yet.')
+            ->assertDontSee($school->name);
     }
 }
