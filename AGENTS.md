@@ -13,6 +13,7 @@ School sports development for grades 1-12, tracking training, performance, and i
 - Scores combine participation, performance, and improvement; details remain undecided.
 - Names used during brainstorming were fictional examples, not real users, records, or fixtures.
 - Explicitly approved local showcase fixtures are provided by `ShowcaseSeeder`, using Showcase names and `.invalid` emails. Default seeding remains empty; preserve existing data, passwords, and memberships on reruns. No student records, guardian links, or sports results are seeded.
+- The dedicated hosted demo is also approved to use those same showcase fixtures through explicit `SHOWCASE_ENABLED=true`. Keep production mode and debug disabled; the flag defaults to false and can be disabled again without deleting fixtures.
 
 ## Implementation and runtime
 One Laravel 13 app at C:/xampp/htdocs/my-sports-app. No nested laravel/ application remains.

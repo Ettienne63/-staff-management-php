@@ -13,6 +13,8 @@ Status: prototype login and school-scoped staff workflows are migrated to Larave
 
 ## Confirmed dashboard design (2026-10-10)
 
+The user approved showcase fixtures on the dedicated hosted demo (2026-10-11). `SHOWCASE_ENABLED=true` explicitly permits the existing seeder outside local/testing while keeping production mode and debug disabled. It defaults to false, preserves passwords/memberships on reruns, creates no child records or guardian links, and does not change empty default seeding.
+
 Platform administrators cannot access school staff, students, guardians, invitations, or sports records, even if an old membership or guardian link exists. They register and list schools through separate internal navigation. HR may access one registered school and cannot enter Family space. Existing conflicting single-school memberships use the lowest school ID as the canonical school until the memberships are corrected; records and memberships are preserved.
 
 Confirmed platform tools are implemented: public school name/email/phone/website corrections, setup indicators for principal assignment and public contact availability, on-demand application/database/storage health, platform activity history, and expiring announcements on principal/deputy dashboards. Setup indicators expose no personal identities, counts of students, or sports activity. Activity history contains only platform operations and public detail corrections; principal assignment email is not logged. Notices are plain text with explicit expiry and withdrawal; no email is sent.

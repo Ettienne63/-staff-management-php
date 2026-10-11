@@ -66,7 +66,9 @@ With PHP 8.5 active, run:
 php artisan db:seed --class=ShowcaseSeeder
 ```
 
-This command is allowed only in `local` and `testing` environments, even with `--force`. It adds fictional Showcase Oakfield and Showcase Riverbend schools, six staff records per school, and these login accounts:
+This command is allowed in `local` and `testing` environments. A dedicated hosted demo may explicitly enable it with `SHOWCASE_ENABLED=true` in its private `.env`, while retaining `APP_ENV=production` and `APP_DEBUG=false`. Run `php artisan config:clear`, then `php artisan db:seed --class=ShowcaseSeeder --force --no-interaction`. Set `SHOWCASE_ENABLED=false` and clear/rebuild configuration afterward to block further showcase seeding; this does not remove the demo accounts. The flag defaults to false, and `--force` alone never bypasses the guard. Default seeding remains empty.
+
+It adds fictional Showcase Oakfield and Showcase Riverbend schools, six staff records per school, and these login accounts:
 
 | Email | Preview |
 | --- | --- |

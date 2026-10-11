@@ -71,15 +71,54 @@ class ShowcaseSeedingTest extends TestCase
     public function test_showcase_is_blocked_outside_local_and_testing(): void
     {
         $this->app->instance('env', 'production');
+        config(['app.showcase_enabled' => false]);
 
         try {
             $this->artisan('db:seed', ['--class' => ShowcaseSeeder::class, '--force' => true]);
             $this->fail('Production seeding should be rejected.');
         } catch (RuntimeException $exception) {
-            $this->assertSame('Showcase data is available only in local and testing environments.', $exception->getMessage());
+            $this->assertSame('Showcase data requires a local/testing environment or explicit SHOWCASE_ENABLED=true for a dedicated demo.', $exception->getMessage());
         }
 
         $this->assertDatabaseCount('users', 0);
         $this->assertDatabaseCount('schools', 0);
+    }
+
+    public function test_explicit_hosted_demo_seeding_preserves_existing_accounts_and_keeps_private_student_tables_empty(): void
+    {
+        $this->app->instance('env', 'production');
+        config(['app.showcase_enabled' => true, 'app.debug' => false]);
+        $existing = User::factory()->create(['email' => 'coach@showcase.example.invalid']);
+        $school = School::factory()->create();
+        $existing->schools()->attach($school, ['role' => 'coach']);
+        $password = $existing->password;
+        $this->artisan('db:seed', ['--class' => ShowcaseSeeder::class, '--force' => true])->assertSuccessful();
+        $this->artisan('db:seed', ['--class' => ShowcaseSeeder::class, '--force' => true])->assertSuccessful();
+        $this->assertSame('production', app()->environment());
+        $this->assertFalse(config('app.debug'));
+        $this->assertSame($password, $existing->fresh()->password);
+        $this->assertSame([$school->id], $existing->schools()->pluck('schools.id')->all());
+        $this->assertDatabaseCount('schools', 3);
+        $this->assertDatabaseCount('users', 6);
+        $this->assertDatabaseCount('staff_members', 12);
+        foreach (['students', 'guardian_student', 'child_registrations', 'portal_invitations'] as $table) {
+            $this->assertDatabaseCount($table, 0);
+        }
+        config(['app.showcase_enabled' => false]);
+        try {
+            $this->artisan('db:seed', ['--class' => ShowcaseSeeder::class, '--force' => true, '--no-interaction' => true]);
+            $this->fail('Disabling the demo setting must block further showcase seeding.');
+        } catch (RuntimeException) {
+            $this->assertDatabaseCount('users', 6);
+        }
+    }
+
+    public function test_default_seeding_stays_empty_even_when_hosted_demo_is_enabled(): void
+    {
+        $this->app->instance('env', 'production');
+        config(['app.showcase_enabled' => true]);
+        $this->artisan('db:seed', ['--force' => true])->assertSuccessful();
+        $this->assertDatabaseCount('schools', 0);
+        $this->assertDatabaseCount('users', 0);
     }
 }
