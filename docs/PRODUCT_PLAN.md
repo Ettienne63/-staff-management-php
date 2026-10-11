@@ -1,5 +1,9 @@
 # Product plan
 
+## Confirmed repository workflow (2026-10-11)
+
+`my-sports-app-demo-1` holds the consolidated Laravel demo and is the base and PR destination for future feature, fix, documentation, and tooling branches. `main` preserves the basic PHP prototype; `staging` is the previous integration checkpoint. Integrating demo work does not authorize changing `main` or deploying it.
+
 ## Page foundation decisions (2026-10-10)
 
 Use individual accounts and school memberships, never a shared school login. Keep Blade and use the installed Tailwind 4 styling pipeline.

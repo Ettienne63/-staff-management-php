@@ -12,7 +12,7 @@ Describe school authorization, student data, migrations, and any relevant regres
 
 ## Review checklist
 
-- [ ] Task PR targets staging; release PR promotes staging to main.
+- [ ] Task PR targets my-sports-app-demo-1; any change to main has separate explicit approval.
 - [ ] Changes belong to one task and use the documented naming convention.
 - [ ] No secrets, actual student data, or unrelated local files included.
 - [ ] Documentation is updated and unresolved decisions are explicit.

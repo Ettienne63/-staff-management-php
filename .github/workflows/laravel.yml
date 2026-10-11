@@ -1,9 +1,9 @@
 name: Laravel foundation
 on:
   pull_request:
-    branches: [staging, main]
+    branches: [my-sports-app-demo-1, staging, main]
   push:
-    branches: [staging, main]
+    branches: [my-sports-app-demo-1, staging, main]
   workflow_dispatch:
 permissions:
   contents: read

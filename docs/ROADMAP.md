@@ -1,5 +1,9 @@
 # Proposed roadmap
 
+## Confirmed demo integration workflow (2026-10-11)
+
+All existing branch histories are consolidated into `my-sports-app-demo-1`, retaining the updated application over older versions. Future task branches start there and merge back through approved PRs. `main` preserves the basic PHP prototype and `staging` retains the previous integration checkpoint. Deployment and any change to `main` require separate authorization.
+
 ## Page foundation delivery (implemented locally, 2026-10-10)
 
 Dedicated hosted demo seeding is approved and supported (2026-10-11) via explicit `SHOWCASE_ENABLED=true`. Default production installs remain unseeded; showcase reruns preserve accounts, credentials, and memberships.
@@ -40,7 +44,7 @@ Priority score = sum of those three dimensions. Foundational dependencies overri
 ## Phase 0 — planning (current)
 
 Confirm page map, role matrix, pilot sports, import format, and school permission ownership.
-Establish task branches, staging, commit conventions, PR templates, and GitHub safeguards.
+Establish task branches from my-sports-app-demo-1, commit conventions, PR templates, and GitHub safeguards.
 Done when documentation records decisions versus proposals and repository setup status is verifiable.
 
 ## Phase 1 — framework and data decisions
@@ -98,7 +102,7 @@ First suggested implementation ticket after approval: framework foundation, not 
 
 Backlog → Needs decision → Ready → In progress → In review → Staging validation → Done.
 Track phase, priority, type, size, and acceptance criteria per item.
-An item reaches Done after staging validation; releases are separately promoted to main.
+An item reaches Done after validation and approved integration into my-sports-app-demo-1. A validation environment is separate from the Git branch; changes to the preserved main branch require a separate request.
 
 ## Foundation progress (2026-10-10)
 

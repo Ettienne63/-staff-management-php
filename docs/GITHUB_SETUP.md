@@ -19,9 +19,13 @@ The GitHub CLI (`gh`) is unavailable in the current development environment. Bra
 
 ## CI and promotion
 
-`.github/workflows/laravel.yml` runs branch policy and Laravel checks for pull requests targeting `staging` or `main`, and for pushes to those branches. The workflow requires release pull requests targeting `main` to come from this repository's `staging` branch. It validates Composer, checks platform requirements, runs Pint and PHPUnit, and builds frontend assets.
+On 2026-10-11, the user selected `my-sports-app-demo-1` as the active demo integration branch and approved consolidating all existing branch histories there. The planning and foundation branch trees exactly matched their earlier squash merges; their original histories were joined while preserving the updated application files. `main` remains at the basic PHP prototype checkpoint `8783e0c`; `staging` retains its previous integration checkpoint.
 
-Create task branches from an up-to-date `staging` branch. Task pull requests target `staging`; release pull requests target `main` from `staging`. A Git branch is not a deployed staging environment. Hosting remains undecided.
+`.github/workflows/laravel.yml` runs branch policy and Laravel checks for pull requests targeting `my-sports-app-demo-1`, `staging`, or `main`, and for pushes to those branches. The historical gate requiring main release PRs to originate from this repository's staging branch remains; it does not authorize a release. The workflow validates Composer, checks platform requirements, runs Pint and PHPUnit, and builds frontend assets.
+
+Create task branches from an up-to-date `my-sports-app-demo-1` branch and target it with task pull requests. There is no automatic promotion to `main`; changes to the preserved prototype require a separate explicit request. A Git branch is not a deployed environment. See `docs/HOSTED_UPDATES.md` for hosted demo updates.
+
+The consolidation does not change GitHub's default branch, protection settings, existing PR records, or deployed checkout. Those settings require separate verification before claiming they were changed.
 
 The remote requirement and success status of CI checks were recorded during earlier setup but could not be re-verified here.
 

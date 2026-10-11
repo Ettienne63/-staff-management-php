@@ -59,4 +59,4 @@ The current logo is `public/images/my-sports-app-logo-Photoroom.png`. If you rep
 - [GitHub status](docs/GITHUB_SETUP.md)
 - [Agent instructions](AGENTS.md)
 
-Task branch → PR to staging → validation → release PR to main.
+`my-sports-app-demo-1` contains the consolidated Laravel demo. Create separate task branches from it and submit PRs back to it for review and validation. `main` preserves the basic PHP prototype; `staging` remains the previous integration checkpoint.
