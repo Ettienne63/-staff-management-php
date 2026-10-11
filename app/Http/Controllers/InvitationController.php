@@ -6,6 +6,7 @@ use App\Models\OnboardingAudit;
 use App\Models\PortalInvitation;
 use App\Models\School;
 use App\Models\User;
+use App\PortalInvitationService;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -37,7 +38,7 @@ class InvitationController extends Controller
         return view('auth.invitation', compact('invitation', 'token', 'existingAccount'));
     }
 
-    public function accept(Request $request, string $token): RedirectResponse
+    public function accept(Request $request, string $token, PortalInvitationService $invitations): RedirectResponse
     {
         abort_if($request->user()?->isPlatformAdmin(), 404);
         $invitation = $this->resolve($token);
@@ -46,12 +47,15 @@ class InvitationController extends Controller
             'password' => ['required', 'string', 'max:72', 'confirmed', Password::min(12)->mixedCase()->numbers()],
         ]);
         try {
-            $user = DB::transaction(function () use ($request, $invitation, $data): User {
+            $user = DB::transaction(function () use ($request, $invitation, $data, $invitations): User {
                 $school = School::whereKey($invitation->school_id)->lockForUpdate()->firstOrFail();
                 $invitation = PortalInvitation::whereKey($invitation->id)->lockForUpdate()->firstOrFail();
                 abort_unless($invitation->isUsable(), 410);
-                $roles = $invitation->type === 'student' ? User::LeadershipRoles : User::ManagementRoles;
-                abort_unless($school->users()->whereKey($invitation->created_by)->wherePivotIn('role', $roles)->exists(), 410);
+                $student = $invitation->type === 'student'
+                    ? $school->students()->whereKey($invitation->student_id)->lockForUpdate()->firstOrFail()
+                    : null;
+                $issuer = User::find($invitation->created_by);
+                abort_unless($issuer && $invitations->canIssue($school, $issuer, $invitation->type, $student), 410);
                 $existing = User::whereRaw('LOWER(email) = ?', [$invitation->email])->lockForUpdate()->first();
                 if ($existing && (! $request->user() || $request->user()->id !== $existing->id)) {
                     throw ValidationException::withMessages(['email' => 'Sign in as the invited account before accepting. An invitation never changes an existing password.']);
@@ -67,9 +71,7 @@ class InvitationController extends Controller
                 }
                 $user = $existing ?? User::create(['name' => $data['name'], 'email' => $invitation->email, 'password' => $data['password']]);
                 $user->forceFill(['email_verified_at' => now()])->save();
-                $student = null;
                 if ($invitation->type === 'student') {
-                    $student = $school->students()->whereKey($invitation->student_id)->lockForUpdate()->firstOrFail();
                     abort_if($student->user_id !== null || ! $student->guardians()->wherePivotNull('revoked_at')->exists(), 410);
                     abort_if($user->schools()->exists() || $user->student()->exists() || $user->children()->exists(), 403);
                     $student->update(['user_id' => $user->id]);

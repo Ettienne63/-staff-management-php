@@ -15,12 +15,28 @@ use Illuminate\Validation\ValidationException;
 
 class PortalInvitationService
 {
+    public function canIssue(School $school, User $actor, string $type, ?Student $student = null): bool
+    {
+        if ($actor->isPlatformAdmin()) {
+            return false;
+        }
+
+        $roles = $type === 'student' ? User::LeadershipRoles : User::ManagementRoles;
+        if ($school->users()->whereKey($actor->id)->wherePivotIn('role', $roles)->exists()) {
+            return true;
+        }
+
+        return $type === 'student' && $student && $student->school_id === $school->id
+            && $actor->usesFamilyPortal()
+            && $school->users()->whereKey($actor->id)->wherePivot('role', 'guardian')->exists()
+            && $student->guardians()->whereKey($actor->id)->wherePivotNotNull('verified_at')->wherePivotNull('revoked_at')->exists();
+    }
+
     public function issue(School $school, User $actor, string $email, string $type, ?Student $student = null): void
     {
         DB::transaction(function () use ($school, $actor, $email, $type, $student): void {
             School::whereKey($school->id)->lockForUpdate()->firstOrFail();
-            $roles = $type === 'student' ? User::LeadershipRoles : User::ManagementRoles;
-            abort_unless($school->users()->whereKey($actor->id)->wherePivotIn('role', $roles)->exists(), 403);
+            abort_unless($this->canIssue($school, $actor, $type, $student), 403);
             $email = strtolower(trim($email));
             $existingUser = User::whereRaw('LOWER(email) = ?', [$email])->first();
             if ($type === 'student') {

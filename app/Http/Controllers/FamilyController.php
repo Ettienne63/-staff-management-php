@@ -7,6 +7,7 @@ use App\Models\OnboardingAudit;
 use App\Models\School;
 use App\Models\Student;
 use App\Models\User;
+use App\PortalInvitationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,8 +19,7 @@ class FamilyController extends Controller
 {
     private function authorizeFamily(Request $request): void
     {
-        abort_if($request->user()->isPlatformAdmin(), 404);
-        abort_if($request->user()->schools()->wherePivotIn('role', User::FamilySpaceRestrictedRoles)->exists(), 404);
+        abort_unless($request->user()->usesFamilyPortal(), 404);
     }
 
     public function index(Request $request, string $section = 'progress'): View
@@ -73,5 +73,15 @@ class FamilyController extends Controller
         $child = $request->user()->children()->whereKey($student->id)->with('school')->firstOrFail();
 
         return view('guardian.child', ['child' => $child]);
+    }
+
+    public function inviteStudent(Request $request, Student $student, PortalInvitationService $invitations): RedirectResponse
+    {
+        $this->authorizeFamily($request);
+        $child = $request->user()->children()->whereKey($student->id)->with('school')->firstOrFail();
+        $data = $request->validate(['email' => ['required', 'email', 'max:255']]);
+        $invitations->issue($child->school, $request->user(), $data['email'], 'student', $child);
+
+        return redirect()->route('family.children.show', $child)->with('status', 'Student invitation sent. Their account will join '.$child->school->name.' when they accept.');
     }
 }

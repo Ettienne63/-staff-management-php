@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/dashboard', [SchoolController::class, 'index'])->name('dashboard');
     Route::post('/family/requests', [FamilyController::class, 'store'])->middleware('throttle:10,1')->name('family.requests.store');
     Route::get('/family/children/{student}', [FamilyController::class, 'show'])->whereNumber('student')->name('family.children.show');
+    Route::post('/family/children/{student}/invite', [FamilyController::class, 'inviteStudent'])->whereNumber('student')->middleware('throttle:10,1')->name('family.children.invite');
     Route::get('/family/{section?}', [FamilyController::class, 'index'])
         ->whereIn('section', ['progress', 'events'])->name('family.dashboard');
     Route::redirect('/admin/dashboard', '/dashboard');

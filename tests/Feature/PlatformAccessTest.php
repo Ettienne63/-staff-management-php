@@ -39,6 +39,7 @@ class PlatformAccessTest extends TestCase
         $this->delete(route('staff.destroy', [$school, $staff]))->assertNotFound();
         $this->post(route('onboarding.guardians.invite', $school), [])->assertNotFound();
         $this->post(route('family.requests.store'), [])->assertNotFound();
+        $this->post(route('family.children.invite', $student), [])->assertNotFound();
         $this->post(route('invitations.accept', $token), [])->assertNotFound();
         $this->assertDatabaseHas('staff_members', ['id' => $staff->id]);
         $this->get(route('internal.schools.index'))->assertOk()->assertSee($school->name)

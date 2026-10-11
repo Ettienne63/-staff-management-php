@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\School;
 use App\Models\StaffMember;
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -40,6 +41,9 @@ class WorkspaceTest extends TestCase
                 $response->assertForbidden();
             } else {
                 $response->assertOk()->assertViewIs(($role === 'student' ? 'student.' : 'schools.').$section.'.index');
+                if ($role === 'student') {
+                    $response->assertDontSee('Family space')->assertDontSee('My schools')->assertDontSee('Children&#8217;s progress', false);
+                }
             }
         }
         $this->withSession(['school_id' => $other->id])->get(route('schools.workspace', $other))->assertNotFound();
@@ -56,7 +60,14 @@ class WorkspaceTest extends TestCase
         $user->schools()->attach($school, ['role' => 'student']);
         $staff = StaffMember::factory()->for($school)->create();
         $this->actingAs($user)->get(route('schools.workspace', $school))
-            ->assertDontSee($staff->email)->assertDontSee('staff records');
+            ->assertDontSee($staff->email)->assertDontSee('staff records')->assertDontSee('Family space')->assertDontSee('My schools');
+        $child = Student::factory()->for($school)->create();
+        $user->children()->attach($child, ['verified_at' => now()]);
+        $this->get(route('family.dashboard'))->assertNotFound();
+        $this->get(route('family.dashboard', ['section' => 'events']))->assertNotFound();
+        $this->get(route('family.children.show', $child))->assertNotFound();
+        $this->post(route('family.requests.store'), [])->assertNotFound();
+        $this->post(route('family.children.invite', $child), [])->assertNotFound();
         $this->get(route('staff.index', $school))->assertForbidden();
         $this->get(route('staff.create', $school))->assertForbidden();
         $this->get(route('staff.edit', [$school, $staff->id]))->assertForbidden();

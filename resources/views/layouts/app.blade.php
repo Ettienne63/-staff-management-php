@@ -18,7 +18,7 @@
         @endphp
         <div class="app-shell">
             <aside class="sidebar" aria-label="Application navigation">
-                <a class="sidebar-brand" href="{{ $isPlatformAdmin ? route('internal.schools.index') : ($isFamilyPortal ? route('family.dashboard') : route('dashboard')) }}">
+                <a class="sidebar-brand" href="{{ $isPlatformAdmin ? route('internal.schools.index') : ($isFamilyPortal ? route('family.dashboard') : ($schoolRole === 'student' ? route('schools.workspace', $currentSchool) : route('dashboard'))) }}">
                     <span class="sidebar-brand-mark" aria-hidden="true">S</span>
                     <span>SPORT<span class="sidebar-brand-light">SPACE</span><small>SCHOOL ATHLETICS</small></span>
                 </a>
@@ -34,10 +34,12 @@
                         <a href="{{ route('family.dashboard') }}" @if(request()->route('section') !== 'events') aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&#8599;</span><span>Children&#8217;s progress</span></a>
                         <a href="{{ route('family.dashboard', ['section' => 'events']) }}" @if(request()->route('section') === 'events') aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&#9719;</span><span>Family events</span></a>
                     @else
-                        @unless(auth()->user()->schools()->wherePivotIn('role', \App\Models\User::FamilySpaceRestrictedRoles)->exists())
+                        @if(auth()->user()->usesFamilyPortal())
                             <a href="{{ route('family.dashboard') }}"><span class="sidebar-icon" aria-hidden="true">&hearts;</span><span>Family space</span></a>
-                        @endunless
-                        <a href="{{ route('dashboard') }}" @if(request()->routeIs('dashboard')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&#8962;</span><span>My schools</span></a>
+                        @endif
+                        @if($schoolRole !== 'student')
+                            <a href="{{ route('dashboard') }}" @if(request()->routeIs('dashboard')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&#8962;</span><span>My schools</span></a>
+                        @endif
                     @endif
                 </nav>
                 @if($currentSchool && ! $isPlatformAdmin)
