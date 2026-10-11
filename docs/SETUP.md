@@ -1,5 +1,7 @@
 # Development setup and prototype migration
 
+For routine updates to the existing alwaysdata demo, see [Hosted updates](HOSTED_UPDATES.md).
+
 ## Runtime
 Laravel 13.35.0 now lives at the repository root; the temporary laravel/ folder has been removed.
 PHP 8.5.11: C:/Users/ettie/AppData/Local/sports-dev-tools/php85/php.exe.
