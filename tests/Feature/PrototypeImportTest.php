@@ -5,7 +5,9 @@ namespace Tests\Feature;
 use App\Models\School;
 use App\Models\StaffMember;
 use App\Models\User;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Schema;
 use PDO;
 use Tests\TestCase;
 
@@ -65,6 +67,9 @@ class PrototypeImportTest extends TestCase
 
     public function test_import_refuses_ambiguous_school_names(): void
     {
+        Schema::table('schools', function (Blueprint $table): void {
+            $table->dropUnique(['name']);
+        });
         School::factory()->count(2)->create(['name' => 'Same school name']);
         $this->artisan('prototype:import', ['--config' => $this->source(), '--school' => 'Same school name'])->assertFailed();
         $this->assertDatabaseCount('users', 0);

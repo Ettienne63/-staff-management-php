@@ -11,19 +11,29 @@
 /.idea/
 /.codex/
 /.agents/
+/.cursor/
+/.nova/
+/.zed/
+.phpactor.json
+_ide_helper.php
+Homestead.json
+Homestead.yaml
 *.code-workspace
 
 # PHP and Node dependencies
 /vendor/
 node_modules/
 
-# Generated frontend assets (if a build pipeline is introduced)
+# Generated frontend assets
 /public/build/
 /public/hot
+/public/fonts-manifest.dev.json
+/public/storage
 
-# Laravel runtime artifacts (if Laravel is introduced)
+# Laravel runtime artifacts
 /bootstrap/cache/*.php
 /storage/*.key
+/storage/pail
 /storage/logs/*
 /storage/framework/cache/*
 /storage/framework/sessions/*
@@ -49,37 +59,3 @@ node_modules/
 DS_Store
 Thumbs.db
 Desktop.ini
-
-*.log
-.DS_Store
-.env
-.env.backup
-.env.production
-.phpactor.json
-.phpunit.result.cache
-/.codex
-/.cursor/
-/.idea
-/.nova
-/.phpunit.cache
-/.vscode
-/.zed
-/auth.json
-/node_modules
-/public/build
-/public/fonts-manifest.dev.json
-/public/hot
-/public/storage
-/storage/*.key
-/storage/pail
-/vendor
-_ide_helper.php
-Homestead.json
-Homestead.yaml
-Thumbs.db
-
-/database/*.sqlite
-/database/*.sqlite-*
-.env.*
-!.env.example
-!.env.*.example

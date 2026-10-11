@@ -10,28 +10,40 @@ cd C:\xampp\htdocs\my-sports-app
 php artisan serve --host=127.0.0.1 --port=8000
 ```
 Open http://127.0.0.1:8000/. The existing prototype login password is preserved in the local import.
-Choose your school from the dashboard. Principal/deputy memberships manage staff; coaches can view school staff.
+Choose your school from `/dashboard`. Principal, vice/deputy, and HR memberships manage staff; coaches can view school staff. Students have separate training and progress page foundations and cannot access staff records.
+Training, progress, student rosters, and account administration currently show clearly labelled placeholders for future workflows.
 The former localhost/my-sports-app URL is blocked because Apache must serve only public/ using compatible PHP.
 
+## Internal administration
+
+Set `PLATFORM_ADMIN_EMAIL` in your local `.env` to the exact email of your existing login account, including letter case. Run `php artisan config:clear`, sign in, and visit `/internal/schools`.
+Internal administration lists schools and creates a school with an existing account assigned as its first principal. Platform access does not automatically grant school membership. Leave the setting blank to disable internal access.
+
 ## Structure
+
 | Location | Purpose |
 |---|---|
-| app/Http/Controllers | Login, school selection, and staff request handling |
+| app/Http/Controllers | Login, internal school onboarding, school workspaces, and staff request handling |
 | app/Http/Requests | Staff validation and management authorization |
-| app/Http/Middleware | Active school membership checks |
+| app/Http/Middleware | Platform administrator and active school membership checks |
 | app/Models | Users, schools, and school-owned staff |
 | app/Console/Commands | Local prototype import |
-| resources/views | Shared Blade layout and page templates |
-| resources/css | Application styles compiled by Vite |
+| resources/views | Shared Blade layouts, internal pages, and school pages |
+| resources/css | Tailwind styles compiled by Vite |
 | routes/web.php | Named web routes |
 | database/migrations | Schema changes |
 | tests/Feature | Authentication, CRUD, isolation, import regression tests |
 | public | Web document root and built assets |
+| public/images | Public branding assets, such as the logo |
+| storage/app/private | Private files; access must be authorized when upload workflows are added |
 | docs | Product decisions, setup, roadmap, and workflow |
 
 There is one Laravel application at the repository root. vendor and node_modules are installed dependencies, not duplicate application code.
+Keep `.env`, local SQLite data, dependencies, and generated assets out of Git. The default database seeder creates no accounts or school records; tests create synthetic data through factories.
+Save your logo as `public/images/logo.svg` or `public/images/logo.png`. This folder does not need `php artisan storage:link`; that command exposes files stored on the public storage disk.
 
 ## Documentation
+
 - [Setup and migration guide](docs/SETUP.md)
 - [Product plan](docs/PRODUCT_PLAN.md)
 - [Roadmap](docs/ROADMAP.md)

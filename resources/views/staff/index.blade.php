@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.school')
 @section('title', 'Staff | School Sports')
-@section('content')
+@section('school-content')
 <div class="page-heading">
-    <div><a href="{{ route('dashboard') }}">All schools</a><h1>{{ $school->name }}</h1><p>Staff members</p></div>
+    <div><p class="eyebrow">People behind the progress</p><h1>Staff members</h1><p>Manage your school team, contact details, and departments.</p></div>
     @if($canManage)<a class="button primary" href="{{ route('staff.create', $school) }}">Add staff</a>@endif
 </div>
 <section class="card">

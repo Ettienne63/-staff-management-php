@@ -1,5 +1,14 @@
 # Product plan
 
+## Page foundation decisions (2026-10-10)
+
+Use individual accounts and school memberships, never a shared school login. Keep Blade and use the installed Tailwind 4 styling pipeline.
+Internal platform administration creates schools and assigns their first principal; it does not automatically grant school data access. The administrator will initially be designated by the developer through private configuration; the person is not yet selected. School suspension is deferred.
+Principal and vice/deputy manage the school. HR primarily handles account administration and staff; principal alone controls vice appointments and ownership transfer. Invitations, resets, account changes, and audited ownership changes remain future implementation.
+Coaches may edit training and results for the students they are authorized to see; these sports workflows are not implemented in the page foundation.
+Students will view their own training, goals, and progress and may mark exercises complete. Evidence links, such as Google Docs, are a future feature.
+First delivery focuses on protected internal/client page foundations, basic school creation, and honest empty states. No fictional performance data or working invitation controls are presented.
+
 Status: prototype login and school-scoped staff workflows are migrated to Laravel; sports features remain planned.
 
 ## Confirmed
@@ -34,7 +43,7 @@ Client school workspace:
 - School switcher: visible only for multiple active school memberships.
 
 Student area: invitation signup/password setup, own progress, and assigned training. Ability to enter results is undecided.
-Internal area: school/account administration and support, separated from client routes and permissions.
+Internal area: platform school onboarding and initial principal assignment, separated from client account administration and permissions.
 Propose no routine internal access to student results; exceptional support access should be explicit, limited, and auditable.
 
 ## Authorization proposal
@@ -96,6 +105,7 @@ Proposed score components:
 
 ## Confirmed access decisions (2026-10-10)
 Principal is school owner; principal or vice/deputy principal grants access.
+Updated page decisions extend day-to-day account administration to HR; vice appointments and ownership transfer are reserved for the principal.
 Students receive signup invitations and password reset support.
 Coaches view authorized school students and have activities, goals, and scheduled training features.
 The single-school and multi-school coach names in discussion were fictional examples only; no such accounts or schools are seeded.
@@ -114,5 +124,5 @@ Define guardian revocation, relationship verification, and later transition to i
 Existing prototype authentication is migrated. Guardian linking, invitations, and password reset delivery remain unimplemented.
 
 ## Migrated prototype scope
-Login/logout, a school-selection dashboard, and school-scoped staff CRUD are implemented. Principal/deputy memberships can manage staff; coaches can view staff. This is a migration baseline, not a completed student, guardian, or sports workflow. Staff memberships are not granted by creating a staff record; login access is separate.
+Login/logout, a school-selection dashboard, and school-scoped staff CRUD are implemented. Principal/deputy and now HR memberships can manage staff; coaches can view staff. This is a migration baseline, not a completed student, guardian, or sports workflow. Staff memberships are not granted by creating a staff record; login access is separate.
 School-assisted activation for families without email remains a proposal. The school verifies guardian links before granting access.

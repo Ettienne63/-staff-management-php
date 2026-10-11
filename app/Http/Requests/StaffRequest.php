@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -9,7 +10,7 @@ class StaffRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return in_array($this->attributes->get('school_role'), ['principal', 'deputy'], true);
+        return in_array($this->attributes->get('school_role'), User::ManagementRoles, true);
     }
 
     public function rules(): array

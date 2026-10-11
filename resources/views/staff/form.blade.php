@@ -1,8 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.school')
 @section('title', ($staffMember ? 'Edit staff' : 'Add staff').' | School Sports')
-@section('content')
-<section class="card">
+@section('school-content')
+<section class="card form-panel">
     <a href="{{ route('staff.index', $school) }}">Back to staff</a>
+    <p class="eyebrow">School team</p>
     <h1>{{ $staffMember ? 'Edit staff member' : 'Add staff member' }}</h1>
     <p>{{ $school->name }}</p>
     <form method="POST" action="{{ $staffMember ? route('staff.update', [$school, $staffMember->id]) : route('staff.store', $school) }}">
