@@ -1,9 +1,9 @@
-name: Laravel foundation
+name: Application checks
 on:
   pull_request:
-    branches: [staging, main]
+    branches: [my-sports-app-demo-1, staging, main]
   push:
-    branches: [staging, main]
+    branches: [my-sports-app-demo-1, staging, main]
   workflow_dispatch:
 permissions:
   contents: read
@@ -29,28 +29,47 @@ jobs:
   framework:
     name: Laravel checks
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: .
     steps:
       - uses: actions/checkout@v4
+      - name: Detect Laravel application
+        id: application
+        run: |
+          if [ -f composer.json ] && [ -f artisan ]; then
+            echo "laravel=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "laravel=false" >> "$GITHUB_OUTPUT"
+            echo "Prototype baseline: PHP syntax checks apply."
+          fi
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.5'
           extensions: mbstring, dom, curl, fileinfo, pdo_sqlite, sqlite3, pdo_mysql, zip
           coverage: none
           tools: composer:v2
+      - name: Check prototype PHP syntax
+        if: steps.application.outputs.laravel != 'true'
+        run: git ls-files -z '*.php' | xargs -0 -r -n 1 php -l
       - uses: actions/setup-node@v4
+        if: steps.application.outputs.laravel == 'true'
         with:
           node-version: '24'
           cache: npm
           cache-dependency-path: package-lock.json
       - run: composer install --no-interaction --prefer-dist --no-progress
+        if: steps.application.outputs.laravel == 'true'
       - run: composer validate --strict
+        if: steps.application.outputs.laravel == 'true'
       - run: composer check-platform-reqs
+        if: steps.application.outputs.laravel == 'true'
       - run: cp .env.example .env
+        if: steps.application.outputs.laravel == 'true'
       - run: php artisan key:generate
+        if: steps.application.outputs.laravel == 'true'
       - run: php vendor/bin/pint --test
+        if: steps.application.outputs.laravel == 'true'
       - run: npm ci
+        if: steps.application.outputs.laravel == 'true'
       - run: npm run build
+        if: steps.application.outputs.laravel == 'true'
       - run: php artisan test
+        if: steps.application.outputs.laravel == 'true'
