@@ -10,6 +10,9 @@
 - Never push directly to main or staging. Do not force-push shared branches.
 - A staging branch is not a deployed staging environment; hosting and deployments are a later decision.
 - Codex may choose and create task branches autonomously. Start a new branch from staging for a distinct independent task; continue the current task branch for related implementation and fixes. Preserve unmerged dependencies and user changes when switching branches.
+- Keep one focused scope per branch. New features use feat/, bugs and regressions use fix/, documentation uses docs/, and maintenance uses chore/ or its applicable type. Do not bundle unrelated fixes, features, and documentation tasks into a growing feature branch. Documentation and tests directly needed by that task belong with its implementation.
+- For dependent tasks, record the prerequisite branch/PR and integrate prerequisites first. Avoid rewriting shared branch history to organize already published work.
+- When a task passes its applicable checks, report that its PR is ready for staging and summarize the changes and checks. Wait for the user's explicit approval before merging into staging; autonomous branch, commit, and push decisions do not grant merge approval. Releases to main require separate approval.
 
 Branch names: type/short-kebab-case-description.
 Examples: feat/student-import, fix/school-access-check, docs/sports-app-plan, chore/laravel-bootstrap.
@@ -46,6 +49,7 @@ Describe the problem, resulting behavior, validation, and any unresolved decisio
 Include authorization and cross-school isolation evidence for changes touching tenant data.
 Keep business behavior, schema, and documentation consistent.
 Prefer squash merging task PRs into staging. Prefer a merge commit for staging-to-main release PRs so branches share release ancestry.
+For an existing chain of published dependent task branches, merge commits may preserve prerequisite ancestry and avoid repeating already integrated commits in later PRs. Explain this exception when using it. New independent task branches should follow the normal squash policy.
 Remove merged task branches when appropriate.
 
 ## Code comments

@@ -29,6 +29,8 @@ The hosted demo originally used `feat/platform-admin-tools`. The student/family 
 
 For the normal project release workflow, task PRs target `staging` and approved releases promote `staging` to `main`. Deploy a task branch to this demo only when deliberately previewing that work. Do not treat a preview deployment as a reviewed release.
 
+From 2026-10-11, keep future features, bug fixes, documentation tasks, and maintenance on separate focused branches. Notify the user when a checked PR is ready for staging and obtain explicit approval before merging. The user approved consolidating the existing completed branch chain into staging; that approval does not apply to future merges or main releases. After consolidation, use staging for the integrated hosted demo if the user deploys that branch. Merging on GitHub does not automatically update alwaysdata; still verify and update its SSH checkout.
+
 ## 2. Connect and inspect the hosted copy
 
 From Windows PowerShell:
