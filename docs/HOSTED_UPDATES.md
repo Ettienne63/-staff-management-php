@@ -2,6 +2,25 @@
 
 Use this guide for updates to the existing hosted demo. Run Windows commands on your computer and Linux commands in the alwaysdata SSH terminal. Run deployment commands one at a time and stop if any fails.
 
+## For future hosted-update requests
+
+When the user asks to update the hosted server or says their changes are missing, read this guide before proposing commands:
+
+1. Inspect the local working tree, branch, commits, and upstream to identify the changes the user means and whether they are pushed. Do not assume the currently checked-out documentation branch is the application branch to deploy.
+2. Check the actual hosted branch and commit through SSH. A local Git result does not establish what the server is running. If no authenticated server connection is available, have the user run the SSH inspection commands below and share their output.
+3. Compare the hosted commit with the intended pushed commit. If they are on different branches, explicitly fetch and switch to the intended branch; pulling the old branch cannot bring in the fixes.
+4. Complete the dependency install, asset build, migrations, and cache refresh as applicable. Preserve server-only configuration, data, and credentials.
+5. Verify the hosted Git commit and the changed screen before reporting the site as updated. Record the confirmed result here when available; an instruction to deploy is not evidence that deployment succeeded.
+
+### What happened on 2026-10-11
+
+- The user ran `cd ~/apps/my-sports-app` in Windows PowerShell and received a missing-path error for `C:\Users\ettie\apps\my-sports-app`. The Git output afterward described their local checkout, not alwaysdata.
+- After connecting to SSH, the user confirmed the server was still on `feat/platform-admin-tools` at `7f75548` (`feat(demo): add a private showcase password prompt`). The hosted working tree was clean.
+- The intended student/family invitation fixes were pushed on `fix/student-family-invitations` at `11f2962` (`fix(onboarding): isolate student access and school invitations`). We provided explicit branch-switch and deployment commands.
+- Deployment of `11f2962` has not yet been confirmed by server output or a check of the changed screen. Do not label it as the current hosted version until verified. These commits are historical reference points; inspect fresh branch tips for future changes.
+
+The guide is maintained on `docs/alwaysdata-updates`, which contains the above application fixes plus documentation. Keep documentation changes separate from selecting the application version for the hosted demo.
+
 ## 1. Publish the intended changes
 
 Commit and push the task branch containing your fixes from your local computer. Never include `.env`, database files, passwords, dependencies, or built assets in the commit.
@@ -18,7 +37,7 @@ From Windows PowerShell:
 ssh my-sports-app@ssh-my-sports-app.alwaysdata.net
 ```
 
-In the SSH terminal:
+Wait until the terminal prompt starts with `my-sports-app@ssh2:` (or another alwaysdata SSH hostname). A `PS C:\...>` prompt is still Windows PowerShell. Only then run:
 
 ```bash
 cd ~/apps/my-sports-app
@@ -27,6 +46,8 @@ git branch --show-current
 git log -1 --oneline
 php -v
 ```
+
+If the SSH connection has closed, connect again before using `~/apps/my-sports-app`. The corresponding local project directory is `C:\xampp\htdocs\my-sports-app`; the two checkouts are independent.
 
 PHP must be 8.5. If necessary, select 8.5 under alwaysdata **Environment → PHP**, then reconnect.
 
@@ -83,6 +104,8 @@ Use `composer install`, not `composer update`, to install the committed dependen
 ## 5. Check the website
 
 Open **https://my-sports-app.alwaysdata.net** and refresh with **Ctrl+F5**. Confirm login, the changed page, and the intended role restrictions. Existing demo passwords should still work.
+
+In the same SSH session, run `git branch --show-current` and `git log -1 --oneline` again and compare them with the intended deployed branch and commit. If the commit matches but a change is still missing, identify the exact page, login role, and behavior, confirm alwaysdata serves this checkout's `public/` directory, and inspect build/cache or application errors. Do not assume every missing change is browser caching.
 
 The alwaysdata site must use PHP 8.5 and this document root:
 

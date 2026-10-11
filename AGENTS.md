@@ -29,6 +29,7 @@ The prototype archive is outside the repository/web root. Its MariaDB data is pr
 See docs/SETUP.md for paths, actual commands, and the local-only prototype importer.
 
 ## Workflow and docs
+For requests to update the hosted demo or diagnose missing hosted changes, read docs/HOSTED_UPDATES.md. Verify the actual SSH checkout and intended pushed application branch; local Git output is not evidence of deployment. Record confirmed hosted results without treating supplied deployment commands as completed work.
 One task branch from staging; task PRs target staging and releases promote staging to main.
 No direct pushes to protected branches. Use type(scope): imperative summary.
 Preserve user changes; stage explicit files. Commit focused, useful increments.
