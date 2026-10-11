@@ -67,6 +67,7 @@ class FamilyOnboardingTest extends TestCase
         $this->get(route('invitations.show', $parentToken))->assertOk();
         $this->post(route('invitations.accept', $parentToken), $this->signup('Test Parent'))->assertRedirect(route('family.dashboard'));
         $parent = User::where('email', 'parent@example.test')->firstOrFail();
+        $this->assertDatabaseHas('school_user', ['user_id' => $parent->id, 'school_id' => $school->id, 'role' => 'guardian']);
         $parentPassword = $parent->password;
         $this->assertAuthenticatedAs($parent);
         $this->get(route('family.dashboard'))->assertOk()->assertDontSee('My schools');
@@ -90,6 +91,7 @@ class FamilyOnboardingTest extends TestCase
         $studentUser = User::where('email', 'child@example.test')->firstOrFail();
         $this->assertAuthenticatedAs($studentUser);
         $this->assertSame($studentUser->id, $student->fresh()->user_id);
+        $this->assertDatabaseHas('school_user', ['user_id' => $studentUser->id, 'school_id' => $school->id, 'role' => 'student']);
         $this->assertNotSame($parent->id, $studentUser->id);
         $this->assertSame($parentPassword, $parent->fresh()->password);
         $this->assertTrue(Hash::check('SeparatePassword123', $studentUser->password));
@@ -101,6 +103,81 @@ class FamilyOnboardingTest extends TestCase
         $this->post(route('login.store'), ['email' => $studentUser->email, 'password' => 'SeparatePassword123'])
             ->assertRedirect(route('schools.workspace', $school));
         $this->assertDatabaseHas('onboarding_audits', ['action' => 'child.approved', 'student_id' => $student->id, 'actor_id' => $principal->id]);
+        $studentUser->schools()->detach($school);
+        $this->get(route('family.dashboard'))->assertNotFound();
+        $this->get(route('dashboard'))->assertOk()->assertDontSee('Family space');
+    }
+
+    public function test_parent_invitation_activates_the_child_at_the_verified_school(): void
+    {
+        $school = School::factory()->create();
+        $other = School::factory()->create();
+        $parent = $this->member($school, 'guardian');
+        $parent->schools()->attach($other, ['role' => 'guardian']);
+        $child = Student::factory()->for($school)->create();
+        $child->guardians()->attach($parent, ['verified_at' => now()]);
+
+        $this->actingAs($parent)->get(route('family.children.show', $child))->assertSee('Send student invitation');
+        $this->post(route('family.children.invite', $child), ['email' => 'child@example.test', 'school_id' => $other->id])
+            ->assertRedirect(route('family.children.show', $child));
+        $token = $this->latestToken();
+        $this->assertDatabaseHas('portal_invitations', [
+            'school_id' => $school->id, 'student_id' => $child->id, 'created_by' => $parent->id, 'email' => 'child@example.test',
+        ]);
+        $this->post(route('logout'));
+        $this->post(route('invitations.accept', $token), $this->signup('Test Student'))->assertRedirect(route('schools.workspace', $school));
+        $studentUser = User::where('email', 'child@example.test')->firstOrFail();
+        $this->assertSame($studentUser->id, $child->fresh()->user_id);
+        $this->assertDatabaseHas('school_user', ['school_id' => $school->id, 'user_id' => $studentUser->id, 'role' => 'student']);
+        $this->assertDatabaseMissing('school_user', ['school_id' => $other->id, 'user_id' => $studentUser->id]);
+        $this->get(route('schools.workspace', $school))->assertOk()->assertDontSee('Family space')->assertDontSee('My schools');
+        $this->get(route('family.dashboard'))->assertNotFound();
+        $this->get(route('schools.workspace', $other))->assertNotFound();
+        $this->post(route('invitations.accept', $token))->assertGone();
+        $this->actingAs($parent)->get(route('family.children.show', $child))->assertDontSee('Send student invitation');
+        $this->post(route('family.children.invite', $child), ['email' => 'replacement@example.test'])->assertSessionHasErrors('email');
+        $this->assertDatabaseCount('portal_invitations', 1);
+    }
+
+    public function test_parent_cannot_invite_unlinked_unverified_or_revoked_children(): void
+    {
+        $school = School::factory()->create();
+        $parent = $this->member($school, 'guardian');
+        $unlinked = Student::factory()->create();
+        $unverified = Student::factory()->for($school)->create();
+        ChildRegistration::factory()->create(['school_id' => $school->id, 'guardian_user_id' => $parent->id, 'student_id' => $unverified->id, 'status' => 'pending']);
+        $revoked = Student::factory()->for($school)->create();
+        $revoked->guardians()->attach($parent, ['verified_at' => now(), 'revoked_at' => now()]);
+        $data = ['email' => 'child@example.test'];
+
+        $this->actingAs($parent)->post(route('family.children.invite', $unlinked), $data)->assertNotFound();
+        $this->post(route('family.children.invite', $unverified), $data)->assertNotFound();
+        $this->post(route('family.children.invite', $revoked), $data)->assertNotFound();
+        $this->assertDatabaseCount('portal_invitations', 0);
+    }
+
+    public function test_parent_issued_links_fail_after_guardian_or_school_access_is_revoked(): void
+    {
+        $school = School::factory()->create();
+        $parent = $this->member($school, 'guardian');
+        $otherParent = $this->member($school, 'guardian');
+        $children = Student::factory()->for($school)->count(2)->create();
+        foreach ($children as $child) {
+            $child->guardians()->attach([$parent->id => ['verified_at' => now()], $otherParent->id => ['verified_at' => now()]]);
+        }
+        $this->actingAs($parent)->post(route('family.children.invite', $children[0]), ['email' => 'first@example.test'])->assertRedirect();
+        $firstToken = $this->latestToken();
+        $this->post(route('family.children.invite', $children[1]), ['email' => 'second@example.test'])->assertRedirect();
+        $secondToken = $this->latestToken();
+        $children[0]->guardians()->updateExistingPivot($parent->id, ['revoked_at' => now()]);
+        $this->post(route('logout'));
+        $this->post(route('invitations.accept', $firstToken), $this->signup('First Student'))->assertGone();
+        $parent->schools()->detach($school);
+        $this->post(route('invitations.accept', $secondToken), $this->signup('Second Student'))->assertGone();
+        $this->assertDatabaseMissing('users', ['email' => 'first@example.test']);
+        $this->assertDatabaseMissing('users', ['email' => 'second@example.test']);
+        $this->assertNull($children[0]->fresh()->user_id);
+        $this->assertNull($children[1]->fresh()->user_id);
     }
 
     public function test_parent_must_be_invited_and_cannot_verify_their_own_request(): void

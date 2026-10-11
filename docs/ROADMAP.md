@@ -14,7 +14,7 @@ Platform tools now include non-private setup indicators, audited public school c
 2. Restricted internal school directory and creation with initial principal assignment.
 3. School leadership/HR, coach, and student page foundations with school and role checks.
 
-Parent/student invitations, school-reviewed child requests, guardian links, student records, and guardian revocation are implemented. General HR account controls, principal-only vice/ownership changes, sports editing, completion, and evidence links remain future workflows.
+Parent/student invitations, school-reviewed child requests, guardian links, student records, and guardian revocation are implemented. Verified guardians with school access can send student activation invitations for their linked children; accepted parent and student invitations automatically grant membership at the invitation's school. Issuer access is rechecked on acceptance. Students cannot enter Family space, and their selected school workspace hides My schools. General HR account controls, principal-only vice/ownership changes, sports editing, completion, and evidence links remain future workflows.
 
 Local implementation is complete for these three page phases: Tailwind styling, restricted platform school creation, and role-specific client workspaces. School access is checked on each request, including after membership revocation or role changes. HR can manage the existing staff CRUD; students cannot access it.
 
