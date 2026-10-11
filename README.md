@@ -52,6 +52,7 @@ The current logo is `public/images/my-sports-app-logo-Photoroom.png`. If you rep
 ## Documentation
 
 - [Setup and migration guide](docs/SETUP.md)
+- [Hosted demo update guide](docs/HOSTED_UPDATES.md)
 - [Product plan](docs/PRODUCT_PLAN.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Contribution workflow](CONTRIBUTING.md)
