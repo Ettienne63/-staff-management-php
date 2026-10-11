@@ -9,9 +9,10 @@
         @csrf
         <label for="name">School name</label>
         <input id="name" name="name" value="{{ old('name') }}" maxlength="255" required>
+        @include('internal.public-school-fields')
         <label for="principal_email">Principal account email</label>
         <input id="principal_email" name="principal_email" type="email" value="{{ old('principal_email') }}" maxlength="255" aria-describedby="principal-help" required>
-        <p id="principal-help" class="text-sm">This must be an existing login account. Invitation signup is planned for a later phase.</p>
+        <p id="principal-help" class="text-sm">This must be a separate existing login account. Leadership signup is not available yet.</p>
         <div class="actions"><button type="submit" class="primary">Create school</button><a href="{{ route('internal.schools.index') }}">Cancel</a></div>
     </form>
 </section>

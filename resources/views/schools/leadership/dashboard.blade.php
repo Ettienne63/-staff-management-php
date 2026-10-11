@@ -1,6 +1,9 @@
 @extends('layouts.school')
 @section('title', $roleLabel.' workspace | My Sports App')
 @section('school-content')
+@foreach($announcements as $announcement)
+    <section class="card mb-6"><p class="eyebrow">Platform announcement</p><h2>{{ $announcement->title }}</h2><p class="whitespace-pre-line">{{ $announcement->body }}</p></section>
+@endforeach
 <x-workspace-dashboard :school="$school" :audience="$roleLabel" title="Let’s build a strong team." description="Coordinate your school team, student development, and account access.">
     <x-workspace-tile :href="route('staff.index', $school)" title="School staff" :caption="$staffCount.' '.Str::plural('staff member', $staffCount)" action="Manage staff" icon="♧" />
     <x-workspace-tile :href="route('schools.section', [$school, 'accounts'])" title="Accounts" caption="School invitations and access" action="Manage access" tone="lilac" icon="+" />

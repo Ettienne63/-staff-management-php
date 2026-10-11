@@ -13,8 +13,8 @@ class ShowcaseSeeder extends Seeder
 {
     public function run(): void
     {
-        if (! app()->environment(['local', 'testing'])) {
-            throw new RuntimeException('Showcase data is available only in local and testing environments.');
+        if (! app()->environment(['local', 'testing']) && config('app.showcase_enabled') !== true) {
+            throw new RuntimeException('Showcase data requires a local/testing environment or explicit SHOWCASE_ENABLED=true for a dedicated demo.');
         }
 
         $password = Str::password(24);

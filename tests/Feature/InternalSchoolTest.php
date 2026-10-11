@@ -92,6 +92,7 @@ class InternalSchoolTest extends TestCase
     public function test_competing_school_insert_returns_validation_error_without_assigning_principal(): void
     {
         $admin = User::factory()->create();
+        $principal = User::factory()->create();
         config(['app.platform_admin_email' => $admin->email]);
         $inserted = false;
         DB::listen(function (QueryExecuted $query) use (&$inserted): void {
@@ -101,7 +102,7 @@ class InternalSchoolTest extends TestCase
             }
         });
         $this->actingAs($admin)->post(route('internal.schools.store'), [
-            'name' => 'Competing school', 'principal_email' => $admin->email,
+            'name' => 'Competing school', 'principal_email' => $principal->email,
         ])->assertSessionHasErrors('name');
         $this->assertDatabaseCount('schools', 1);
         $this->assertDatabaseCount('school_user', 0);

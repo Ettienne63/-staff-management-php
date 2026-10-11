@@ -27,6 +27,7 @@ class InvitationController extends Controller
 
     public function show(Request $request, string $token): View
     {
+        abort_if($request->user()?->isPlatformAdmin(), 404);
         $invitation = $this->resolve($token);
         $existingAccount = User::whereRaw('LOWER(email) = ?', [$invitation->email])->exists();
         if ($existingAccount && ! $request->user()) {
@@ -38,6 +39,7 @@ class InvitationController extends Controller
 
     public function accept(Request $request, string $token): RedirectResponse
     {
+        abort_if($request->user()?->isPlatformAdmin(), 404);
         $invitation = $this->resolve($token);
         $data = $request->user() ? [] : $request->validate([
             'name' => ['required', 'string', 'max:255'],

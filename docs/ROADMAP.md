@@ -2,6 +2,14 @@
 
 ## Page foundation delivery (implemented locally, 2026-10-10)
 
+Dedicated hosted demo seeding is approved and supported (2026-10-11) via explicit `SHOWCASE_ENABLED=true`. Default production installs remain unseeded; showcase reruns preserve accounts, credentials, and memberships.
+
+Explicit showcase password changes are implemented via a hidden console prompt, with hosted-demo enablement and unchanged fixture identity checks. General account password recovery remains a separate future workflow.
+
+Platform administration is isolated from all private school and family paths, including accounts with historical memberships. HR is limited to one registered school with no Family space. Both restrictions are enforced server-side and covered by feature tests.
+
+Platform tools now include non-private setup indicators, audited public school corrections, on-demand health checks, external backup result reporting, and expiring/withdrawable leadership dashboard notices. Activity tracking begins with this implementation; earlier changes are not backfilled. Production backup execution, restore checks, historical uptime monitoring, and alerts remain operational work, not completed capabilities.
+
 1. Tailwind/Blade shared layout and accessibility foundation.
 2. Restricted internal school directory and creation with initial principal assignment.
 3. School leadership/HR, coach, and student page foundations with school and role checks.
@@ -45,7 +53,7 @@ Depends on Phase 0.
 
 ## Phase 2 — tenancy and access
 
-School selection, internal/client separation, and per-request membership checks are implemented for current school and staff paths. Principals, deputies, and students are restricted to one school; coaches may access multiple schools through separate memberships. Cross-school student stats sharing requires an explicit permission flow that remains to be defined. Decide production tenant storage before implementing these student data flows.
+School selection, internal/client separation, and per-request membership checks are implemented for current school and staff paths. Principals, deputies, HR, and students are restricted to one school; coaches may access multiple schools through separate memberships. Cross-school student stats sharing requires an explicit permission flow that remains to be defined. Decide production tenant storage before implementing these student data flows.
 Extend cross-school authorization coverage to each new search, export, file, job, and student/sports path; preserve permission revocation behavior.
 Parent-first onboarding is implemented: initial parent invitation/login, a child registration or link request, principal/deputy verification, and separate student activation with personal email. Tokens are hashed, single-use, expiring, and revocable. Acceptance preserves existing parent passwords and cannot merge parent/student identities. Guardian access is checked on every child path and can be revoked immediately. Invitation and review actions are audited; cross-school and permission tests cover the flow. Activation without personal email and production mail delivery remain outstanding.
 Done when the production tenant model and required invitation/access flows are implemented and unauthorized access consistently fails.

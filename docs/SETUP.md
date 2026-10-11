@@ -66,7 +66,9 @@ With PHP 8.5 active, run:
 php artisan db:seed --class=ShowcaseSeeder
 ```
 
-This command is allowed only in `local` and `testing` environments, even with `--force`. It adds fictional Showcase Oakfield and Showcase Riverbend schools, six staff records per school, and these login accounts:
+This command is allowed in `local` and `testing` environments. A dedicated hosted demo may explicitly enable it with `SHOWCASE_ENABLED=true` in its private `.env`, while retaining `APP_ENV=production` and `APP_DEBUG=false`. Run `php artisan config:clear`, then `php artisan db:seed --class=ShowcaseSeeder --force --no-interaction`. Set `SHOWCASE_ENABLED=false` and clear/rebuild configuration afterward to block further showcase seeding; this does not remove the demo accounts. The flag defaults to false, and `--force` alone never bypasses the guard. Default seeding remains empty.
+
+It adds fictional Showcase Oakfield and Showcase Riverbend schools, six staff records per school, and these login accounts:
 
 | Email | Preview |
 | --- | --- |
@@ -81,9 +83,19 @@ The command prints a random shared password for accounts created in that run. Sa
 
 The existing `PLATFORM_ADMIN_EMAIL` setting is preserved. Sign in with the configured administrator to inspect the internal school directory and creation form, now including the showcase schools. Platform access is not granted to preview accounts automatically.
 
+To explicitly choose or replace the password for existing showcase logins, run `php artisan showcase:password` locally, or `php artisan showcase:password --force` on an explicitly enabled hosted demo. Enter the password at its hidden prompt; it is not accepted as a command-line argument or printed. The command requires 8–72 bytes and changes only the six reserved showcase emails whose display names still match their seeded Showcase role names. Other matching accounts are preserved. Missing or renamed showcase accounts are skipped; the command reports how many were changed. Seeder reruns continue to preserve the chosen passwords. Keep these shared credentials limited to fictional demo accounts.
+
 Training sessions, assessments, scores, and family events remain unimplemented. The showcase student is a preview login account, not a student roster record. The showcase guardian has no verified child links or school enrollment until explicitly invited through the onboarding flow. Staff records, child records, and login accounts remain separate entities.
 
 ## Verify
+
+### Platform tools
+
+Run `php artisan migrate --no-interaction` before using the expanded platform tools. The admin directory shows only public school fields and setup indicators. Activity history records new school registrations, public corrections, and announcement publication/withdrawal without principal emails or private school activity. Notices appear only on principal/deputy dashboards until their expiry date (midnight in the application timezone) or withdrawal.
+
+Platform health checks run on each page load. Backup integration must call `php artisan platform:record-backup success --no-interaction` only after an actual backup succeeds, or `php artisan platform:record-backup failure --no-interaction` after failure. The command stores only result and report time; it does not perform backups or prove restore readiness. The page displays the last report time, so an old success is not a statement that backups are current. Production uptime monitoring and automated backup execution remain to be connected.
+
+### Application checks
 ```powershell
 composer validate --strict
 composer check-platform-reqs

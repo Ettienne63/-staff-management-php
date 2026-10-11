@@ -18,6 +18,7 @@ class FamilyController extends Controller
 {
     private function authorizeFamily(Request $request): void
     {
+        abort_if($request->user()->isPlatformAdmin(), 404);
         abort_if($request->user()->schools()->wherePivotIn('role', User::FamilySpaceRestrictedRoles)->exists(), 404);
     }
 

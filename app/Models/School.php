@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['name'])]
+#[Fillable(['name', 'public_email', 'public_phone', 'website'])]
 class School extends Model
 {
     use HasFactory;

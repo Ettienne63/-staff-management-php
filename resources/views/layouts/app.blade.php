@@ -12,18 +12,25 @@
     @auth
         @php
             $currentSchool = request()->route('school');
+            $isPlatformAdmin = auth()->user()->isPlatformAdmin();
             $schoolRole = request()->attributes->get('school_role');
             $isFamilyPortal = request()->routeIs('family.*') || (request()->routeIs('invitations.*') && auth()->user()->usesFamilyPortal());
         @endphp
         <div class="app-shell">
             <aside class="sidebar" aria-label="Application navigation">
-                <a class="sidebar-brand" href="{{ $isFamilyPortal ? route('family.dashboard') : route('dashboard') }}">
+                <a class="sidebar-brand" href="{{ $isPlatformAdmin ? route('internal.schools.index') : ($isFamilyPortal ? route('family.dashboard') : route('dashboard')) }}">
                     <span class="sidebar-brand-mark" aria-hidden="true">S</span>
                     <span>SPORT<span class="sidebar-brand-light">SPACE</span><small>SCHOOL ATHLETICS</small></span>
                 </a>
-                <p class="sidebar-label">{{ $isFamilyPortal ? 'FAMILY SPACE' : 'WORKSPACE' }}</p>
+                <p class="sidebar-label">{{ $isPlatformAdmin ? 'PLATFORM' : ($isFamilyPortal ? 'FAMILY SPACE' : 'WORKSPACE') }}</p>
                 <nav class="sidebar-nav" aria-label="Main navigation">
-                    @if($isFamilyPortal)
+                    @if($isPlatformAdmin)
+                        <a href="{{ route('internal.schools.index') }}" @if(request()->routeIs('internal.schools.index')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&#9638;</span><span>Platform admin</span></a>
+                        <a href="{{ route('internal.schools.create') }}" @if(request()->routeIs('internal.schools.create')) aria-current="page" @endif>Add school</a>
+                        <a href="{{ route('internal.health') }}" @if(request()->routeIs('internal.health')) aria-current="page" @endif>Platform health</a>
+                        <a href="{{ route('internal.activity') }}" @if(request()->routeIs('internal.activity')) aria-current="page" @endif>Admin activity</a>
+                        <a href="{{ route('internal.announcements.index') }}" @if(request()->routeIs('internal.announcements.*')) aria-current="page" @endif>Announcements</a>
+                    @elseif($isFamilyPortal)
                         <a href="{{ route('family.dashboard') }}" @if(request()->route('section') !== 'events') aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&#8599;</span><span>Children&#8217;s progress</span></a>
                         <a href="{{ route('family.dashboard', ['section' => 'events']) }}" @if(request()->route('section') === 'events') aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&#9719;</span><span>Family events</span></a>
                     @else
@@ -32,11 +39,8 @@
                         @endunless
                         <a href="{{ route('dashboard') }}" @if(request()->routeIs('dashboard')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&#8962;</span><span>My schools</span></a>
                     @endif
-                    @if(auth()->user()->isPlatformAdmin())
-                        <a href="{{ route('internal.schools.index') }}" @if(request()->routeIs('internal.*')) aria-current="page" @endif><span class="sidebar-icon" aria-hidden="true">&#9638;</span><span>Platform admin</span></a>
-                    @endif
                 </nav>
-                @if($currentSchool)
+                @if($currentSchool && ! $isPlatformAdmin)
                     <p class="sidebar-label sidebar-section-label">{{ $currentSchool->name }}</p>
                     @include($schoolRole === 'student' ? 'navigation.student' : 'navigation.school')
                 @endif

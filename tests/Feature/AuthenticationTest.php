@@ -52,8 +52,9 @@ class AuthenticationTest extends TestCase
         config(['app.platform_admin_email' => $user->email]);
 
         $this->post(route('login.store'), ['email' => $user->email, 'password' => 'password'])
-            ->assertRedirect(route('dashboard'));
-        $this->get(route('dashboard'))->assertOk()->assertSee('Platform admin');
+            ->assertRedirect(route('internal.schools.index'));
+        $this->get(route('dashboard'))->assertRedirect(route('internal.schools.index'));
+        $this->get(route('internal.schools.index'))->assertOk()->assertSee('Platform admin')->assertDontSee('Family space')->assertDontSee('My schools');
     }
 
     public function test_invalid_login_does_not_authenticate(): void
