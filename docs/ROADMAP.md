@@ -4,6 +4,8 @@
 
 Dedicated hosted demo seeding is approved and supported (2026-10-11) via explicit `SHOWCASE_ENABLED=true`. Default production installs remain unseeded; showcase reruns preserve accounts, credentials, and memberships.
 
+Explicit showcase password changes are implemented via a hidden console prompt, with hosted-demo enablement and unchanged fixture identity checks. General account password recovery remains a separate future workflow.
+
 Platform administration is isolated from all private school and family paths, including accounts with historical memberships. HR is limited to one registered school with no Family space. Both restrictions are enforced server-side and covered by feature tests.
 
 Platform tools now include non-private setup indicators, audited public school corrections, on-demand health checks, external backup result reporting, and expiring/withdrawable leadership dashboard notices. Activity tracking begins with this implementation; earlier changes are not backfilled. Production backup execution, restore checks, historical uptime monitoring, and alerts remain operational work, not completed capabilities.
