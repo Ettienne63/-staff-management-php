@@ -32,12 +32,12 @@ class SchoolStaffTest extends TestCase
         $other = School::factory()->create();
         $visible = StaffMember::factory()->for($school)->create();
         $hidden = StaffMember::factory()->for($other)->create();
-        $user = $this->member($school, 'coach');
+        $user = $this->member($school, 'hr');
         $this->actingAs($user)->get(route('staff.index', $school))
             ->assertOk()->assertSee($visible->email)->assertDontSee($hidden->email);
         $this->get(route('staff.index', $other))->assertNotFound();
         $this->post(route('schools.select', $other))->assertNotFound();
-        $this->get(route('staff.edit', [$school, $hidden->id]))->assertForbidden();
+        $this->get(route('staff.edit', [$school, $hidden->id]))->assertNotFound();
     }
 
     public function test_authorized_multi_school_access_and_revocation(): void
@@ -49,9 +49,9 @@ class SchoolStaffTest extends TestCase
         $this->actingAs($user)->get(route('dashboard'))->assertSee($first->name)->assertSee($second->name);
         $this->post(route('schools.select', $second))->assertRedirect(route('schools.workspace', $second))
             ->assertSessionHas('school_id', $second->id);
-        $this->get(route('staff.index', $second))->assertOk();
+        $this->get(route('schools.workspace', $second))->assertOk();
         $user->schools()->detach($second);
-        $this->get(route('staff.index', $second))->assertNotFound();
+        $this->get(route('schools.workspace', $second))->assertNotFound();
     }
 
     public function test_principal_can_create_update_and_delete_staff(): void
@@ -85,6 +85,7 @@ class SchoolStaffTest extends TestCase
         $school = School::factory()->create();
         $staff = StaffMember::factory()->for($school)->create();
         $coach = $this->member($school, 'coach');
+        $this->actingAs($coach)->get(route('staff.index', $school))->assertForbidden();
         $this->actingAs($coach)->post(route('staff.store', $school), $this->fields())->assertForbidden();
         $this->delete(route('staff.destroy', [$school, $staff->id]))->assertForbidden();
         $student = $this->member($school, 'student');

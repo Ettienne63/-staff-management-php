@@ -11,12 +11,15 @@ School sports development for grades 1-12, tracking training, performance, and i
 - Client-facing experiences and internal platform administration must be separate.
 - Scores combine participation, performance, and improvement; details remain undecided.
 - Names used during brainstorming were fictional examples, not real users, records, or fixtures.
+- Explicitly approved local showcase fixtures are provided by `ShowcaseSeeder`, using Showcase names and `.invalid` emails. Default seeding remains empty; preserve existing data, passwords, and memberships on reruns. No student records, guardian links, or sports results are seeded.
 
 ## Implementation and runtime
 One Laravel 13 app at C:/xampp/htdocs/my-sports-app. No nested laravel/ application remains.
 Use PHP 8.5.11 and Composer; Node/npm compile assets. Serve public/ only.
 Login/logout, school selection, and school-scoped staff CRUD are migrated from the prototype.
-Principal/deputy roles manage staff; coach roles view staff. These staff permissions do not define future training permissions.
+Principal, deputy, and HR roles manage staff; coaches can view staff. These staff permissions do not define future training permissions.
+Authenticated workspaces use role-aware navigation and a responsive school dashboard styled with the logo's navy, teal, and green palette. Training and schedule areas remain honest empty states until those workflows are implemented.
+Leadership, HR, coaches, students, and guardians have distinct dashboard templates with shared UI components. HR has staff/account access; student and sports sections require another authorized role. The authenticated family page is an empty foundation and exposes no child records; guardian links remain unimplemented.
 Guardian/student invitation features and sports workflows remain unimplemented.
 SQLite is isolated local development storage; production database and tenant storage architecture remain undecided.
 The prototype archive is outside the repository/web root. Its MariaDB data is preserved.
@@ -26,6 +29,8 @@ See docs/SETUP.md for paths, actual commands, and the local-only prototype impor
 One task branch from staging; task PRs target staging and releases promote staging to main.
 No direct pushes to protected branches. Use type(scope): imperative summary.
 Preserve user changes; stage explicit files. Commit focused, useful increments.
+Codex is authorized to choose commit types/scopes, commit timing, and task branches without a separate request for each action. Create a task branch from staging for a distinct independent task; continue the existing branch for changes within the same task. Preserve any unmerged dependencies and user changes when switching branches.
+Commit completed, reviewable increments after the applicable checks pass. Use fix for correcting existing behavior, feat for new capabilities, docs for documentation, refactor for behavior-preserving restructuring, test for coverage, and chore/build/ci for the corresponding maintenance or tooling work.
 Update docs/PRODUCT_PLAN.md and docs/ROADMAP.md when decisions change. Mark proposals clearly.
 README.md explains the canonical structure; CONTRIBUTING.md defines collaboration rules.
 No example names or schools are actual customer records.

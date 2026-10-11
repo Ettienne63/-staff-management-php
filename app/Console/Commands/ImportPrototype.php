@@ -64,6 +64,9 @@ class ImportPrototype extends Command
                         $user->save();
                     }
                     if (! $user->schools()->whereKey($school->id)->exists()) {
+                        if ($user->schools()->wherePivotIn('role', User::LeadershipRoles)->exists()) {
+                            throw new RuntimeException('An imported account already has a leadership role at another school.');
+                        }
                         $user->schools()->attach($school, ['role' => 'principal']);
                     }
                 }

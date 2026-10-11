@@ -23,7 +23,13 @@ class AuthController extends Controller
         }
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard'));
+        $dashboard = $request->user()->usesFamilyPortal() ? 'family.dashboard' : 'dashboard';
+        $student = $request->user()->student()->first();
+        if ($student && $request->user()->schools()->whereKey($student->school_id)->wherePivot('role', 'student')->exists()) {
+            return redirect()->intended(route('schools.workspace', $student->school_id));
+        }
+
+        return redirect()->intended(route($dashboard));
     }
 
     public function destroy(Request $request): RedirectResponse

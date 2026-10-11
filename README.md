@@ -1,7 +1,7 @@
 # School sports app
 
 Laravel 13 application for the planned school sports platform. The prototype's login, dashboard, and staff CRUD now run in Laravel.
-School/student training, scores, invitations, and guardian access are documented requirements; those sports features are not implemented yet.
+School/student training and scoring remain planned. Parent-first onboarding, school-verified guardian links, and separate student invitations are implemented.
 
 ## Run locally
 Use PHP 8.5 in a new PowerShell terminal:
@@ -10,9 +10,13 @@ cd C:\xampp\htdocs\my-sports-app
 php artisan serve --host=127.0.0.1 --port=8000
 ```
 Open http://127.0.0.1:8000/. The existing prototype login password is preserved in the local import.
-Choose your school from `/dashboard`. Principal, vice/deputy, and HR memberships manage staff; coaches can view school staff. Students have separate training and progress page foundations and cannot access staff records.
-Training, progress, student rosters, and account administration currently show clearly labelled placeholders for future workflows.
+Choose your school from `/dashboard`. The signed-in workspace uses a responsive, role-aware sidebar and school dashboard. Principal, vice/deputy, and HR memberships can manage staff; coaches and students cannot access staff records.
+Leadership (principal/deputy), HR, coaches, and students have separate dashboard templates. School pages are grouped under `resources/views/schools`; personal student pages and navigation are separate. Students belong to one school at a time; access by another school to their stats will require permission. HR manages staff and sends initial parent invitations but cannot view child requests or student records. Principals, deputies, and coaches cannot access `/family`.
 The former localhost/my-sports-app URL is blocked because Apache must serve only public/ using compatible PHP.
+
+School leadership or HR sends a parent invitation from Accounts. The parent sets their own password and submits a child registration/link request in `/family`. A principal or deputy verifies the relationship in Students, choosing an existing student record or creating a new one. An optional student email sends a separate activation invitation; records need no login. Invitations expire after seven days, are single-use, and can be replaced or revoked. Existing parent passwords are preserved. A guardian may view several verified children at different schools; revoking a child link immediately removes access.
+
+Activated students enter their own portal. Training, assessments, scores, family events, password recovery, and student activation without personal email remain planned. The local mailer logs invitation messages; configure delivery before using invitations outside local development. See [setup](docs/SETUP.md).
 
 ## Internal administration
 
@@ -40,7 +44,8 @@ Internal administration lists schools and creates a school with an existing acco
 
 There is one Laravel application at the repository root. vendor and node_modules are installed dependencies, not duplicate application code.
 Keep `.env`, local SQLite data, dependencies, and generated assets out of Git. The default database seeder creates no accounts or school records; tests create synthetic data through factories.
-Save your logo as `public/images/logo.svg` or `public/images/logo.png`. This folder does not need `php artisan storage:link`; that command exposes files stored on the public storage disk.
+For a local design walkthrough, run `php artisan db:seed --class=ShowcaseSeeder`. This explicit local-only seeder adds two fictional schools, six preview accounts, and twelve staff records. It prints a generated password for newly created accounts; save it privately. See [showcase setup](docs/SETUP.md#local-showcase-data) for login emails and coverage.
+The current logo is `public/images/my-sports-app-logo-Photoroom.png`. If you replace it, update the asset path in the Blade layout. This folder does not need `php artisan storage:link`; that command exposes files stored on the public storage disk.
 
 ## Documentation
 

@@ -15,7 +15,7 @@ class StaffController extends Controller
     {
         abort_unless(in_array($request->attributes->get('school_role'), User::StaffRoles, true), 403);
 
-        return view('staff.index', [
+        return view('schools.staff.index', [
             'school' => $school,
             'staffMembers' => $school->staffMembers()->latest('id')->paginate(20),
             'canManage' => in_array($request->attributes->get('school_role'), User::ManagementRoles, true),
@@ -26,7 +26,7 @@ class StaffController extends Controller
     {
         $this->authorizeManagement($request);
 
-        return view('staff.form', ['school' => $school, 'staffMember' => null]);
+        return view('schools.staff.form', ['school' => $school, 'staffMember' => null]);
     }
 
     public function store(StaffRequest $request, School $school): RedirectResponse
@@ -40,7 +40,7 @@ class StaffController extends Controller
     {
         $this->authorizeManagement($request);
 
-        return view('staff.form', ['school' => $school, 'staffMember' => $school->staffMembers()->findOrFail($staff)]);
+        return view('schools.staff.form', ['school' => $school, 'staffMember' => $school->staffMembers()->findOrFail($staff)]);
     }
 
     public function update(StaffRequest $request, School $school, int $staff): RedirectResponse
