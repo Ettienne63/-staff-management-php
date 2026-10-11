@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: laravel
+        working-directory: .
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
@@ -44,7 +44,7 @@ jobs:
         with:
           node-version: '24'
           cache: npm
-          cache-dependency-path: laravel/package-lock.json
+          cache-dependency-path: package-lock.json
       - run: composer install --no-interaction --prefer-dist --no-progress
       - run: composer validate --strict
       - run: composer check-platform-reqs

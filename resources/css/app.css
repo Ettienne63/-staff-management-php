@@ -1,0 +1,34 @@
+@import 'tailwindcss';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+:root { font-family: system-ui, sans-serif; color: #172b46; background: #f3f6fa; }
+body { margin: 0; }
+.site-header { background: #172b46; color: white; padding: 1rem 5%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.site-header a { color: white; font-weight: 700; text-decoration: none; }
+.account, .actions, .page-heading { display: flex; gap: 1rem; align-items: center; }
+.account { flex-wrap: wrap; }
+.container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+h1 { font-size: 1.8rem; font-weight: 700; margin: 0.7rem 0; }
+h2 { font-size: 1.3rem; font-weight: 600; }
+p { margin: 0.7rem 0 1.2rem; }
+a { color: #164c93; text-decoration: underline; }
+.card { background: white; border: 1px solid #dbe3ed; border-radius: 0.8rem; padding: 1.5rem; }
+.login-card { max-width: 430px; margin: 4rem auto; }
+label { display: block; font-weight: 600; margin: 1rem 0 0.4rem; }
+input { display: block; width: 100%; border: 1px solid #8799b0; padding: 0.7rem; border-radius: 0.35rem; margin-bottom: 1rem; }
+button, .button { cursor: pointer; border: 1px solid #8799b0; padding: 0.6rem 1rem; border-radius: 0.35rem; background: white; color: #172b46; text-decoration: none; display: inline-block; }
+.primary { color: white; background: #164c93; border-color: #164c93; }
+.danger { color: #9b2020; }
+:focus-visible { outline: 3px solid #d48b00; outline-offset: 3px; }
+.page-heading { justify-content: space-between; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.school-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+.notice { background: #e4f6e9; border: 1px solid #67a579; border-radius: 0.4rem; padding: 1rem; }
+.errors { background: #fff0f0; border: 1px solid #c46060; border-radius: 0.4rem; padding: 1rem; margin-bottom: 1rem; }
+.errors ul { list-style: disc; padding-left: 1.5rem; }
+.table-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 0.8rem; text-align: left; border-bottom: 1px solid #dbe3ed; }
+thead { background: #f3f6fa; }
+@media (max-width: 600px) { .site-header { align-items: flex-start; } .account span { display: none; } .card { padding: 1rem; } }

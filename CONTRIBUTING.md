@@ -46,6 +46,12 @@ Keep business behavior, schema, and documentation consistent.
 Prefer squash merging task PRs into staging. Prefer a merge commit for staging-to-main release PRs so branches share release ancestry.
 Remove merged task branches when appropriate.
 
+## Code comments
+Do not add routine comments when implementing features; prefer clear names and straightforward code.
+Add a brief comment only when sensitive behavior, a non-obvious constraint, or a maintenance caveat needs explanation.
+Explain why the detail matters or what must be preserved when changing it; do not narrate what the code already says.
+Keep necessary PHPDoc type annotations concise and avoid redundant documentation blocks.
+
 ## Checks
 
 Planning changes: verify links and consistency; ensure proposals are clearly labeled.

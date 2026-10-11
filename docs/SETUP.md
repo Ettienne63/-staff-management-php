@@ -1,33 +1,14 @@
-# Development setup
+# Development setup and prototype migration
 
-Checked 2026-10-10.
+## Runtime
+Laravel 13.35.0 now lives at the repository root; the temporary laravel/ folder has been removed.
+PHP 8.5.11: C:/Users/ettie/AppData/Local/sports-dev-tools/php85/php.exe.
+Composer 2.10.3 uses that PHP runtime. Node 24.20.0/npm 11.19.0 provide the asset build.
+Restart VS Code/terminals after PATH changes.
+Use http://127.0.0.1:8000/ with php artisan serve from the project root.
+Apache/XAMPP remains on PHP 8.2 and is not used to serve Laravel.
 
-## Installed
-- PHP 8.5.11: C:/Users/ettie/AppData/Local/sports-dev-tools/php85/php.exe.
-- Composer 2.10.3: C:/Users/ettie/AppData/Local/sports-dev-tools/composer.cmd (uses PHP 8.5).
-- Node.js 24.20.0 / npm 11.19.0.
-- Laravel framework 13.35.0 in laravel/, with Composer lockfile.
-- Vite/Tailwind foundation with npm lockfile, PHPUnit starter tests, and Laravel Pint.
-- Laravel Boost 2.10.3 with generated Codex/Claude guidelines.
-- GitHub CLI authenticated as Ettienne63. Repository Git identity uses the verified profile name and GitHub noreply address.
-
-Restart VS Code/terminals after the user PATH update.
-XAMPP Apache still uses PHP 8.2.12 for the old prototype. The new Laravel app uses PHP 8.5 via its development server.
-The downloaded NTS runtime must not be substituted directly for XAMPP's Apache PHP module.
-
-## Run Laravel
-In a new PowerShell terminal:
-```powershell
-cd C:\xampp\htdocs\my-sports-app\laravel
-php --version
-php artisan serve --host=127.0.0.1 --port=8000
-```
-Open http://127.0.0.1:8000/. Keep that terminal running; Ctrl+C stops it.
-Assets are compiled. For live frontend work, run npm.cmd run dev in a second terminal inside laravel/.
-The app shows Laravel's default welcome page; sports pages and invitations are not implemented.
-
-## Fresh checkout
-Run from laravel/ after the foundation PR is merged:
+## Fresh local checkout
 ```powershell
 composer install
 Copy-Item .env.example .env
@@ -38,27 +19,45 @@ npm.cmd ci
 npm.cmd run build
 php artisan serve --host=127.0.0.1 --port=8000
 ```
-These assume a fresh checkout. Do not overwrite an existing .env or recreate an existing database.
-SQLite is isolated local foundation data, not the final production/tenant database.
-The default local mailer logs output; no invitations or external emails are sent.
+These assume a fresh checkout; preserve existing .env and database files.
+Local SQLite is development storage. Production database/storage isolation remains undecided.
+Configure an account/membership through an approved onboarding path when that is implemented; public signup is not enabled.
 
-## Verify changes
-From laravel/:
+## Prototype archive and local import
+The original PHP prototype, SQL, assets, and local database configuration are archived outside the web root:
+C:/Users/ettie/AppData/Local/sports-dev-tools/prototype-backup-20261010.
+The archived code is also recoverable from Git history. Credentials are not committed.
+Its MariaDB database is left unchanged.
+
+Local-only import command:
+```powershell
+php artisan prototype:import --config="C:\Users\ettie\AppData\Local\sports-dev-tools\prototype-backup-20261010\config\database.php" --school="Prototype school"
+```
+The --config must be a trusted local PHP file defining a PDO connection. It is executed locally; never use uploaded or untrusted configuration.
+The command reads the source, validates records, and writes transactionally to the destination.
+It refuses production execution and ambiguous destination school names.
+Prototype users were administrators; newly imported accounts receive principal access to the explicitly selected school only.
+Passwords remain hashed. Existing destination accounts, staff edits, and memberships are preserved on repeated imports.
+The current local import transferred one account and two staff records.
+Future production migrations need a separate plan.
+
+## Verify
 ```powershell
 composer validate --strict
 composer check-platform-reqs
-php artisan test
-php vendor/bin/pint --test
+php artisan test --compact
+php vendor/bin/pint --dirty --format agent
 npm.cmd run build
 ```
+CI installs locked dependencies, runs formatting/tests, and builds assets.
+Tests use synthetic data and an isolated in-memory SQLite database.
 
-## Legacy prototype and remaining choices
-Start Apache/MySQL in XAMPP; open http://localhost/my-sports-app/.
-Root config/database.php remains ignored. The parent .htaccess blocks the laravel/ subtree from legacy Apache access.
-A future Apache/production server must point to laravel/public and run supported PHP.
-Frontend starter kit, production database, tenant storage, mail delivery, and hosting remain undecided.
+## Web document root
+Serve only public/ under PHP 8.5. Root .htaccess denies legacy Apache access to source/configuration.
+public/index.php is Laravel's front controller. There is no root prototype index.php.
+Local database credentials belong in .env. config/database.php is now Laravel's safe committed database configuration.
+The mailer logs locally; signup invitations/reset delivery and guardian access remain future work.
 
 References:
 - https://laravel.com/framework/docs/13.x/installation
 - https://laravel.com/framework/docs/13.x/deployment
-- https://www.php.net/downloads.php?os=windows
