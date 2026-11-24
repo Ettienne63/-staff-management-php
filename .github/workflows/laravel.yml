@@ -1,0 +1,35 @@
+name: "My Sports App Demo 2 checks"
+on:
+  pull_request:
+    branches: [my-sports-app-demo-2]
+  push:
+    branches: [my-sports-app-demo-2]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  framework:
+    name: Laravel checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mbstring, dom, curl, fileinfo, pdo_sqlite, sqlite3, pdo_mysql, zip
+          coverage: none
+          tools: composer:v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: composer install --no-interaction --prefer-dist --no-progress
+      - run: composer validate --strict
+      - run: composer check-platform-reqs
+      - run: cp .env.example .env
+      - run: php artisan key:generate
+      - run: php vendor/bin/pint --test
+      - run: npm ci
+      - run: npm run build
+      - run: php artisan test
