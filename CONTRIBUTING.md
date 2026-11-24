@@ -5,6 +5,7 @@
 - main: preserved basic PHP prototype with login and staff CRUD.
 - my-sports-app-demo-1: active demo integration branch containing the consolidated Laravel work.
 - staging: previous integration checkpoint, retained for history.
+- `my-sports-app-demo-1` holds the consolidated Laravel demo and is the base and PR destination for future feature, fix, documentation, and tooling branches. `main` preserves the basic PHP prototype; `staging` is the previous integration checkpoint. Integrating demo work does not authorize changing `main` or deploying it.
 - One separate branch per feature, fix, documentation task, or tooling change.
 - Create task branches from an up-to-date my-sports-app-demo-1.
 - PRs from task branches target my-sports-app-demo-1. Changes to main require a separate explicit request.
@@ -66,3 +67,7 @@ Laravel changes: use PHP 8.5 and run the narrowest relevant PHPUnit tests, `vend
 Review frontend changes at desktop and mobile widths, and confirm reduced-motion behavior when animations change.
 No fabricated passing checks. CI cannot prove access control without appropriate tests.
 Enforcement requires GitHub rules; this file is a contributor policy, not remote branch protection.
+
+## New demos and the template
+
+A new demo (e.g. `my-sports-app-demo-2`) is a fresh Laravel app on its own orphan branch, stamped from the `template` branch with `new-demo.php` (see that branch's README). It shares this structure, not this code or its product facts. Never merge between demo branches. An improvement to the shared structure (agent rules, docs layout, PR template, CI) also goes to `template` by PR, so the next demo starts with it.
