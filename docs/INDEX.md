@@ -20,6 +20,7 @@
 | Run the app locally | [SETUP → Fresh local checkout](SETUP.md#fresh-local-checkout) |
 | Update or debug the hosted demo | [HOSTED_UPDATES](HOSTED_UPDATES.md) (read all of it) |
 | Branch, commit, open a PR | [CONTRIBUTING](../CONTRIBUTING.md), PR template in `.github/` |
+| Start a new demo app | [CONTRIBUTING → New demos and the template](../CONTRIBUTING.md#new-demos-and-the-template), then the `template` branch README |
 | Know what's planned next | [ROADMAP](ROADMAP.md), [PRODUCT_PLAN → Decisions needed next](PRODUCT_PLAN.md#decisions-needed-next) |
 | Check whether something was already decided | [decisions](decisions.md), then the topic's wiki page |
 | See what's still undecided | [Ask](Ask.md), and each wiki page's *Open or proposed* section |
@@ -52,3 +53,4 @@
 - A proposal that gets confirmed moves from `PRODUCT_PLAN.md` to its wiki page, and the decision is logged in `decisions.md`.
 - A new doc or wiki page gets a row in both tables above. Keep pages under about 5k characters; split by topic when one grows past that.
 - A fact lives in one place. Link to it instead of repeating it.
+- A change to the structure itself (this index, the wiki page format, agent rules, PR template, CI) also goes to the `template` branch, so new demos get it.

@@ -14,3 +14,4 @@ Append-only, newest at the bottom: one line per decision, `date · topic · ques
 - 2026-11-24 · Docs · Where should a wiki live? → In the repo under docs/wiki/, not the GitHub Wiki, so it ships with every clone and is reviewed in PRs.
 - 2026-11-24 · Docs · What happens to PRODUCT_PLAN.md once topic pages exist? → Confirmed rules move word for word into docs/wiki/<topic>.md; PRODUCT_PLAN.md keeps the vision, proposals and open decisions.
 - 2026-11-24 · Docs · How do agents use the docs and keep them current? → Read docs/INDEX.md first and open only the page a task needs; a change to a rule updates its page in the same commit.
+- 2026-11-24 · Workflow · How should a future demo (e.g. my-sports-app-demo-2) start? → A fresh Laravel app with a different product direction, on an orphan branch in this repo, stamped from an orphan `template` branch by `new-demo.php`; it shares structure only.

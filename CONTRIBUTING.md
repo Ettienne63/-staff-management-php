@@ -67,3 +67,7 @@ Laravel changes: use PHP 8.5 and run the narrowest relevant PHPUnit tests, `vend
 Review frontend changes at desktop and mobile widths, and confirm reduced-motion behavior when animations change.
 No fabricated passing checks. CI cannot prove access control without appropriate tests.
 Enforcement requires GitHub rules; this file is a contributor policy, not remote branch protection.
+
+## New demos and the template
+
+A new demo (e.g. `my-sports-app-demo-2`) is a fresh Laravel app on its own orphan branch, stamped from the `template` branch with `new-demo.php` (see that branch's README). It shares this structure, not this code or its product facts. Never merge between demo branches. An improvement to the shared structure (agent rules, docs layout, PR template, CI) also goes to `template` by PR, so the next demo starts with it.
