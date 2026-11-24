@@ -55,8 +55,12 @@ The current logo is `public/images/my-sports-app-logo-Photoroom.png`. If you rep
 - [Hosted demo update guide](docs/HOSTED_UPDATES.md)
 - [Product plan](docs/PRODUCT_PLAN.md)
 - [Roadmap](docs/ROADMAP.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Laravel standards](docs/laravel-standards.md)
+- [Decisions log](docs/decisions.md) and [open questions](docs/Ask.md)
+- [Task plans](docs/plans/README.md) (kept local)
 - [Contribution workflow](CONTRIBUTING.md)
 - [GitHub status](docs/GITHUB_SETUP.md)
-- [Agent instructions](AGENTS.md)
+- Agent instructions: [Codex](AGENTS.md), [Claude](CLAUDE.md)
 
 `my-sports-app-demo-1` contains the consolidated Laravel demo. Create separate task branches from it and submit PRs back to it for review and validation. `main` preserves the basic PHP prototype; `staging` remains the previous integration checkpoint.
