@@ -1,0 +1,13 @@
+# Added by the sports app template
+/.codex/
+/.agents/
+/.cursor/
+/.claude/skills/
+/.claude/skills-backup/
+/.claude/settings.local.json
+/database/*.sqlite
+/database/*.sqlite-*
+
+# Task plans written by /ticket stay on the machine that wrote them
+/docs/plans/*
+!/docs/plans/README.md
