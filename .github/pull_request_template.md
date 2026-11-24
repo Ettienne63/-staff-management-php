@@ -43,5 +43,5 @@ Tick only what is true; delete a line that does not apply and say why.
 - [ ] Every new school data path checks membership server-side and loads records through the school.
 
 **Docs and review**
-- [ ] Documentation is updated (`docs/PRODUCT_PLAN.md`, `docs/ARCHITECTURE.md`, `docs/decisions.md` where their claims changed) and unresolved decisions are explicit.
+- [ ] Every changed rule is updated on its `docs/wiki/` page in this PR (with *Last checked*), decisions are logged in `docs/decisions.md`, `docs/ARCHITECTURE.md` still matches the code, and unresolved decisions are explicit.
 - [ ] A separate reviewing agent reviewed the diff, its findings were fixed or consciously left, and I reviewed the diff myself.

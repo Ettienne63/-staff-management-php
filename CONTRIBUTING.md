@@ -5,6 +5,7 @@
 - main: preserved basic PHP prototype with login and staff CRUD.
 - my-sports-app-demo-1: active demo integration branch containing the consolidated Laravel work.
 - staging: previous integration checkpoint, retained for history.
+- `my-sports-app-demo-1` holds the consolidated Laravel demo and is the base and PR destination for future feature, fix, documentation, and tooling branches. `main` preserves the basic PHP prototype; `staging` is the previous integration checkpoint. Integrating demo work does not authorize changing `main` or deploying it.
 - One separate branch per feature, fix, documentation task, or tooling change.
 - Create task branches from an up-to-date my-sports-app-demo-1.
 - PRs from task branches target my-sports-app-demo-1. Changes to main require a separate explicit request.

@@ -53,7 +53,9 @@ The current logo is `public/images/my-sports-app-logo-Photoroom.png`. If you rep
 
 - [Setup and migration guide](docs/SETUP.md)
 - [Hosted demo update guide](docs/HOSTED_UPDATES.md)
-- [Product plan](docs/PRODUCT_PLAN.md)
+- **[Docs index](docs/INDEX.md): start here** — maps each task to the one page it needs
+- [Wiki](docs/wiki/): confirmed rules by topic, plus a [glossary](docs/wiki/glossary.md)
+- [Product plan](docs/PRODUCT_PLAN.md) (proposals and open decisions)
 - [Roadmap](docs/ROADMAP.md)
 - [Architecture](docs/ARCHITECTURE.md)
 - [Laravel standards](docs/laravel-standards.md)

@@ -1,7 +1,7 @@
 # Project instructions
 
 ## Product requirements
-The confirmed product rules (tenancy, roles, guardian links, showcase fixtures, platform admin limits) live in docs/PRODUCT_PLAN.md, the single source both Codex and Claude read. Read it before changing behaviour; update it, not this file, when a requirement changes, and append the decision to docs/decisions.md. See docs/ARCHITECTURE.md for where those rules are enforced in code and docs/laravel-standards.md for the code conventions.
+Start at docs/INDEX.md and open only the page the task needs. The confirmed product rules (tenancy, roles, guardian links, showcase fixtures, platform admin limits) live in docs/wiki/, one page per topic, the single source both Codex and Claude read; docs/PRODUCT_PLAN.md holds only proposals and open decisions. When a rule changes, update its wiki page in the same commit, not this file, and append the decision to docs/decisions.md. See docs/ARCHITECTURE.md for where those rules are enforced in code and docs/laravel-standards.md for the code conventions.
 
 ## Implementation and runtime
 One Laravel 13 app at C:/xampp/htdocs/my-sports-app. No nested laravel/ application remains.
@@ -23,7 +23,7 @@ Preserve user changes; stage explicit files. Commit focused, useful increments.
 Codex is authorized to choose commit types/scopes, commit timing, and task branches without a separate request for each action. Create a task branch from my-sports-app-demo-1 for a distinct independent task; continue the existing branch for changes within the same task. Preserve any unmerged dependencies and user changes when switching branches.
 Keep each branch focused on one feature, bug fix, documentation task, or maintenance task. Do not accumulate unrelated fixes or new features on an existing branch. Use feat/, fix/, docs/, or chore/ names matching the work. If a task depends on unmerged work, explicitly record that dependency instead of silently mixing scopes. When checks pass and a PR is ready for my-sports-app-demo-1, notify the user and wait for explicit merge approval; permission to commit or push a task branch does not authorize merging. The 2026-10-11 consolidation of all existing branch histories into my-sports-app-demo-1 is explicitly approved, preserving updated files over older conflicting versions.
 Commit completed, reviewable increments after the applicable checks pass. Use fix for correcting existing behavior, feat for new capabilities, docs for documentation, refactor for behavior-preserving restructuring, test for coverage, and chore/build/ci for the corresponding maintenance or tooling work.
-Update docs/PRODUCT_PLAN.md and docs/ROADMAP.md when decisions change. Mark proposals clearly.
+Update the docs/wiki/ page (confirmed rules), docs/PRODUCT_PLAN.md (proposals) or docs/ROADMAP.md when decisions change. Mark proposals clearly.
 README.md explains the canonical structure; CONTRIBUTING.md defines collaboration rules.
 No example names or schools are actual customer records.
 

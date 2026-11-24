@@ -4,13 +4,9 @@ Laravel 13 app for school sports development (grades 1–12): schools are isolat
 
 Codex reads `AGENTS.md`; Claude reads this file. Product facts live in the docs, not in either agent file, so they stay in one place.
 
-## Read before working
+## Context: index first
 
-- `docs/PRODUCT_PLAN.md`: the confirmed product rules (tenancy, roles, guardian links, showcase data). The source of truth for what the app must do.
-- `docs/ARCHITECTURE.md`: how a request runs, where school isolation is enforced, the role constants, and what lives where.
-- `docs/laravel-standards.md`: the conventions this code follows. Match them.
-- `docs/decisions.md`: the dated log of decisions; `docs/Ask.md`: questions still open.
-- `docs/SETUP.md` for running the app; `docs/HOSTED_UPDATES.md` for anything about the hosted demo.
+Open `docs/INDEX.md` first, find the task, and read only the page it names. Don't read every doc, and don't open `PRODUCT_PLAN.md` for a confirmed rule: the rules are in `docs/wiki/<topic>.md`. Briefs for subagents name the one or two pages they need, not the whole `docs/` folder.
 
 ## Git and branches
 
@@ -26,7 +22,7 @@ Codex reads `AGENTS.md`; Claude reads this file. Product facts live in the docs,
 - Platform admins never see private school or family data, even with an old membership.
 - No real names, schools or student data anywhere: tests use factories, demos use `ShowcaseSeeder`.
 - Run `vendor/bin/pint --dirty --format agent` on changed PHP and the narrowest `php artisan test --compact` that covers the change before committing. If PHP isn't available on the machine, say so instead of claiming the checks passed.
-- When a decision is made, append it to `docs/decisions.md` and update `docs/PRODUCT_PLAN.md` or `docs/ROADMAP.md` if it changes them.
+- A change to a confirmed rule updates its `docs/wiki/` page in the same commit (and its *Last checked* line). A decision is appended to `docs/decisions.md`; a confirmed proposal moves from `PRODUCT_PLAN.md` to its wiki page. See *Keeping it true* in `docs/INDEX.md`.
 
 ## Plans stay local
 

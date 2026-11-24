@@ -1,6 +1,6 @@
 # Architecture
 
-How the app is put together today, and where its rules are enforced. `docs/PRODUCT_PLAN.md` says *what* the app must do; this file says *where in the code* it happens. Update it when a change moves one of those places.
+How the app is put together today, and where its rules are enforced. `docs/wiki/` says *what* the app must do (one page per topic, see `docs/INDEX.md`); this file says *where in the code* it happens. Update it when a change moves one of those places.
 
 ## Shape
 
