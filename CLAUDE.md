@@ -1,3 +1,37 @@
+# School sports app
+
+Laravel 13 app for school sports development (grades 1–12): schools are isolated tenants, and leadership, HR, coaches, students and guardians each get their own workspace. Training, assessments and scoring are planned, not built.
+
+Codex reads `AGENTS.md`; Claude reads this file. Product facts live in the docs, not in either agent file, so they stay in one place.
+
+## Read before working
+
+- `docs/PRODUCT_PLAN.md`: the confirmed product rules (tenancy, roles, guardian links, showcase data). The source of truth for what the app must do.
+- `docs/ARCHITECTURE.md`: how a request runs, where school isolation is enforced, the role constants, and what lives where.
+- `docs/laravel-standards.md`: the conventions this code follows. Match them.
+- `docs/decisions.md`: the dated log of decisions; `docs/Ask.md`: questions still open.
+- `docs/SETUP.md` for running the app; `docs/HOSTED_UPDATES.md` for anything about the hosted demo.
+
+## Git and branches
+
+- `my-sports-app-demo-1` is the integration branch. Branch from an up-to-date copy of it and target it with PRs. `main` is the basic PHP prototype and `staging` an old checkpoint; touch either only on an explicit request.
+- One scope per branch: `feat/`, `fix/`, `docs/` or `chore/` plus a short kebab-case name (see `CONTRIBUTING.md`).
+- Commits: `type(scope): imperative summary`. Stage explicit files, never `git add -A`. Keep `.env`, SQLite files, `vendor/`, `node_modules/` and built assets out of Git.
+- You may create task branches and commit on your own. **Ask before every push, and before opening or updating a PR.** Never merge, never force-push a shared branch.
+- `gh pr create` does not load `.github/pull_request_template.md`: read it and fill in every section yourself.
+
+## Rules that matter most here
+
+- Every school data path checks membership server-side. A school ID in the URL or session is not authorization (see `docs/ARCHITECTURE.md` → School isolation). Each new route under `schools/{school}` gets a feature test showing another school's user gets 404.
+- Platform admins never see private school or family data, even with an old membership.
+- No real names, schools or student data anywhere: tests use factories, demos use `ShowcaseSeeder`.
+- Run `vendor/bin/pint --dirty --format agent` on changed PHP and the narrowest `php artisan test --compact` that covers the change before committing. If PHP isn't available on the machine, say so instead of claiming the checks passed.
+- When a decision is made, append it to `docs/decisions.md` and update `docs/PRODUCT_PLAN.md` or `docs/ROADMAP.md` if it changes them.
+
+## Plans stay local
+
+`/ticket` writes a readable plan per task to `docs/plans/`. Those files are ignored by Git on every machine (only `docs/plans/README.md` is committed): never commit or force-add a plan.
+
 <laravel-boost-guidelines>
 === foundation rules ===
 

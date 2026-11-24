@@ -1,20 +1,7 @@
 # Project instructions
 
-## Confirmed product requirements
-School sports development for grades 1-12, tracking training, performance, and improvement.
-- Each school is an isolated tenant administered by principal/owner and vice/deputy principal.
-- Leadership grants coach/student access through invitations, with account/password setup and resets.
-- Coaches view authorized school students and plan activities, goals, and training sessions.
-- Guardian-linked accounts are confirmed: one verified guardian account may access multiple distinct child records.
-- Students with their own email can have their own account; records do not require a login or email.
-- School-assisted recovery for families without email remains a proposal.
-- Client-facing experiences and internal platform administration must be separate.
-- Platform administrators may register and list schools but cannot access private school or family data, even through existing memberships. HR is restricted to one registered school and has no Family space.
-- Scores combine participation, performance, and improvement; details remain undecided.
-- Names used during brainstorming were fictional examples, not real users, records, or fixtures.
-- Explicitly approved local showcase fixtures are provided by `ShowcaseSeeder`, using Showcase names and `.invalid` emails. Default seeding remains empty; preserve existing data, passwords, and memberships on reruns. No student records, guardian links, or sports results are seeded.
-- The dedicated hosted demo is also approved to use those same showcase fixtures through explicit `SHOWCASE_ENABLED=true`. Keep production mode and debug disabled; the flag defaults to false and can be disabled again without deleting fixtures.
-- The user may explicitly change showcase passwords with `showcase:password` through its hidden prompt. Restrict changes to reserved fixture emails and unchanged Showcase display names; keep plaintext credentials out of Git and preserve all other accounts and memberships.
+## Product requirements
+The confirmed product rules (tenancy, roles, guardian links, showcase fixtures, platform admin limits) live in docs/PRODUCT_PLAN.md, the single source both Codex and Claude read. Read it before changing behaviour; update it, not this file, when a requirement changes, and append the decision to docs/decisions.md. See docs/ARCHITECTURE.md for where those rules are enforced in code and docs/laravel-standards.md for the code conventions.
 
 ## Implementation and runtime
 One Laravel 13 app at C:/xampp/htdocs/my-sports-app. No nested laravel/ application remains.
