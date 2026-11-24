@@ -1,0 +1,2 @@
+# The app must be served from public/ with PHP 8.5.
+Require all denied

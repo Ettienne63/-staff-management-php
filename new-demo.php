@@ -160,14 +160,29 @@ echo "6. First commit\n";
 run('git add -A', $dryRun, $target);
 run('git commit -q -m '.escapeshellarg("chore(template): start {$appName} from the sports app template"), $dryRun, $target);
 
+echo "7. Boost guidelines into CLAUDE.md and AGENTS.md\n";
+$claudeFile = $target.DIRECTORY_SEPARATOR.'CLAUDE.md';
+$agentsFile = $target.DIRECTORY_SEPARATOR.'AGENTS.md';
+$claudeBefore = $dryRun ? '' : file_get_contents($claudeFile);
+run('php artisan boost:install --guidelines --no-interaction', $dryRun, $target);
+echo "  check the project section of CLAUDE.md survived, and copy the Boost block into AGENTS.md\n";
+if (! $dryRun) {
+    $claudeAfter = file_get_contents($claudeFile);
+    str_starts_with($claudeAfter, rtrim($claudeBefore)) || fail('boost:install changed the project section of CLAUDE.md; compare it with skeleton/CLAUDE.md');
+    // Without prompts Boost only writes CLAUDE.md, but Codex reads AGENTS.md.
+    preg_match('/<laravel-boost-guidelines>.*<\/laravel-boost-guidelines>\n?/s', $claudeAfter, $block) || fail('no Boost block found in CLAUDE.md');
+    if (! str_contains(file_get_contents($agentsFile), '<laravel-boost-guidelines>')) {
+        file_put_contents($agentsFile, rtrim(file_get_contents($agentsFile))."\n\n".$block[0], LOCK_EX) !== false || fail('could not update AGENTS.md');
+    }
+}
+run('git add CLAUDE.md AGENTS.md boost.json', $dryRun, $target);
+run('git commit -q -m '.escapeshellarg('chore(boost): add the Laravel Boost guidelines'), $dryRun, $target);
+
 echo <<<TEXT
 
 Done. Next, in {$target}:
-  cp .env.example .env && php artisan key:generate
-  php artisan boost:install      # writes the Boost guidelines into CLAUDE.md and AGENTS.md
-  git diff CLAUDE.md AGENTS.md   # check the project section at the top survived; restore it if not
   php artisan test && vendor/bin/pint --test
-  git add CLAUDE.md AGENTS.md boost.json && git commit -m "chore(boost): add the Laravel Boost guidelines"
+  git log --format='%an <%ae>'   # should be your GitHub identity; if not: git config user.email <noreply> && git rebase --root --exec 'git commit --amend --no-edit --reset-author'
   git push -u origin {$branch}   # only when you're ready; CI runs on push to {$branch}
 
 TEXT;
