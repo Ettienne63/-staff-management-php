@@ -12,6 +12,9 @@
 /.codex/
 /.agents/
 /.cursor/
+/.claude/skills/
+/.claude/skills-backup/
+/.claude/settings.local.json
 /.nova/
 /.zed/
 .phpactor.json
@@ -19,6 +22,10 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 *.code-workspace
+
+# Task plans written by /ticket stay on the machine that wrote them
+/docs/plans/*
+!/docs/plans/README.md
 
 # PHP and Node dependencies
 /vendor/
